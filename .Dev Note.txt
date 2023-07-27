@@ -1,0 +1,5 @@
+
+since merchant only attacks the player once aggro, need to check in main loop outside of the 
+merchant attack method:
+if (player.get_merch_stat() == false)
+

@@ -4,27 +4,35 @@ using namespace std;
 
 PC::PC(int atk, int def, int hp, int hp_max, string faction) :
     atk{atk}, def{def}, hp{hp}, hp_max{hp_max}, gold{0}, sym{'@'}, 
-    faction{faction}, can_miss{false} {};
+    faction{faction}, can_miss{false}, merchant_status{true} {};
 PC::~PC() {};
 
-int PC::get_atk() {
+int PC::get_atk() const {
     return atk;
 }
 
-int PC::get_def() {
+int PC::get_def() const {
     return def;
 }
 
-int PC::get_hp() {
+int PC::get_hp() const {
     return hp;
 }
 
-string PC::get_faction() {
+bool PC::get_merch_stat() const {
+    return merchant_status;
+}
+
+string PC::get_faction() const {
     return faction;
 }
 
 void PC::set_miss(bool val) {
     can_miss = val;
+}
+
+void PC::set_merch_stat(bool val) {
+    merchant_status = val;
 }
 
 bool PC::mod_hp(int val) {

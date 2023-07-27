@@ -22,7 +22,7 @@ class NPC {
     int get_atk();
     int get_def();
     virtual void set_action();
-    virtual void attack(PC& player);
+    virtual int attack(PC& player);
     virtual bool mod_hp(int dmg);
     virtual void death_drop();
 };
@@ -38,21 +38,21 @@ class dwarf: public NPC {
     public:
     dwarf();
     ~dwarf();
-    void attack(PC& player) override;
+    int attack(PC& player) override;
 };
 
 class elf: public NPC {
     public:
     elf();
     ~elf();
-    void attack(PC& player) override;
+    int attack(PC& player) override;
 };
 
 class orcs: public NPC {
     public:
     orcs();
     ~orcs();
-    void attack(PC& player) override;
+    int attack(PC& player) override;
 };
 
 class merchant: public NPC {
@@ -66,7 +66,7 @@ class halfling: public NPC {
     public:
     halfling();
     ~halfling();
-    void attack(PC& player) override;
+    int attack(PC& player) override;
 };
 
 class dragon: public NPC {
