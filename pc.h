@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include "npc.h"
 
 using namespace std;
 
@@ -14,11 +13,15 @@ class PC {
     public:
     PC(int atk, int def, int hp, int hp_max, string faction);
     virtual ~PC();
+    int get_atk();
+    int get_def();
+    int get_hp();
     string get_faction();
-    bool get_miss();
+    void set_miss(bool val);
+    bool mod_hp(int val);
     void move_pos();
     virtual void attack();
-    virtual bool take_damage(int dmg);
+    virtual void unique_ability();
 };
 
 
@@ -37,9 +40,11 @@ class drow: public PC {
 
 
 class vampire: public PC {
+    bool allergy;
     public:
     vampire();
     ~vampire();
+    void unique_ability() override;
 };
 
 

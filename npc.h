@@ -1,7 +1,14 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
+#include "pc.h"
 
 using namespace std;
+
+//playable character class forward declaration
+class PC;
 
 class NPC {
     protected:
@@ -12,9 +19,11 @@ class NPC {
     public:
     NPC(int atk, int def, int hp, char sym, string faction);
     ~NPC();
+    int get_atk();
+    int get_def();
     virtual void set_action();
     virtual void attack(PC& player);
-    virtual bool take_damage(int atk_src);
+    virtual bool mod_hp(int dmg);
     virtual void death_drop();
 };
 
@@ -65,3 +74,4 @@ class dragon: public NPC {
     dragon();
     ~dragon();
 };
+
