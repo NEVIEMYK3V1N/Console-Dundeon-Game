@@ -1,4 +1,4 @@
-#include <blockedCell.h>
+#include "blockedCell.h"
 
 class Wall : public BlockedCell {
  public:

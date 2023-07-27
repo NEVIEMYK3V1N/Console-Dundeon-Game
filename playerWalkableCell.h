@@ -1,13 +1,15 @@
-#include <cell.h>
+#include "cell.h"
 
 // needed to change
 // #include <pc.h>
 class PC {};
 //
 
-class playerWalkableCell : public Cell {
+class PlayerWalkableCell : public Cell {
  protected:
-    player_walkable = true;
     bool open_to_player;
     PC* player_on_cell;
+ public:
+    PlayerWalkableCell(PC* player_on_cell, bool open_to_player);
+    PlayerWalkableCell();
 };

@@ -1,4 +1,4 @@
-#include <game.h>
+#include "game.h"
 #include <string>
 #include <memory>
 #include <vector>
@@ -20,6 +20,6 @@ class CmdInterpreter {
     void quit_game();
 
     void print_board();
-    void start_game(int num_floor, int num_player);
+    void start_game(int num_floors, int num_players);
 };
 
