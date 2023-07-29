@@ -4,9 +4,6 @@
 #include <fstream>
 #include <string>
 
-
-
-
 class Floor {
    int num_stairway;
    int num_potions;
