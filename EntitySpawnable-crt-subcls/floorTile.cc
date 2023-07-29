@@ -1,10 +1,21 @@
 #include "floorTile.h"
+#include <iostream>
 
-FloorTile::FloorTile (ChamberInterior* root_chamber, char notation, int index)
-    : EntitySpawnable{root_chamber}, notation{notation}, index{index} {}
+FloorTile::FloorTile (char notation, int index, ChamberInterior* root_chamber)
+    : EntitySpawnable{root_chamber} {
+        this->notation = notation;
+        this->index = index;
+    }
 
-void FloorTile::render_cell() {
-    std::cout << this->notation;
+char FloorTile::render_cell() {
+    if (this->player_on_cell) {
+        return this->player_on_cell->get_sym();
+    }
+    if (this->entity_on_cell) {
+        return this->entity_on_cell->get_sym();
+    } else {
+        return this->notation;
+    }   
 }
 
 

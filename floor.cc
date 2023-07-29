@@ -110,3 +110,11 @@ Floor::Floor(std::string file_name, int num_stairway, int num_potions,
 
     //this->player_cells = {};
 }
+
+void Floor::emplace_cell(std::unique_ptr<Cell> cell) {
+    (this->map).emplace_back(cell);
+}
+
+void Floor::emplace_entity(std::unique_ptr<Entity> entity) {
+    (this->entities_on_floor).emplace_back(entity);
+}

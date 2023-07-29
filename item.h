@@ -22,23 +22,23 @@ class potion: public item {
 };
 
 class potionHP: public potion {
+    public:
     potionHP(int val);
     ~potionHP();
-    public:
     void consume_item (PC* player) override;
 };
 
 class potionAtk: public potion {
+    public:
     potionAtk(int val);
     ~potionAtk();
-    public:
     void consume_item (PC* player) override;
 };
 
 class potionDef: public potion {
+    public:
     potionDef(int val);
     ~potionDef();
-    public:
     void consume_item (PC* player) override;
 };
 

@@ -1,10 +1,16 @@
 #include "passage.h"
 #include <iostream>
 
-Passage::Passage(char notation, int index) : PlayerWalkableCell{}, notation {notation}, index{index} {
+Passage::Passage(char notation, int index) : PlayerWalkableCell{} {
     this->entity_spawnable = false;
+    this->notation = notation;
+    this->index = index; 
 }
 
-void Passage::render_cell() {
-    std::cout << this->notation;
+char Passage::render_cell() {
+    if (this->player_on_cell) {
+        return this->player_on_cell->get_sym();
+    } else {
+        return this->notation;
+    }   
 }

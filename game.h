@@ -38,7 +38,8 @@ class Game {
     bool get_game_on();
     CmdInterpreter* get_cmdInt();
 
-    PC* get_pc_at(int index = 0);
+    //PC* get_pc_at(int index = 0);
+    PC* get_pc();
     Floor* get_floor_at(int index = 0);
 
     // setters

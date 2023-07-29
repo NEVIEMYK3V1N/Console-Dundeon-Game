@@ -13,7 +13,7 @@ class Cell {
   bool player_walkable;
   bool entity_spawnable;
  public:
-  virtual void render_cell() const = 0;
+  virtual char render_cell() = 0;
 
   // getters
   Floor* get_root_floor();

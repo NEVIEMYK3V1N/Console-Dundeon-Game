@@ -2,5 +2,7 @@
 
 class Wall : public BlockedCell {
  public:
-    void render_cell() override;
+    char render_cell() override;
+
+    Wall(char notation, int index);
 };

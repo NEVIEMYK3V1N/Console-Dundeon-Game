@@ -2,7 +2,7 @@
 
 class FloorTile : public EntitySpawnable {
  public:
-    void render_cell() override;
+    char render_cell() override;
 
-    FloorTile (ChamberInterior* root_chamber, char notation, int index);
+    FloorTile (char notation, int index, ChamberInterior* root_chamber = nullptr);
 };

@@ -25,7 +25,6 @@ void potionHP::consume_item(PC* player) {
     player->mod_hp(val);
 }
 
-
 potionAtk::potionAtk(int val) :
     potion{val, "atk"} {};
 potionAtk::~potionAtk() {};

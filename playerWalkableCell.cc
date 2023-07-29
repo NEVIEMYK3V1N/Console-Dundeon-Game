@@ -1,18 +1,18 @@
 #include "playerWalkableCell.h"
 
 // getter
-bool get_open_to_player() {
+bool PlayerWalkableCell::get_open_to_player() {
     return this->open_to_player;
 }
-PC* get_player_on_cell() {
+PC* PlayerWalkableCell::get_player_on_cell() {
     return this->player_on_cell;
 }
 
 // setter
-void set_open_to_player(bool open_to_player) {
+void PlayerWalkableCell::set_open_to_player(bool open_to_player) {
     this->open_to_player = open_to_player;
 }
-void set_player_on_cell(PC* player_on_cell) {
+void PlayerWalkableCell::set_player_on_cell(PC* player_on_cell) {
     this->player_on_cell = player_on_cell;
 }
 

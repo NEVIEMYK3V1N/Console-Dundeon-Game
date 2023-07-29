@@ -19,10 +19,15 @@ CmdInterpreter* Game::get_cmdInt() {
     return this->cmdInt;
 }
 
-PC* Game::get_pc_at(int index = 0) {
+//PC* Game::get_pc_at(int index = 0) {
     // NEED - error check range
-    return (this->pc[index]).get();
+    //return (this->pc[index]).get();
+//}
+
+PC* Game::get_pc() {
+    return (this->pc).get();
 }
+
 Floor* Game::get_floor_at(int index = 0) {
     // NEED - error check range
     return (this->all_floors[index]).get();
