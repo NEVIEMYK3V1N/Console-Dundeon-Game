@@ -2,6 +2,49 @@
 #include <memory>
 #include <vector>
 
+// getters
+int Game::get_num_players() {
+    return this->num_players;
+}
+int Game::get_num_floors() {
+    return this->num_floors;
+}
+int Game::get_curr_floor() {
+    return this->curr_floor;
+}
+bool Game::get_game_on() {
+    return this->game_on;
+}
+CmdInterpreter* Game::get_cmdInt() {
+    return this->cmdInt;
+}
+
+PC* Game::get_pc_at(int index = 0) {
+    // NEED - error check range
+    return *(this->pc[index]);
+}
+Floor* Game::get_floor_at(int index = 0) {
+    // NEED - error check range
+    return *(this->all_floors[index]);
+}
+
+// setters
+void Game::set_num_players(int num_players) {
+    this->num_players = num_players;
+}
+void Game::set_num_floors(int num_floors) {
+    this->num_floors = num_floors;
+}
+void Game::set_curr_floor(int curr_floor) {
+    this->curr_floor = curr_floor;
+}
+void Game::set_game_on(bool game_on) {
+    this->game_on = game_on;
+}
+void Game::set_cmdInt(CmdInterpreter* cmdInt) {
+    this->cmdInt = cmdInt;
+}
+
 Game::Game(int num_floors, int num_players, CmdInterpreter* cmdInt) : num_players{num_players}, num_floors{num_floors}, cmdInt{cmdInt} {
     this->curr_floor = 0;
     this->game_on = true;
@@ -20,3 +63,4 @@ void Game::load_floor(std::string file_name) {
     Floor *floor = new Floor (file_name, *(this->pc));
     (this->all_floors).emplace_back(make_unique<Floor> (*floor));
 }
+

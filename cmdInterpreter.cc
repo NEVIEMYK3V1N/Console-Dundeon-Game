@@ -1,13 +1,6 @@
-#include "game.h"
-#include <string>
-#include <memory>
-#include <vector>
+#include "cmdInterpreter.h"
 
-// needed to change
-// #include <pc.h>
-class PC{};
-// ===========
-
+/*
 class CmdInterpreter {
     std::unique_ptr<Game> game;
  public:
@@ -21,8 +14,10 @@ class CmdInterpreter {
 
     void print_board();
     void start_game(int num_floors, int num_players);
-
-    // getters
-    Game* get_game();
 };
+*/
 
+Game* CmdInterpreter::get_game() {
+    Game* ret = *(this->game);
+    return ret;
+}

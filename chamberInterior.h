@@ -23,4 +23,18 @@ class ChamberInterior {
     void spawn_enemy_in_chamber(Treasure* treasure);
     void spawn_enemy_in_chamber();
     void move_entity_in_chamber(Entity* entity);
+
+    // getters
+    int get_chamber_id();
+    int get_num_entities();
+    bool has_stairway();
+    EntitySpawnable* get_tile_at(int index = 0);
+    Floor* get_root_floor();
+
+    // setters
+    void set_chamber_id(int chamber_id);
+    void set_num_entities(int num_entities);
+    void set_has_stairway(bool has_stairway);
+    void set_tile_at(EntitySpawnable* tile, int index = 0);
+    void set_root_floor(Floor* root_floor);
 };

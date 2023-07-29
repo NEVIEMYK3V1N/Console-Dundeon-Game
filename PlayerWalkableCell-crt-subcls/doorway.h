@@ -2,7 +2,7 @@
 
 class Doorway : public PlayerWalkableCell {
  public:
-   void render_cell() override;
+  void render_cell() override;
 
-   Doorway(char notation, int index);
+  Doorway(char notation, int index);
 };

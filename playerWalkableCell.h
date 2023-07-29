@@ -7,12 +7,18 @@ class PC {};
 
 class PlayerWalkableCell : public Cell {
  protected:
-    bool open_to_player;
-    PC* player_on_cell;
+   bool open_to_player;
+   PC* player_on_cell;
  public:
-    PlayerWalkableCell(PC* player_on_cell, bool open_to_player);
-    // PlayerWalkableCell(bool open_to_player);
-    PlayerWalkableCell();
+   PlayerWalkableCell(PC* player_on_cell, bool open_to_player);
+   // PlayerWalkableCell(bool open_to_player);
+   PlayerWalkableCell();
 
-    PC* get_player_on_cell();
+   // getter
+   bool get_open_to_player();
+   PC* get_player_on_cell();
+   
+   // setter
+   void set_open_to_player(bool open_to_player);
+   void set_player_on_cell(PC* player_on_cell);
 };

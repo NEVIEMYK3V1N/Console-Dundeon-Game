@@ -1,23 +1,33 @@
 #include "cell.h"
 
-class Cell {
-   Floor* root_floor;
- protected:
-   //int pos_row;
-   //int pos_col;
-   int index;
-   char notation;
-   //int cell_type;
-   bool player_walkable;
-   bool entity_spawnable;
- public:
-   virtual void render_cell() const = 0;
-};
-
-Floor* Cell::get_floor() {
+// getters
+  Floor* Cell::get_root_floor() {
     return this->root_floor;
-}
+  }
 
-void Cell::set_floor(Floor* new_floor) {
-    this->root_floor = new_floor;   
-}
+  int Cell::get_index() {
+    return this->index;
+  }
+
+  char Cell::get_notation() {
+    return this->notation;
+  }
+
+  bool Cell::get_player_walkable() {
+    return this->player_walkable;
+  }
+
+  bool Cell::get_entity_spawnable() {
+    return this->entity_spawnable;
+  }
+
+  // setters
+  void Cell::set_root_floor(Floor* root_floor) {
+    this->root_floor = root_floor;
+  }
+  void Cell::set_index(int index) {
+    this->index = index;
+  }
+  void Cell::set_notation(char notation) {
+    this->notation = notation;
+  }

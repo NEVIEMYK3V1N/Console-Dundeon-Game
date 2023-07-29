@@ -37,6 +37,62 @@ class Floor {
 };
 */
 
+// getters
+int Floor::get_num_stairway() {
+    return this->num_stairway;
+}
+int Floor::get_num_potions() {
+    return this->num_potions;
+}
+int Floor::get_num_gold() {
+    return this->num_gold;
+}
+int Floor::get_num_enemy() {
+    return this->num_enemy;
+}
+int Floor::get_floor_level() {
+    return this->floor_level;
+}
+int Floor::get_width() {
+    return this->width;
+}
+int Floor::get_height() {
+    return this->height;
+}
+
+Entity* Floor::get_entity_at_index(int index) {
+    // NEEDED - error check range
+    return *(this->entities_on_floor[index])
+}
+Cell* Floor::get_cell_at_index(int index) {
+    // NEEDED - error check range
+    return *(this->map[index])
+}
+ChamberInterior* Floor::get_chamber_at_index(int index) {
+    // NEEDED - error check range
+    return *(this->chambers_on_floor[index])
+}
+
+// setters
+void Floor::set_num_stairway(int num_stairway);
+void Floor::set_num_potions(int num_potions);
+void Floor::set_num_gold(int num_gold) {
+    this->num_gold = num_gold;
+}
+void Floor::set_num_enemy(int num_enemy) {
+    this->num_enemy = num_enemy;
+}
+void Floor::set_floor_level(int floor_level) {
+    this->floor_level = floor_level;
+}
+void Floor::set_width(int width) {
+    this->width = width;
+}
+void Floor::set_height(int height) {
+    this->height = height;
+}
+
+
 Floor::Floor(std::string file_name, int num_stairway, int num_potions,
                 int num_gold, int num_enemy, int floor_level, PC* pc)
     : file_name{file_name}, num_stairway {num_stairway}, num_potions {num_potions}, num_gold {num_gold}, 

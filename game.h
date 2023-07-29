@@ -27,5 +27,23 @@ class Game {
     //Game &operator=(const Game &other);
     //Game(const Game &&other);
     //Game &operator= (const Game &&other);
+
+    // getters
+    int get_num_players();
+    int get_num_floors();
+    int get_curr_floor();
+    bool get_game_on();
+    CmdInterpreter* get_cmdInt();
+
+    PC* get_pc_at(int index = 0);
+    Floor* get_floor_at(int index = 0);
+
+    // setters
+    void set_num_players(int num_players);
+    void set_num_floors(int num_floors);
+    void set_curr_floor(int curr_floor);
+    void set_game_on(bool game_on);
+    void set_cmdInt(CmdInterpreter* cmdInt);
+
 };
 
