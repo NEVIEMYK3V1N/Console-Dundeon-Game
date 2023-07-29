@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 
+/*
 class Floor {
    int num_stairway;
    int num_potions;
@@ -34,6 +35,7 @@ class Floor {
 
    Floor();
 };
+*/
 
 Floor::Floor(std::string file_name, int num_stairway, int num_potions,
                 int num_gold, int num_enemy, int floor_level, PC* pc)
@@ -45,7 +47,7 @@ Floor::Floor(std::string file_name, int num_stairway, int num_potions,
     this->width = 0;
     this->height = 0;
     this->readFromFile(file_name);
-    
+
     this->player_cells = {};
 }
 
@@ -56,7 +58,8 @@ const char FLOOR_TILE = '.';
 const char DOORWAY = '+';
 const char PASSAGE = '#';
 
-Floor::readFromFile(std::string file_name) {
+
+void Floor::readFromFile(std::string file_name) {
     std::ifstream f(file_name);
     std::string s;
     int max_width = 0;

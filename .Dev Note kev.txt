@@ -1,0 +1,20 @@
+// Note Kevin:
+add more const char for reading in existing map (the entities)
+    generate player_walkable_cell
+
+move read_file to main (include all classes)
+    int player_generated - counter for if all players are generated -> random won't spawn any player
+    bool entity_generated -> anytime map contains an entity (== true) - ramdom generation wont happen
+
+spawn player - check cell_type
+    generate cell_type (floor_tile)
+    generate entity / player (call constructor)
+    update floor's field (add to vectors)
+
+c1->get_cell_at(in index) = c1.chambervector[2] 
+
+EntitySpawnable* get_cell_at(int index) {
+    return interior_tiles[index]
+}
+
+setter/getter for cells - return / change, entity / player on
