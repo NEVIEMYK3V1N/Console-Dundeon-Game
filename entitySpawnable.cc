@@ -18,3 +18,7 @@ EntitySpawnable::EntitySpawnable(ChamberInterior* root_chamber) : PlayerWalkable
 EntitySpawnable::EntitySpawnable(ChamberInterior* root_chamber, std::vector<Entity*> entity_on_cell, bool open_to_entity) 
     : PlayerWalkableCell{}, open_to_entity{open_to_entity}, root_chamber{root_chamber}, entity_on_cell{entity_on_cell}
     {}
+
+Entity* EntitySpawnable::get_entity_on_index(int index) {
+    return this->entity_on_cell[index];
+}

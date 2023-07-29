@@ -12,3 +12,7 @@ PlayerWalkableCell::PlayerWalkableCell() {
     this->player_walkable = true;
     this->open_to_player = true;
 }
+
+PC* PlayerWalkableCell::get_player_on_cell() {
+    return this->player_on_cell;
+}

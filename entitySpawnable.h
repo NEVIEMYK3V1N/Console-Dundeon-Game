@@ -16,4 +16,6 @@ class EntitySpawnable : public PlayerWalkableCell {
  public:
     EntitySpawnable();
     EntitySpawnable(ChamberInterior* root_chamber, std::vector<Entity*> entity_on_cell, bool open_to_entity);
+
+    Entity* get_entity_on_index(int index);
 };

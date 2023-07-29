@@ -13,4 +13,6 @@ class PlayerWalkableCell : public Cell {
     PlayerWalkableCell(PC* player_on_cell, bool open_to_player);
     // PlayerWalkableCell(bool open_to_player);
     PlayerWalkableCell();
+
+    PC* get_player_on_cell();
 };
