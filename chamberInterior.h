@@ -1,6 +1,8 @@
-#include "floor.h"
+//#include "floor.h"
 #include "entitySpawnable.h"
 #include <vector>
+
+class Floor{};
 
 // needed to change
 // #include <treasure.h>
@@ -27,7 +29,7 @@ class ChamberInterior {
     // getters
     int get_chamber_id();
     int get_num_entities();
-    bool has_stairway();
+    bool get_has_stairway();
     EntitySpawnable* get_tile_at(int index = 0);
     Floor* get_root_floor();
 

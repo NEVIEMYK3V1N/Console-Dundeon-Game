@@ -1,4 +1,6 @@
-#include "floor.h"
+//#include "floor.h"
+
+class Floor{};
 
 class Cell {
   Floor* root_floor;

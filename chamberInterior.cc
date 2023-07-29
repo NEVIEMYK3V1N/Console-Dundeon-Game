@@ -40,7 +40,7 @@ int ChamberInterior::get_chamber_id() {
 int ChamberInterior::get_num_entities() {
     return this->num_entities;
 }
-bool ChamberInterior::has_stairway() {
+bool ChamberInterior::get_has_stairway() {
     return this->has_stairway;
 }
 EntitySpawnable* ChamberInterior::get_tile_at(int index) {
