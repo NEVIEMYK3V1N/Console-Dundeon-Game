@@ -1,7 +1,9 @@
 #include "floor.h"
-#include "cmdInterpreter.h"
+//#include "cmdInterpreter.h"
 #include <memory>
 #include <vector>
+
+class CmdInterpreter;
 
 // needed to change
 // #include <pc.h>
@@ -14,14 +16,15 @@ class Game {
     int curr_floor;
     bool game_on;
     CmdInterpreter* cmdInt;
-    std::vector<std::unique_ptr<PC>> pc;
+    //std::vector<std::unique_ptr<PC>> pc;
+    std::unique_ptr<PC> pc;
     std::vector<std::unique_ptr<Floor>> all_floors;
  public:
     void generate_floor(std::string file_name, int num_stairway, int num_potions,
                         int num_gold, int num_enemy);
-    void load_floor(std::string file_name);
+    //void load_floor(std::string file_name);
 
-    Game(int num_floors, int num_players, CmdInterpreter* cmdInt)
+    Game(int num_floors, int num_players, CmdInterpreter* cmdInt);
     //~Game();
     //Game(const Game &other);
     //Game &operator=(const Game &other);

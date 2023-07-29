@@ -3,10 +3,12 @@
 #include <string>
 #include "cell.h"
 #include "chamberInterior.h"
+//class Cell;
+//class ChamberInterior;
 
 // needed to change
-// #include <entity.h>
-class Entity{};
+//#include <entity.h>
+//class Entity;
 //==============
 
 class Floor {
@@ -17,11 +19,13 @@ class Floor {
   int floor_level;
   int width;
   int height;
+  //std::vector<PC*> pc_on_floor;
+  PC* pc_on_floor;
   std::vector<std::unique_ptr<Entity>> entities_on_floor;
   std::vector<std::unique_ptr<Cell>> map;
   std::vector<std::unique_ptr<ChamberInterior>> chambers_on_floor;
 
-  std::vector<playerWalkableCell*> player_cells;
+  //std::vector<playerWalkableCell*> player_cells;
 
   ChamberInterior* choose_random_chamber();
 

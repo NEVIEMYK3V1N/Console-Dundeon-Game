@@ -2,13 +2,13 @@
 #include "entitySpawnable.h"
 #include <vector>
 
-class Floor{};
+class Floor;
 
 // needed to change
 // #include <treasure.h>
 // #include <entity.h>
-class Treasure {};
-class Entity {};
+class Treasure;
+class Entity;
 // ===========
 
 class ChamberInterior {

@@ -18,6 +18,6 @@ class CmdInterpreter {
 */
 
 Game* CmdInterpreter::get_game() {
-    Game* ret = *(this->game);
+    Game* ret = (this->game).get();
     return ret;
 }
