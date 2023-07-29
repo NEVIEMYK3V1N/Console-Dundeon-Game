@@ -19,8 +19,9 @@ class NPC {
     public:
     NPC(int atk, int def, int hp, char sym, string faction);
     ~NPC();
-    int get_atk();
-    int get_def();
+    int get_atk() const;
+    int get_def() const;
+    char get_sym() const;
     virtual void set_action();
     virtual int attack(PC& player);
     virtual bool mod_hp(int dmg);

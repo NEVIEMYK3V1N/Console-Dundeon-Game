@@ -37,7 +37,7 @@ void PC::set_merch_stat(bool val) {
 
 bool PC::mod_hp(int val) {
     hp += val;
-    if (hp > hp_max) {
+    if ((faction != "vampire") && (hp > hp_max)) {
         hp = hp_max;
     }
     if (hp > 0) {
@@ -75,3 +75,70 @@ troll::~troll() {};
 goblin::goblin() :
     PC {15,20, 110, 110, "goblin"} {};
 goblin::~goblin() {};
+
+
+PotionEffect::PotionEffect(int val, string type, PC* player) :
+    PC{-1, -1, -1, -1, ""}, val{val}, type{type}, player{player} {};
+PotionEffect::~PotionEffect() {
+    delete player;
+}
+
+int PotionEffect::get_atk() const {
+    return player->get_atk();
+}
+
+int PotionEffect::get_def() const {
+    return player->get_def();
+}
+
+int PotionEffect::get_hp() const {
+    return player->get_hp();
+}
+
+bool PotionEffect::get_merch_stat() const {
+    return player->get_merch_stat();
+}
+
+string PotionEffect::get_faction() const {
+    return player->get_faction();
+}
+
+void PotionEffect::set_miss(bool val) {
+    player->set_miss(val);
+}
+
+void PotionEffect::set_merch_stat(bool val) {
+    player->set_merch_stat(val);
+}
+
+bool PotionEffect::mod_hp(int val) {
+    return player->mod_hp(val);
+}
+
+void PotionEffect::move_pos() {
+    player->move_pos();
+}
+
+void PotionEffect::attack() {
+    player->attack();
+}
+
+void PotionEffect::unique_ability() {
+    player->unique_ability();
+}
+
+
+PotAtk::PotAtk(int val, PC* player) :
+    PotionEffect {val, "atk", player} {};
+
+int PotAtk::get_atk() const {
+    return val + player->get_atk();
+}
+
+
+PotDef::PotDef(int val, PC* player) :
+    PotionEffect {val, "def", player} {};
+
+int PotDef::get_def() const {
+    return val + player->get_def();
+}

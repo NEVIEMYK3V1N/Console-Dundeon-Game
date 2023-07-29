@@ -6,12 +6,16 @@ NPC::NPC(int atk, int def, int hp, char sym, string faction) :
     atk{atk}, def{def}, hp{hp}, sym{sym}, faction{faction} {};
 NPC::~NPC() {};
 
-int NPC::get_atk() {
+int NPC::get_atk() const {
     return atk;
 }
 
-int NPC::get_def() {
+int NPC::get_def() const {
     return def;
+}
+
+char NPC::get_sym() const {
+    return sym;
 }
 
 int NPC::attack(PC& player) {
@@ -93,13 +97,19 @@ merchant::merchant() :
 merchant::~merchant() {};
 
 halfling::halfling() :
-    NPC {15, 20, 100, 'L', "halfling"}
+    NPC {15, 20, 100, 'L', "halfling"} {};
+halfling::~halfling() {};
 
-void halfling::attack(PC& player) {
-    NPC::attack(player);
+int halfling::attack(PC& player) {
     srand(time(0));
     int affect_player = rand() % 2;
     if (affect_player == 1) {
         player.set_miss(true);
     }
+    return NPC::attack(player);
 }
+
+
+dragon::dragon() :
+    NPC {20, 20, 150,'D', "dragon"} {};
+dragon::~dragon() {};
