@@ -21,6 +21,8 @@ class Floor {
    std::vector<std::unique_ptr<Cell>> map;
    std::vector<std::unique_ptr<ChamberInterior>> chambers_on_floor;
 
+   std::vector<playerWalkableCell*> player_cells;
+
    ChamberInterior* choose_random_chamber();
 
    void readFromFile(std::string file_name);

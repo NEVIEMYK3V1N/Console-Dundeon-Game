@@ -16,6 +16,8 @@ class Floor {
    std::vector<std::unique_ptr<Cell>> map;
    std::vector<std::unique_ptr<ChamberInterior>> chambers_on_floor;
 
+   std::vector<playerWalkableCell*> player_cells;
+
    ChamberInterior* choose_random_chamber();
 
    readFromFile(std::string file_name);
@@ -43,6 +45,8 @@ Floor::Floor(std::string file_name, int num_stairway, int num_potions,
     this->width = 0;
     this->height = 0;
     this->readFromFile(file_name);
+    
+    this->player_cells = {};
 }
 
 const char WALL_HORIZONTAL = '-';
