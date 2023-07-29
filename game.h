@@ -21,7 +21,7 @@ class Game {
                         int num_gold, int num_enemy);
     void load_floor(std::string file_name);
 
-    Game();
+    Game(int num_floors, int num_players, CmdInterpreter* cmdInt)
     //~Game();
     //Game(const Game &other);
     //Game &operator=(const Game &other);

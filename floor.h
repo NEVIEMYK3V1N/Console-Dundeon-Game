@@ -37,7 +37,7 @@ class Floor {
   void render_map();
   void move_all_entities();
 
-  Floor();
+  Floor::Floor(std::string file_name, int num_stairway, int num_potions, int num_gold, int num_enemy, int floor_level, PC* pc)
 
   // getters
   int get_num_stairway();

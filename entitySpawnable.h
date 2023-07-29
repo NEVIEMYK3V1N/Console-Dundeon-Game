@@ -13,7 +13,7 @@ class EntitySpawnable : public PlayerWalkableCell {
    ChamberInterior* root_chamber;
    std::vector<Entity*> entity_on_cell;
  public:
-   EntitySpawnable();
+   EntitySpawnable::EntitySpawnable(ChamberInterior* root_chamber)
    EntitySpawnable(ChamberInterior* root_chamber, std::vector<Entity*> entity_on_cell, bool open_to_entity);
 
    // getters
