@@ -18,3 +18,15 @@ EntitySpawnable* get_cell_at(int index) {
 }
 
 setter/getter for cells - return / change, entity / player on
+
+NEED getters-setters:
+    cell has:
+        player_walkable: Boolean
+        entity_spawnable: Boolean
+    EntitySpawnable has:
+        player_walkable: True
+        entity_spawnable: True
+
+getter setter for PC* for PWC
+
+detach Entity from 
