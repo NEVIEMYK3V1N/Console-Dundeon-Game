@@ -62,20 +62,26 @@ int Floor::get_height() {
 
 Entity* Floor::get_entity_at_index(int index) {
     // NEEDED - error check range
-    return *(this->entities_on_floor[index])
+    Game* ret = *(this->game);
+    return ret;
+    return *(this->entities_on_floor[index]);
 }
 Cell* Floor::get_cell_at_index(int index) {
     // NEEDED - error check range
-    return *(this->map[index])
+    return *(this->map[index]);
 }
 ChamberInterior* Floor::get_chamber_at_index(int index) {
     // NEEDED - error check range
-    return *(this->chambers_on_floor[index])
+    return *(this->chambers_on_floor[index]);
 }
 
 // setters
-void Floor::set_num_stairway(int num_stairway);
-void Floor::set_num_potions(int num_potions);
+void Floor::set_num_stairway(int num_stairway) {
+    this->num_stairway = num_stairway;
+}
+void Floor::set_num_potions(int num_potions) {
+    this->num_potions = num_potions;
+}
 void Floor::set_num_gold(int num_gold) {
     this->num_gold = num_gold;
 }

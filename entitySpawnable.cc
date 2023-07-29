@@ -26,13 +26,13 @@ Entity* EntitySpawnable::get_entity_on_index(int index = 0) {
 
 // setters
 void EntitySpawnable::set_open_to_entity(bool open_to_entity) {
-    this->open_to_entity = open_to_entity
+    this->open_to_entity = open_to_entity;
 }
 void EntitySpawnable::set_root_chamber(ChamberInterior* root_chamber) {
     this->root_chamber = root_chamber;
 }
 void EntitySpawnable::set_entity_on_index(Entity* entity, int index = 0) {
     // error checkin - range NEED
-    this->entity_on_cell = entity;
+    this->entity_on_cell[index] = entity;
 }
     // void set_entity_on_cell_at(Entity* entity, int index = 0);
