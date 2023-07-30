@@ -45,6 +45,9 @@ class Floor {
   
   void emplace_cell(std::unique_ptr<Cell> cell);
   void emplace_entity(std::unique_ptr<Entity> entity);
+  void emplace_chamber(std::unique_ptr<ChamberInterior> ci);
+
+  int get_num_cells();
 
   // getters
   int get_num_stairway();

@@ -118,3 +118,11 @@ void Floor::emplace_cell(std::unique_ptr<Cell> cell) {
 void Floor::emplace_entity(std::unique_ptr<Entity> entity) {
     (this->entities_on_floor).emplace_back(entity);
 }
+
+void Floor::emplace_chamber(std::unique_ptr<ChamberInterior> ci) {
+    (this->entities_on_floor).emplace_back(ci);
+}
+
+int Floor::get_num_cells() {
+    return this->height * this->width;
+}

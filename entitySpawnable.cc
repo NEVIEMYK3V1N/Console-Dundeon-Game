@@ -1,18 +1,18 @@
 #include "entitySpawnable.h"
 
-EntitySpawnable::EntitySpawnable(ChamberInterior* root_chamber) : PlayerWalkableCell{}, root_chamber{root_chamber} {
-    this->open_to_entity = true;
-    //this->entity_on_cell = {};
-    this->entity_on_cell = nullptr;
-    this->entity_spawnable = true;
-}
+//EntitySpawnable::EntitySpawnable(ChamberInterior* root_chamber = nullptr) : PlayerWalkableCell{}, root_chamber{root_chamber} {
+//    this->open_to_entity = true;
+//    //this->entity_on_cell = {};
+//    this->entity_on_cell = nullptr;
+//    this->entity_spawnable = true;
+//}
 
 //EntitySpawnable::EntitySpawnable(ChamberInterior* root_chamber, std::vector<Entity*> entity_on_cell, bool open_to_entity) 
 //    : PlayerWalkableCell{}, open_to_entity{open_to_entity}, root_chamber{root_chamber}, entity_on_cell{entity_on_cell} {
 //    this->entity_spawnable = true;
 //}
 
-EntitySpawnable::EntitySpawnable(ChamberInterior* root_chamber, Entity* entity_on_cell, bool open_to_entity) 
+EntitySpawnable::EntitySpawnable(ChamberInterior* root_chamber = nullptr, Entity* entity_on_cell = nullptr, bool open_to_entity = true) 
     : PlayerWalkableCell{}, open_to_entity{open_to_entity}, root_chamber{root_chamber}, entity_on_cell{entity_on_cell} {
     this->entity_spawnable = true;
 }
@@ -28,7 +28,7 @@ ChamberInterior* EntitySpawnable::get_root_chamber() {
     // error checkin - range NEED
 //    return this->entity_on_cell[index];
 //}
-Entity* EntitySpawnable::get_entity_on_index() {
+Entity* EntitySpawnable::get_entity_on_cell() {
     return this->entity_on_cell;
 }
 
@@ -45,7 +45,7 @@ void EntitySpawnable::set_root_chamber(ChamberInterior* root_chamber) {
     // error checkin - range NEED
 //    this->entity_on_cell[index] = entity;
 //}
-void EntitySpawnable::set_entity_on_index(Entity* entity) {
+void EntitySpawnable::set_entity_on_cell(Entity* entity) {
     this->entity_on_cell = entity;
 }
     // void set_entity_on_cell_at(Entity* entity, int index = 0);
