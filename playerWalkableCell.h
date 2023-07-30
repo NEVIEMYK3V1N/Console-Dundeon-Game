@@ -2,7 +2,7 @@
 
 // needed to change
 // #include <pc.h>
-class PC {};
+class PC;
 //
 
 class PlayerWalkableCell : public Cell {

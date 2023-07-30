@@ -23,7 +23,6 @@ class NPC: public entity{
     int get_atk() const;
     int get_def() const;
     char get_sym() const override;
-    virtual int attack(PC& player);
     virtual bool mod_hp(int dmg);
 };
 
@@ -37,21 +36,18 @@ class dwarf: public NPC {
     public:
     dwarf(int tile_ID);
     ~dwarf();
-    int attack(PC& player) override;
 };
 
 class elf: public NPC {
     public:
     elf(int tile_ID);
     ~elf();
-    int attack(PC& player) override;
 };
 
 class orcs: public NPC {
     public:
     orcs(int tile_ID);
     ~orcs();
-    int attack(PC& player) override;
 };
 
 class merchant: public NPC {
@@ -64,7 +60,6 @@ class halfling: public NPC {
     public:
     halfling(int tile_ID);
     ~halfling();
-    int attack(PC& player) override;
 };
 
 class dragon: public NPC {

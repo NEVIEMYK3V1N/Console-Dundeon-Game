@@ -21,6 +21,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <cmath>
 
 // constants for all maps
 const char WALL_HORIZONTAL = '-';
@@ -333,4 +334,120 @@ void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* cha
         }
     }
     return;
+}
+
+
+// process available NPC action
+void process_NPC_action(NPC* npc, Floor* floor) {
+    int row = floor->get_width();
+    int ID = npc->get_tile_ID();
+    int ID_max = floor->get_num_cells() - 1;
+    vector<Cell*> adj_tiles;
+
+    // find every adjacent cell that a player can be on
+    for (int i = -1; i < 2; ++i) {
+        for (int j = -1; j < 2; ++j) {
+            int ID_curr = ID + i * row + j;
+            if (ID_curr < 0 || ID_curr > ID_max || ID_curr == ID) {
+                continue;
+            }
+            Cell* cell_curr = floor->get_cell_at_index(ID_curr);
+            if (cell_curr->get_player_walkable()) {
+                adj_tiles.push_back(cell_curr);
+            }
+        }
+    }
+
+    // find if any adjacent cell has a player present and attack if there are
+    bool attacked = false;
+    int atk_left = 1;
+    for (int i = 0; i < adj_tiles.size(); ++i) {
+        PlayerWalkableCell* casted = dynamic_cast<PlayerWalkableCell*>(adj_tiles[i]);
+        PC* player = casted->get_player_on_cell();
+        if (player != nullptr) {
+            // if merchant and not aggro
+            if (npc->get_sym() == 'M' || player->get_merch_stat() == true) { break;} 
+            attacked = true;
+            int atk = npc->get_atk();
+            int def = player->get_def();
+            int dmg = calculate_dmg(atk, def);
+            // elf ability
+            if (npc->get_sym() == 'E' && player->get_faction() != "drow") {
+                atk_left ++;
+            }
+            while (atk_left > 0) {
+                // 50% chance of hitting the player
+                srand(time(0));
+                int hit = rand() % 2;
+                if (hit == 0) {
+                    cout << npc->get_sym() << " attacks the player but missed! " << endl;
+                } else {
+                    // orcs ability
+                    if (npc->get_sym() == 'O' && player->get_faction() == "goblin") {
+                        dmg *= 1.5;
+                    }
+                    // halfling ability
+                    if (npc->get_sym() == 'L') {
+                        srand(time(0));
+                        int affect = rand() % 2;
+                        if (affect == 1) {
+                            player->set_miss(true);
+                        }
+                    }
+
+                    if (!player->mod_hp(-dmg)) {
+                        // if this occurs it means the player is killed! do what you need to do for I/O and dtor
+                    } else {
+                        cout << npc->get_sym() << " attacks the player and deals " << dmg << " damage! " << endl;
+                    }
+                }
+                --atk_left;
+            }
+            break;
+        }  
+    }
+
+    
+}
+
+
+
+int calculate_dmg(int atk, int def) {
+    double numerator = 100;
+    double def_src = 100 + def;
+    int dmg = ceil((numerator / def_src) * atk);
+    return dmg;
+}
+
+
+
+
+
+
+int main() {
+    string cmd;
+    cout << "Welcome to CC3K! Please enter the faction that you'd like to play." << endl;
+    while (true) {
+        cin >> cmd;
+        if (cmd == "s") {
+            // call shade ctor and attach to game
+            break;
+        } else if (cmd == "d") {
+
+            break;
+        } else if (cmd == "v") {
+
+            break;
+        } else if (cmd == "g") {
+        
+            break;
+        } else if (cmd == "t") {
+
+            break;
+        } else {
+            cout << "your command is not valid, please enter a valid faction" << endl;
+        }
+    }
+    
+
 }
