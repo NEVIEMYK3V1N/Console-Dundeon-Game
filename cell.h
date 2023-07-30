@@ -24,6 +24,8 @@ class Cell {
   char get_notation();
   bool get_player_walkable();
   bool get_entity_spawnable();
+  bool get_player_walkable();
+  bool get_entity_spawnable();
 
   // setters
   void set_root_floor(Floor* root_floor);
