@@ -26,6 +26,10 @@ class ChamberInterior {
     void spawn_enemy_in_chamber();
     void move_entity_in_chamber(Entity* entity);
 
+    ChamberInterior(int chamber_id, Floor* root_floor, int num_entities = 0, bool has_stairway = false);
+
+    void emplace_entityspawnable(EntitySpawnable* es);
+
     // getters
     int get_chamber_id();
     int get_num_entities();

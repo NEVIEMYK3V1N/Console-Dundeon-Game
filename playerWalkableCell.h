@@ -10,9 +10,9 @@ class PlayerWalkableCell : public Cell {
    bool open_to_player;
    PC* player_on_cell;
  public:
-   PlayerWalkableCell(PC* player_on_cell, bool open_to_player);
+   PlayerWalkableCell(PC* player_on_cell = nullptr, bool open_to_player = true);
    // PlayerWalkableCell(bool open_to_player);
-   PlayerWalkableCell();
+   //PlayerWalkableCell();
 
    // getter
    bool get_open_to_player();

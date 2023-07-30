@@ -33,6 +33,15 @@ class ChamberInterior {
 };
 */
 
+ChamberInterior::ChamberInterior(int chamber_id, Floor* root_floor, int num_entities = 0, bool has_stairway = false)
+    : chamber_id{chamber_id}, root_floor{root_floor}, num_entities{num_entities}, has_stairway{has_stairway} {
+    this->interior_tiles = {};
+}
+
+void ChamberInterior::emplace_entityspawnable(EntitySpawnable* es) {
+    this->interior_tiles.emplace_back(es);
+}
+
 // getters
 int ChamberInterior::get_chamber_id() {
     return this->chamber_id;

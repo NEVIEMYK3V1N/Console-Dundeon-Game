@@ -28,7 +28,7 @@ PC* Game::get_pc() {
     return (this->pc).get();
 }
 
-Floor* Game::get_floor_at(int index = 0) {
+Floor* Game::get_floor_at(int index) {
     // NEED - error check range
     return (this->all_floors[index]).get();
 }
