@@ -55,27 +55,28 @@ potionHP::potionHP(bool eff, int tile_ID, int val = 10) :
     potion{val, eff, "HP", tile_ID} {};
 potionHP::~potionHP() {};
 
-void potionHP::consume_item(PC* player) {
+PC* potionHP::consume_item(PC* player) {
     is_drow(player);
     player->mod_hp(val);
+    return nullptr;
 }
 
 potionAtk::potionAtk(bool eff, int tile_ID, int val) :
     potion{val, eff, "atk", tile_ID} {};
 potionAtk::~potionAtk() {};
 
-void potionAtk::consume_item(PC* player) {
+PC* potionAtk::consume_item(PC* player) {
     is_drow(player);
-    player = new PotAtk(val, player);
+    return new PotAtk(val, player);
 }
 
 potionDef::potionDef(bool eff, int tile_ID, int val) :
     potion{val, eff, "def", tile_ID} {};
 potionDef::~potionDef() {};
 
-void potionDef::consume_item(PC* player) {
+PC* potionDef::consume_item(PC* player) {
     is_drow(player);
-    player = new PotDef(val, player);
+    return new PotDef(val, player);
 }
 
 
@@ -91,6 +92,11 @@ void treasure::set_dragon(bool val) {
     dragon = val;
 }
 
+PC* treasure::consume_item(PC* player) {
+    player->mod_gold(val);
+    return nullptr;
+}
+
 treGround::treGround(int val, int tile_ID, string size) :
     treasure{val, tile_ID, size, false} {};
 treGround::~treGround() {};
@@ -99,3 +105,5 @@ treGround::~treGround() {};
 treDragon::treDragon(int val, int tile_ID) :
     treasure{val, tile_ID, "dragon_hoard", true} {};
 treDragon::~treDragon() {};
+
+

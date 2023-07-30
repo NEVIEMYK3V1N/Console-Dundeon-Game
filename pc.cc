@@ -2,9 +2,9 @@
 
 using namespace std;
 
-PC::PC(int atk, int def, int hp, int hp_max, string faction) :
+PC::PC(int atk, int def, int hp, int hp_max, string faction, int tile_ID) :
     atk{atk}, def{def}, hp{hp}, hp_max{hp_max}, gold{0}, sym{'@'}, 
-    faction{faction}, can_miss{false}, merchant_status{true} {};
+    faction{faction}, tile_ID{tile_ID}, can_miss{false}, merchant_status{true} {};
 PC::~PC() {};
 
 int PC::get_atk() const {
@@ -27,6 +27,22 @@ string PC::get_faction() const {
     return faction;
 }
 
+int PC::get_tile_ID() const {
+    return tile_ID;
+}
+
+int PC::get_gold() const {
+    return gold;
+}
+
+void PC::mod_gold(int val) {
+    gold += val;
+}
+
+void PC::set_tile_ID(int val) {
+    tile_ID = val;
+}
+
 void PC::set_miss(bool val) {
     can_miss = val;
 }
@@ -43,42 +59,36 @@ bool PC::mod_hp(int val) {
     if (hp > 0) {
         return true;
     } 
+    hp = 0;
     return false;
 }
 
-void PC::unique_ability() {};
-
-shade::shade() :
-    PC {25, 25, 125, 125, "shade"} {};
+shade::shade(int tile_ID) :
+    PC {25, 25, 125, 125, "shade", tile_ID} {};
 shade::~shade() {};
 
 
-drow::drow() :
-    PC {25, 15, 150, 150, "drow"} {};
+drow::drow(int tile_ID) :
+    PC {25, 15, 150, 150, "drow", tile_ID} {};
 drow::~drow() {};
 
 
-vampire::vampire() :
-    PC {25, 25, 50, -1, "vampire"}, allergy{false} {};
+vampire::vampire(int tile_ID) :
+    PC {25, 25, 50, -1, "vampire", tile_ID} {};
 vampire::~vampire() {};
 
-void vampire::unique_ability() {
-    allergy = true;
-}
-
-
-troll::troll() :
-    PC {25, 15, 120, 120, "troll"} {};
+troll::troll(int tile_ID) :
+    PC {25, 15, 120, 120, "troll", tile_ID} {};
 troll::~troll() {};
 
 
-goblin::goblin() :
-    PC {15,20, 110, 110, "goblin"} {};
+goblin::goblin(int tile_ID) :
+    PC {15,20, 110, 110, "goblin", tile_ID} {};
 goblin::~goblin() {};
 
 
 PotionEffect::PotionEffect(int val, string type, PC* player) :
-    PC{-1, -1, -1, -1, ""}, val{val}, type{type}, player{player} {};
+    PC{-1, -1, -1, -1, "", -1}, val{val}, type{type}, player{player} {};
 PotionEffect::~PotionEffect() {
     delete player;
 }
@@ -103,6 +113,22 @@ string PotionEffect::get_faction() const {
     return player->get_faction();
 }
 
+int PotionEffect::get_tile_ID() const {
+    return player->get_tile_ID();
+}
+
+int PotionEffect::get_gold() const {
+    return player->get_gold();
+}
+
+void PotionEffect::mod_gold(int val) {
+    player->mod_gold(val);
+}
+
+void PotionEffect::set_tile_ID(int val) {
+    player->set_tile_ID(val);
+}
+
 void PotionEffect::set_miss(bool val) {
     player->set_miss(val);
 }
@@ -113,18 +139,6 @@ void PotionEffect::set_merch_stat(bool val) {
 
 bool PotionEffect::mod_hp(int val) {
     return player->mod_hp(val);
-}
-
-void PotionEffect::move_pos() {
-    player->move_pos();
-}
-
-void PotionEffect::attack() {
-    player->attack();
-}
-
-void PotionEffect::unique_ability() {
-    player->unique_ability();
 }
 
 

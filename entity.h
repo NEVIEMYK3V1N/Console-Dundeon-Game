@@ -25,7 +25,7 @@ class item : public entity {
 public:
     item(bool gold, bool pot, bool NPC, int tile_ID);
     virtual ~item();
-    virtual void consume_item(PC* player) = 0;
+    virtual PC* consume_item(PC* player) = 0;
 };
 
 class potion: public item {
@@ -44,21 +44,20 @@ class potionHP: public potion {
 public:
     potionHP(bool eff, int tile_ID, int val = 10);
     ~potionHP();
-    void consume_item (PC* player) override;
+    PC* consume_item (PC* player) override;
 };
-
 class potionAtk: public potion {
 public:
     potionAtk(bool eff, int tile_ID, int val = 5);
     ~potionAtk();
-    void consume_item (PC* player) override;
+    PC* consume_item (PC* player) override;
 };
 
 class potionDef: public potion {
 public:
     potionDef(bool eff, int tile_ID, int val = 5);
     ~potionDef();
-    void consume_item (PC* player) override;
+    PC* consume_item (PC* player) override;
 };
 
 
@@ -72,6 +71,7 @@ public:
     ~treasure();
     bool dragon_alive() const;
     void set_dragon(bool val);
+    PC* consume_item (PC* player) override;
 };
 
 class treGround: public treasure {
