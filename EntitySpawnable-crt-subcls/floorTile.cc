@@ -1,5 +1,4 @@
 #include "floorTile.h"
-#include <iostream>
 
 FloorTile::FloorTile (char notation, int index, ChamberInterior* root_chamber)
     : EntitySpawnable{root_chamber} {

@@ -219,7 +219,7 @@ void read_empty_map_file(Floor* floor, std::string file_name) {
 
 void read_in_entity(Floor* floor, Entity* entity, char &c, int &index, bool &contain_entity) {
     FloorTile *ft = new FloorTile(c, index);
-    ft->set_entity_on_index(entity);
+    ft->set_entity_on_cell(entity);
     floor->emplace_cell(make_unique<FloorTile> (*ft));
     floor->emplace_entity(make_unique<Entity> (*entity));
     contain_entity = true;

@@ -1,5 +1,4 @@
 #include "passage.h"
-#include <iostream>
 
 Passage::Passage(char notation, int index) : PlayerWalkableCell{} {
     this->entity_spawnable = false;

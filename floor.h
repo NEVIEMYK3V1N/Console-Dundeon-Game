@@ -1,15 +1,15 @@
+#ifndef FLOOR_H
+#define FLOOR_H
+
+#include <memory>
 #include <memory>
 #include <vector>
 #include <string>
 #include "cell.h"
 #include "chamberInterior.h"
-//class Cell;
-//class ChamberInterior;
 
-// needed to change
-//#include <entity.h>
-//class Entity;
-//==============
+class ChamberInterior;
+class Entity;
 
 class Floor {
   int num_stairway;
@@ -71,3 +71,5 @@ class Floor {
   void set_width(int width);
   void set_height(int height);
 };
+
+#endif

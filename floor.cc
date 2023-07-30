@@ -1,8 +1,4 @@
 #include "floor.h"
-#include <memory>
-#include <vector>
-#include <fstream>
-#include <string>
 
 /*
 class Floor {

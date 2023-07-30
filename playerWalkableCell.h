@@ -1,9 +1,9 @@
+#ifndef PLAYERWALKABLE_H
+#define PLAYERWALKABLE_H
+
 #include "cell.h"
 
-// needed to change
-// #include <pc.h>
 class PC;
-//
 
 class PlayerWalkableCell : public Cell {
  protected:
@@ -22,3 +22,5 @@ class PlayerWalkableCell : public Cell {
    void set_open_to_player(bool open_to_player);
    void set_player_on_cell(PC* player_on_cell);
 };
+
+#endif

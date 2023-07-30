@@ -1,15 +1,13 @@
 //#include "floor.h"
+#ifndef CHAMBERINTERIOR_H
+#define CHAMBERINTERIOR_H
+
 #include "entitySpawnable.h"
 #include <vector>
 
 class Floor;
-
-// needed to change
-// #include <treasure.h>
-// #include <entity.h>
 class Treasure;
 class Entity;
-// ===========
 
 class ChamberInterior {
     int chamber_id;
@@ -44,3 +42,5 @@ class ChamberInterior {
     void set_tile_at(EntitySpawnable* tile, int index = 0);
     void set_root_floor(Floor* root_floor);
 };
+
+#endif

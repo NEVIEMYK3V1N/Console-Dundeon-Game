@@ -1,5 +1,8 @@
 //#include "floor.h"
 
+#ifndef CELL_H
+#define CELL_H
+
 class Floor;
 
 class Cell {
@@ -28,4 +31,4 @@ class Cell {
   void set_notation(char notation);
 };
 
-
+#endif

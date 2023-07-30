@@ -1,3 +1,6 @@
+#ifndef FLOORTILE_H
+#define FLOORTILE_H
+
 #include <entitySpawnable.h>
 
 class FloorTile : public EntitySpawnable {
@@ -6,3 +9,5 @@ class FloorTile : public EntitySpawnable {
 
     FloorTile (char notation, int index, ChamberInterior* root_chamber = nullptr);
 };
+
+#endif

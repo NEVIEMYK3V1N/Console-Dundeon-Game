@@ -1,13 +1,12 @@
+#ifndef ENTITYSPAWNABLE_H
+#define ENTITYSPAWNABLE_H
+
 #include "playerWalkableCell.h"
 //#include "chamberInterior.h"
 #include <vector>
 
 class ChamberInterior;
-
-// needed to change
-// #include <entity.h>
-class Entity{};
-//=========
+class Entity;
 
 class EntitySpawnable : public PlayerWalkableCell {
  protected:
@@ -35,3 +34,5 @@ class EntitySpawnable : public PlayerWalkableCell {
   //void set_entity_on_index(Entity* entity, int index = 0);
     // void set_entity_on_cell_at(Entity* entity, int index = 0);
 };
+
+#endif

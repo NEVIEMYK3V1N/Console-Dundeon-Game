@@ -1,5 +1,4 @@
 #include "chamberInterior.h"
-#include <vector>
 
 /*
 class ChamberInterior {

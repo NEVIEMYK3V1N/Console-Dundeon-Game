@@ -1,14 +1,13 @@
+#ifndef GAME_H
+#define GAME_H
+
 #include "floor.h"
-//#include "cmdInterpreter.h"
 #include <memory>
 #include <vector>
 
 class CmdInterpreter;
+class PC;
 
-// needed to change
-// #include <pc.h>
-class PC{};
-// ===========
 
 class Game {
     int num_players;
@@ -51,3 +50,4 @@ class Game {
 
 };
 
+#endif

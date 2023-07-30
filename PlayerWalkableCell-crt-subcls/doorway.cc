@@ -1,5 +1,4 @@
 #include "doorway.h"
-#include <iostream>
 
 Doorway::Doorway(char notation, int index) : PlayerWalkableCell{} {
     this->entity_spawnable = false;

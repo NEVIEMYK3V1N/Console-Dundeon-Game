@@ -1,3 +1,6 @@
+#ifndef WALL_H
+#define WALL_H
+
 #include "blockedCell.h"
 
 class Wall : public BlockedCell {
@@ -13,3 +16,5 @@ class Wall : public BlockedCell {
     // setters
     void set_has_chamber(bool has_chamber);
 };
+
+#endif

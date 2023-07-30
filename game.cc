@@ -1,6 +1,4 @@
 #include "game.h"
-#include <memory>
-#include <vector>
 
 // getters
 int Game::get_num_players() {

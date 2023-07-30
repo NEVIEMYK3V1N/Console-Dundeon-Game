@@ -1,5 +1,4 @@
 #include "wall.h"
-#include <iostream>
 
 Wall::Wall(char notation, int index, bool has_chamber = false) : BlockedCell{}, has_chamber{has_chamber} {
     this->notation = notation;

@@ -1,3 +1,6 @@
+#ifndef DOORWAY_H
+#define DOORWAY_H
+
 #include "playerWalkableCell.h"
 
 class Doorway : public PlayerWalkableCell {
@@ -6,3 +9,5 @@ class Doorway : public PlayerWalkableCell {
 
   Doorway(char notation, int index);
 };
+
+#endif

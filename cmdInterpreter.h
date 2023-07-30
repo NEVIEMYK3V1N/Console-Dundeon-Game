@@ -1,12 +1,12 @@
+#ifndef CMDINTERPRETER_H
+#define CMDINTERPRETER_H
+
 #include "game.h"
 #include <string>
 #include <memory>
 #include <vector>
 
-// needed to change
-// #include <pc.h>
-class PC{};
-// ===========
+class PC;
 
 class CmdInterpreter {
     std::unique_ptr<Game> game;
@@ -26,3 +26,4 @@ class CmdInterpreter {
     Game* get_game();
 };
 
+#endif

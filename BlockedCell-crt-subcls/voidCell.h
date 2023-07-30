@@ -1,3 +1,6 @@
+#ifndef VOIDCELL_H
+#define VOIDCELL_H
+
 #include "blockedCell.h"
 
 class VoidCell : public BlockedCell {
@@ -6,3 +9,5 @@ class VoidCell : public BlockedCell {
     
     VoidCell(char notation, int index);
 };
+
+#endif
