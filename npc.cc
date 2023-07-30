@@ -2,8 +2,9 @@
 
 using namespace std;
 
-NPC::NPC(int atk, int def, int hp, char sym, string faction) :
-    atk{atk}, def{def}, hp{hp}, sym{sym}, faction{faction} {};
+NPC::NPC(int atk, int def, int hp, char sym, string faction, int tile_ID) :
+    entity {false, false, true, tile_ID}, 
+    atk{atk}, def{def}, hp{hp}, sym{sym}, faction{faction}, tile_ID{tile_ID} {};
 NPC::~NPC() {};
 
 int NPC::get_atk() const {
@@ -40,13 +41,13 @@ bool NPC::mod_hp(int dmg) {
 }
 
 
-human::human() :
-    NPC {20, 20, 140, 'H', "human"} {};
+human::human(int tile_ID) :
+    NPC {20, 20, 140, 'H', "human", tile_ID} {};
 human::~human() {};
 
 
-dwarf::dwarf() : 
-    NPC {20, 30, 100, 'W', "dwarf"} {};
+dwarf::dwarf(int tile_ID) : 
+    NPC {20, 30, 100, 'W', "dwarf", tile_ID} {};
 dwarf::~dwarf() {};
 
 int dwarf::attack(PC& player) {
@@ -57,8 +58,8 @@ int dwarf::attack(PC& player) {
 }
 
 
-elf::elf() : 
-    NPC {30, 10, 140, 'E', "elf"} {};
+elf::elf(int tile_ID) : 
+    NPC {30, 10, 140, 'E', "elf", tile_ID} {};
 elf::~elf() {};
 
 int elf::attack(PC& player) {
@@ -71,8 +72,8 @@ int elf::attack(PC& player) {
 }
 
 
-orcs::orcs() :
-    NPC {30, 25, 180, 'O', "orcs"} {};
+orcs::orcs(int tile_ID) :
+    NPC {30, 25, 180, 'O', "orcs", tile_ID} {};
 orcs::~orcs() {};
 
 int orcs::attack(PC& player) {
@@ -92,12 +93,12 @@ int orcs::attack(PC& player) {
 }
 
 
-merchant::merchant() : 
-    NPC {70, 5, 30, 'M', "merchant"} {};
+merchant::merchant(int tile_ID) : 
+    NPC {70, 5, 30, 'M', "merchant", tile_ID} {};
 merchant::~merchant() {};
 
-halfling::halfling() :
-    NPC {15, 20, 100, 'L', "halfling"} {};
+halfling::halfling(int tile_ID) :
+    NPC {15, 20, 100, 'L', "halfling", tile_ID} {};
 halfling::~halfling() {};
 
 int halfling::attack(PC& player) {
@@ -110,6 +111,10 @@ int halfling::attack(PC& player) {
 }
 
 
-dragon::dragon() :
-    NPC {20, 20, 150,'D', "dragon"} {};
+dragon::dragon(int tile_ID, int treasure_tile_ID) :
+    NPC {20, 20, 150,'D', "dragon", tile_ID}, treasure_tile_ID{treasure_tile_ID} {};
 dragon::~dragon() {};
+
+int dragon::get_treasure_tild_ID() const {
+    return treasure_tile_ID;
+}
