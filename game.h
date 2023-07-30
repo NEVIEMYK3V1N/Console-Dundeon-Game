@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-class CmdInterpreter;
+//class CmdInterpreter;
 class PC;
 
 
@@ -14,16 +14,17 @@ class Game {
     int num_floors;
     int curr_floor;
     bool game_on;
-    CmdInterpreter* cmdInt;
+    //CmdInterpreter* cmdInt;
     //std::vector<std::unique_ptr<PC>> pc;
     std::unique_ptr<PC> pc;
     std::vector<std::unique_ptr<Floor>> all_floors;
  public:
-    void generate_floor(std::string file_name, int num_stairway, int num_potions,
-                        int num_gold, int num_enemy);
+    //void generate_floor(std::string file_name, int num_stairway, int num_potions,
+    //                    int num_gold, int num_enemy);
     //void load_floor(std::string file_name);
 
-    Game(int num_floors, int num_players, CmdInterpreter* cmdInt);
+    //Game(int num_floors, int num_players, CmdInterpreter* cmdInt);
+    Game(int num_floors, int num_players);
     //~Game();
     //Game(const Game &other);
     //Game &operator=(const Game &other);
@@ -35,7 +36,7 @@ class Game {
     int get_num_floors();
     int get_curr_floor();
     bool get_game_on();
-    CmdInterpreter* get_cmdInt();
+    //CmdInterpreter* get_cmdInt();
 
     //PC* get_pc_at(int index = 0);
     PC* get_pc();
@@ -46,8 +47,9 @@ class Game {
     void set_num_floors(int num_floors);
     void set_curr_floor(int curr_floor);
     void set_game_on(bool game_on);
-    void set_cmdInt(CmdInterpreter* cmdInt);
+    //void set_cmdInt(CmdInterpreter* cmdInt);
 
+    void emplace_floor(std::unique_ptr<Floor> floor);
 };
 
 #endif

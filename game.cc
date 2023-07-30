@@ -13,9 +13,9 @@ int Game::get_curr_floor() {
 bool Game::get_game_on() {
     return this->game_on;
 }
-CmdInterpreter* Game::get_cmdInt() {
-    return this->cmdInt;
-}
+//CmdInterpreter* Game::get_cmdInt() {
+//    return this->cmdInt;
+//}
 
 //PC* Game::get_pc_at(int index = 0) {
     // NEED - error check range
@@ -44,11 +44,12 @@ void Game::set_curr_floor(int curr_floor) {
 void Game::set_game_on(bool game_on) {
     this->game_on = game_on;
 }
-void Game::set_cmdInt(CmdInterpreter* cmdInt) {
-    this->cmdInt = cmdInt;
-}
+//void Game::set_cmdInt(CmdInterpreter* cmdInt) {
+//    this->cmdInt = cmdInt;
+//}
 
-Game::Game(int num_floors, int num_players, CmdInterpreter* cmdInt) : num_players{num_players}, num_floors{num_floors}, cmdInt{cmdInt} {
+//Game::Game(int num_floors, int num_players, CmdInterpreter* cmdInt) : num_players{num_players}, num_floors{num_floors}, cmdInt{cmdInt} {
+Game::Game(int num_floors, int num_players) : num_players{num_players}, num_floors{num_floors} {
     this->curr_floor = 0;
     this->game_on = true;
     PC* new_pc = new PC();
@@ -60,11 +61,11 @@ Game::Game(int num_floors, int num_players, CmdInterpreter* cmdInt) : num_player
     this->all_floors = {};
 }
 
-void Game::generate_floor(std::string file_name, int num_stairway, int num_potions, int num_gold, int num_enemy) {
-    int floor_length = (this->all_floors).size();
-    Floor *floor = new Floor (file_name, num_stairway, num_potions, num_gold, num_enemy, floor_length, (this->pc).get());
-    (this->all_floors).emplace_back(std::make_unique<Floor> (*floor));
-}
+//void Game::generate_floor(std::string file_name, int num_stairway, int num_potions, int num_gold, int num_enemy) {
+//    int floor_length = (this->all_floors).size();
+//    Floor *floor = new Floor (file_name, num_stairway, num_potions, num_gold, num_enemy, floor_length, (this->pc).get());
+//    (this->all_floors).emplace_back(std::make_unique<Floor> (*floor));
+//}
 
 //void Game::load_floor(std::string file_name) {
 //    int floor_length = (this->all_floors).size();
@@ -72,3 +73,6 @@ void Game::generate_floor(std::string file_name, int num_stairway, int num_potio
 //    (this->all_floors).emplace_back(std::make_unique<Floor> (*floor));
 //}
 
+void Game::emplace_floor(std::unique_ptr<Floor> floor) {
+    this->all_floors.emplace_back(floor);
+}

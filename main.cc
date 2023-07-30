@@ -22,6 +22,7 @@
 #include <memory>
 #include <vector>
 #include <cmath>
+#include <sstream>
 
 // constants for all maps
 const char WALL_HORIZONTAL = '-';
@@ -276,7 +277,7 @@ void determine_chambers(Floor* floor, int num_chambers = 6) {
     }
 }
 
-bool is_top_left_wall(Floor* floor, Cell* cell) {
+bool is_top_left_unchecked_wall(Floor* floor, Cell* cell) {
     if (cell->get_notation() == WALL_VERTICAL) {
         int index = cell->get_index();
         int right_cell_index = index + 1;
@@ -287,7 +288,10 @@ bool is_top_left_wall(Floor* floor, Cell* cell) {
         if (right_cell_index < num_cells && bottom_cell_index < num_cells && br_cell_index < num_cells) {
             return (dynamic_cast<Wall*> (floor->get_cell_at_index(right_cell_index)) &&
                     dynamic_cast<Wall*> (floor->get_cell_at_index(bottom_cell_index)) &&
-                    dynamic_cast<EntitySpawnable*> (floor->get_cell_at_index(br_cell_index)));
+                    dynamic_cast<EntitySpawnable*> (floor->get_cell_at_index(br_cell_index)) &&
+                    !dynamic_cast<Wall*> (floor->get_cell_at_index(right_cell_index))->get_has_chamber() &&
+                    !dynamic_cast<Wall*> (floor->get_cell_at_index(bottom_cell_index))->get_has_chamber() &&
+                    !dynamic_cast<EntitySpawnable*> (floor->get_cell_at_index(br_cell_index))->get_root_chamber());
         }
     }
     return false;
@@ -421,10 +425,69 @@ int calculate_dmg(int atk, int def) {
 
 
 
+const int NUM_PLAYERS = 1;
+const int NUM_FLOORS = 1;
+const int DEFAULT_WIDTH = 79;
+const int DEFAULT_HEIGHT = 25;
+const int DEFAULT_CHAMBER_ON_FLOOR = 5;
+const int DEFAULT
+
+const int ARG_NUM_FILENAME = 1;
+const int ARG_NUM_READY_MAP = 2;
+const int ARG_NUM_NUMFLOORS = 3;
+const int ARG_NUM_HEIGHT = 4;
+const int ARG_NUM_WIDTH = 5;
 
 
+int main(int argc, char *argv[]) {
+    
+    std::string filename = argv[ARG_NUM_FILENAME];
+    int num_floors = NUM_FLOORS;
+    int num_players = NUM_PLAYERS;
+    int map_height = DEFAULT_HEIGHT;
+    int map_width = DEFAULT_WIDTH;
+    int num_chambers = DEFAULT_CHAMBER_ON_FLOOR;
 
-int main() {
+    Game* game = nullptr;
+    PC* pc = new PC();
+
+    if (argv[ARG_NUM_READY_MAP]) {
+        if (argv[ARG_NUM_NUMFLOORS]) {
+            istringstream iss{argv[ARG_NUM_NUMFLOORS]};
+            iss >> num_floors;
+        }
+        if (argv[ARG_NUM_HEIGHT]) {
+            istringstream iss{argv[ARG_NUM_HEIGHT]};
+            iss >> map_height;
+        }
+        if (argv[ARG_NUM_WIDTH]) {
+            istringstream iss{argv[ARG_NUM_WIDTH]};
+            iss >> map_width;
+        }
+        game = new Game(num_floors, num_players);
+
+    } else {
+        game = new Game(num_floors, num_players);
+        Floor* curr_floor = new Floor(pc, map_height, map_width);
+        read_empty_map_file(curr_floor, filename);
+        game->emplace_floor(std::make_unique<Floor>(curr_floor));
+        int chamber_index = 0;
+        while (chamber_index < num_chambers) {
+            for (int h = 0; h < curr_floor->get_height(); h++) {
+                for (int w = 0; w < curr_floor->get_width(); w++) {
+                    Cell* curr_cell = curr_floor->get_cell_at_index(h * curr_floor->get_height() + w);
+                    if(is_top_left_unchecked_wall(curr_floor, curr_cell)) {
+                        ChamberInterior* curr_chamber = new ChamberInterior(chamber_index, curr_floor);
+                        find_all_cell_in_chamber(curr_floor, curr_cell, curr_chamber);
+                        curr_floor->emplace_chamber(std::make_unique<ChamberInterior>(curr_chamber));
+                        chamber_index++;
+                    }
+                }
+            }
+        }
+        // spawn Entities and PC
+    }
+    
     string cmd;
     cout << "Welcome to CC3K! Please enter the faction that you'd like to play." << endl;
     while (true) {

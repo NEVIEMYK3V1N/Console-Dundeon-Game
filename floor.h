@@ -10,6 +10,7 @@
 
 class ChamberInterior;
 class Entity;
+class PC;
 
 class Floor {
   int num_stairway;
@@ -27,9 +28,9 @@ class Floor {
 
   //std::vector<playerWalkableCell*> player_cells;
 
-  ChamberInterior* choose_random_chamber();
+  //ChamberInterior* choose_random_chamber();
 
-  void readFromFile(std::string file_name);
+  //void readFromFile(std::string file_name);
  protected:
   bool enemy_movable;
  public:
@@ -41,8 +42,8 @@ class Floor {
   void render_map();
   void move_all_entities();
 
-  Floor(std::string file_name, int num_stairway, int num_potions, int num_gold, int num_enemy, int floor_level, PC* pc);
-  
+  Floor(PC* pc, int height, int width, int num_stairway = 0, int num_potions = 0, int num_gold = 0, int num_enemy = 0, int floor_level = 0);
+
   void emplace_cell(std::unique_ptr<Cell> cell);
   void emplace_entity(std::unique_ptr<Entity> entity);
   void emplace_chamber(std::unique_ptr<ChamberInterior> ci);
