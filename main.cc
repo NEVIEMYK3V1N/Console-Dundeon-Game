@@ -6,7 +6,7 @@
 #include "entitySpawnable.h"
 #include "floor.h"
 #include "game.h"
-#include "item.h"
+#include "entity.h"
 #include "npc.h"
 #include "pc.h"
 #include "playerWalkableCell.h"
@@ -76,7 +76,96 @@ const char SH = '7';
 const char MH = '8';
 const char DH = '9';
 
-void read_from_file(Floor* floor, std::string file_name) {
+void read_entity_map_file(Floor* floor, std::string file_name, int map_width, int map_height, int num_floors) {
+    std::ifstream f(file_name);
+    std::string s;
+    int index = 0;
+    bool contain_entity = false;
+    bool contain_player = false;
+    for (int numf = 0; numf < num_floors; numf++) {
+        for (int h = 0; h < map_height; h++) {
+            std::getline(std::cin, s);
+            int len = s.length();
+            for (int i = 0; i < len; i++) {
+                char c = s[i];
+                if (c == WALL_HORIZONTAL || WALL_VERTICAL) {
+                    Wall *wall = new Wall(c, index);
+                    floor->emplace_cell(make_unique<Wall> (*wall));
+                    index++;
+                } 
+                else if (c == VOID_CELL) {
+                    VoidCell *vc = new VoidCell(c, index);
+                    floor->emplace_cell(make_unique<VoidCell> (*vc));
+                    index++;
+                }
+                else if (c == FLOOR_TILE) {
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(make_unique<FloorTile> (*ft));
+                    index++;
+                }
+                else if (c == DOORWAY) {
+                    Doorway *dw = new Doorway(c, index);
+                    floor->emplace_cell(make_unique<Doorway> (*dw));
+                    index++;
+                }
+                else if (c == PASSAGE) {
+                    Passage *psg = new Passage(c, index);
+                    floor->emplace_cell(make_unique<Passage> (*psg));
+                    index++;
+                }
+                else if (c == RH) {
+                    potionHP *pot = new potionHP(10);
+                    //FloorTile *ft = new FloorTile(c, index);
+                    //ft->set_entity_on_index(dynamic_cast<Entity*> (pot));
+                    //floor->emplace_cell(make_unique<FloorTile> (*ft));
+                    //floor->emplace_entity(make_unique<Entity> (*pot));
+                    //contain_entity = true;
+                    //index++;
+                    read_in_entity(floor, pot, c, index, contain_entity);
+                }
+                else if (c == BA) {
+                    potionAtk *pot = new potionAtk(5);
+                    read_in_entity(floor, pot, c, index, contain_entity);
+                }
+                else if (c == BD) {
+                    potionDef *pot = new potionDef(5);
+                    read_in_entity(floor, pot, c, index, contain_entity);
+                }
+                else if (c == PH) {
+                    potionHP *pot = new potionHP(-10);
+                    read_in_entity(floor, pot, c, index, contain_entity);
+                }
+                else if (c == WA) {
+                    potionAtk *pot = new potionAtk(-5);
+                    read_in_entity(floor, pot, c, index, contain_entity);
+                }
+                else if (c == WD) {
+                    potionDef *pot = new potionDef(-5);
+                    read_in_entity(floor, pot, c, index, contain_entity);
+                }
+                // unfinished ======================================
+
+                // NEED FROM WILLIAM - CONSTRUCTOR OF EACH ITEM
+                else if (c == NGP) {
+                    treGround * normal_pile_gold = new treGround();
+                    read_in_entity(floor, normal_pile_gold, c, index, contain_entity);
+                }
+                else if (c == SH) {
+
+                }
+                else if (c == MH) {
+
+                }
+                else if (c == DH) {
+                    Dragonhou.
+                }
+                else if (c == PLAYER)
+            }
+        }
+    }
+}
+
+void read_empty_map_file(Floor* floor, std::string file_name) {
     std::ifstream f(file_name);
     std::string s;
     int max_width = 0;
@@ -120,56 +209,11 @@ void read_from_file(Floor* floor, std::string file_name) {
                 floor->emplace_cell(make_unique<Passage> (*psg));
                 index++;
             }
-            /*
-            else if (c == RH) {
-                potionHP *pot = new potionHP(10);
-                //FloorTile *ft = new FloorTile(c, index);
-                //ft->set_entity_on_index(dynamic_cast<Entity*> (pot));
-                //floor->emplace_cell(make_unique<FloorTile> (*ft));
-                //floor->emplace_entity(make_unique<Entity> (*pot));
-                //contain_entity = true;
-                //index++;
-                read_in_entity(floor, pot, c, index, contain_entity);
-            }
-            else if (c == BA) {
-                potionAtk *pot = new potionAtk(5);
-                read_in_entity(floor, pot, c, index, contain_entity);
-            }
-            else if (c == BD) {
-                potionDef *pot = new potionDef(5);
-                read_in_entity(floor, pot, c, index, contain_entity);
-            }
-            else if (c == PH) {
-                potionHP *pot = new potionHP(-10);
-                read_in_entity(floor, pot, c, index, contain_entity);
-            }
-            else if (c == WA) {
-                potionAtk *pot = new potionAtk(-5);
-                read_in_entity(floor, pot, c, index, contain_entity);
-            }
-            else if (c == WD) {
-                potionDef *pot = new potionDef(-5);
-                read_in_entity(floor, pot, c, index, contain_entity);
-            }
-            // unfinished 
-            else if (c == NGP) {
-                treGround * normal_pile_gold = new treGround();
-                read_in_entity(floor, normal_pile_gold, c, index, contain_entity);
-            }
-            else if (c == SH) {
-
-            }
-            else if (c == MH) {
-
-            }
-            else if (c == DH) {
-
-            }
-            else if (c == @)
-            */
         }
         file_height++;
     }
+    floor->set_width(max_width);
+    floor->set_height(file_height);
 }
 
 void read_in_entity(Floor* floor, Entity* entity, char &c, int &index, bool &contain_entity) {
@@ -202,4 +246,91 @@ void render_map(Floor* floor) {
         }
     }
     // NEED - render the character information below
+}
+
+void determine_chambers(Floor* floor, int num_chambers = 6) {
+    int curr_chamber = 0;
+
+    for (int i = 0; i < num_chambers; i++) {
+        ChamberInterior *ci = new ChamberInterior(i, floor);
+        floor->emplace_chamber(make_unique<ChamberInterior>(*ci));
+    }
+
+    for(int h = 0; h < floor->get_height(); h++) {
+        for(int w = 0; w < floor->get_width(); w++) {
+            Cell* curr_cell = floor->get_cell_at_index(h * floor->get_height() + w);
+            if (is_top_left_wall(floor, curr_cell)) {
+                Wall* tl_wall = dynamic_cast<Wall*>(curr_cell);
+                if (tl_wall->get_has_chamber()) {
+                    continue;
+                }
+                tl_wall->set_has_chamber(true);
+                EntitySpawnable* tl_spawnable = dynamic_cast<EntitySpawnable*> (floor->get_cell_at_index((h + 1) * floor->get_height() + w + 1));
+                tl_spawnable->set_root_chamber(floor->get_chamber_at_index(curr_chamber));
+                floor->get_chamber_at_index(curr_chamber)->emplace_entityspawnable(tl_spawnable);
+                find_all_cell_in_chamber(floor, tl_spawnable, floor->get_chamber_at_index(curr_chamber));
+                curr_chamber++;
+            }
+        }
+    }
+}
+
+bool is_top_left_wall(Floor* floor, Cell* cell) {
+    if (cell->get_notation() == WALL_VERTICAL) {
+        int index = cell->get_index();
+        int right_cell_index = index + 1;
+        int bottom_cell_index = index + floor->get_height();
+        int br_cell_index = index + floor->get_height() + 1;
+
+        int num_cells = floor->get_num_cells();
+        if (right_cell_index < num_cells && bottom_cell_index < num_cells && br_cell_index < num_cells) {
+            return (dynamic_cast<Wall*> (floor->get_cell_at_index(right_cell_index)) &&
+                    dynamic_cast<Wall*> (floor->get_cell_at_index(bottom_cell_index)) &&
+                    dynamic_cast<EntitySpawnable*> (floor->get_cell_at_index(br_cell_index)));
+        }
+    }
+    return false;
+}
+
+void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* chamber) {
+    int ori_index = top_left->get_index();
+    int f_height = floor->get_height();
+    int f_width = floor->get_width();
+
+    for (int h = -1; h <= 1; h++) {
+        for (int w = -1; w <= 1; w++) {
+            if (h == 0 && w == 0) {
+                continue;
+            }
+            //skip diagonal
+            if ((h == -1 && w == -1) ||
+                (h == -1 && w == 1) ||
+                (h == 1 && w == -1) ||
+                (h == 1 && w == 1)) {
+                continue;
+            }
+            
+            int curr_index = ori_index + h * f_height + w;
+            Cell* curr_cell = floor->get_cell_at_index(curr_index);
+
+            EntitySpawnable* casted_curr_cell = dynamic_cast<EntitySpawnable*> (curr_cell);
+            if (casted_curr_cell->get_entity_on_cell() && dynamic_cast<Stairway> (casted_curr_cell->get_entity_on_cell())) {
+                chamber->set_has_stairway(true);
+                continue;
+            }
+            if (casted_curr_cell && casted_curr_cell->get_root_chamber()) {
+                casted_curr_cell->set_root_chamber(chamber);
+                chamber->emplace_entityspawnable(casted_curr_cell);
+                find_all_cell_in_chamber(floor, curr_cell, chamber);
+            } else {
+                Wall* casted_curr_wall = dynamic_cast<Wall*> (curr_cell);
+                if (casted_curr_wall) {
+                    if (!casted_curr_wall->get_has_chamber()) {
+                        casted_curr_wall->set_has_chamber(true);
+                    }
+                }
+            }
+        }
+    }
+    return;
 }
