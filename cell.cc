@@ -21,13 +21,6 @@ bool Cell::get_entity_spawnable() {
   return this->entity_spawnable;
 }
 
-bool Cell::get_player_walkable() {
-  return this->player_walkable;
-}
-bool Cell::get_entity_spawnable() {
-  return this->entity_spawnable;
-}
-
 // setters
 void Cell::set_root_floor(Floor* root_floor) {
   this->root_floor = root_floor;
