@@ -3,7 +3,7 @@
 using namespace std;
 
 NPC::NPC(int atk, int def, int hp, char sym, string faction, int tile_ID) :
-    entity {false, false, true, tile_ID}, 
+    Entity {false, false, true, tile_ID}, 
     atk{atk}, def{def}, hp{hp}, sym{sym}, faction{faction}, tile_ID{tile_ID} {};
 NPC::~NPC() {};
 

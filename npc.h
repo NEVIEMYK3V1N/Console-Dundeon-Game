@@ -11,7 +11,7 @@ using namespace std;
 //playable character class forward declaration
 class PC;
 
-class NPC: public entity{
+class NPC: public Entity{
     protected:
     int atk, def, hp, tile_ID;
     char sym;

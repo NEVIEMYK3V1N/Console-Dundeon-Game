@@ -4,13 +4,13 @@
 
 using namespace std;
 
-class entity {
+class Entity {
 protected:
     int tile_ID;
     bool gold, pot, NPC;
 public:
-    entity(bool gold, bool pot, bool NPC, int tile_ID);
-    virtual ~entity();
+    Entity(bool gold, bool pot, bool NPC, int tile_ID);
+    virtual ~Entity();
     bool is_gold() const;
     bool is_pot() const;
     bool is_NPC() const;
@@ -21,7 +21,7 @@ public:
 
 
 
-class item : public entity {
+class item : public Entity {
 public:
     item(bool gold, bool pot, bool NPC, int tile_ID);
     virtual ~item();

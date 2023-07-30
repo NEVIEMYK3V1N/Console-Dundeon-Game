@@ -340,6 +340,14 @@ void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* cha
     return;
 }
 
+// calculate damage using attacker's atk value and defender's def value
+int calculate_dmg(int atk, int def) {
+    double numerator = 100;
+    double def_src = 100 + def;
+    int dmg = ceil((numerator / def_src) * atk);
+    return dmg;
+}
+
 
 // process available NPC action
 void process_NPC_action(NPC* npc, Floor* floor) {
@@ -363,7 +371,6 @@ void process_NPC_action(NPC* npc, Floor* floor) {
     }
 
     // find if any adjacent cell has a player present and attack if there are
-    bool attacked = false;
     int atk_left = 1;
     for (int i = 0; i < adj_tiles.size(); ++i) {
         PlayerWalkableCell* casted = dynamic_cast<PlayerWalkableCell*>(adj_tiles[i]);
@@ -371,7 +378,6 @@ void process_NPC_action(NPC* npc, Floor* floor) {
         if (player != nullptr) {
             // if merchant and not aggro
             if (npc->get_sym() == 'M' || player->get_merch_stat() == true) { break;} 
-            attacked = true;
             int atk = npc->get_atk();
             int def = player->get_def();
             int dmg = calculate_dmg(atk, def);
@@ -407,21 +413,40 @@ void process_NPC_action(NPC* npc, Floor* floor) {
                 }
                 --atk_left;
             }
-            break;
+            return;
         }  
     }
 
-    
+    // move NPC if no player adjacent
+    vector<EntitySpawnable*> available_tile;
+    for (int i = 0; i < adj_tiles.size(); ++i) {
+        if (adj_tiles[i]->get_entity_spawnable()) {
+            EntitySpawnable* casted = dynamic_cast<EntitySpawnable*>(adj_tiles[i]);
+            // check if tile is empty
+            if (casted->get_open_to_entity()) {
+                available_tile.push_back(casted);
+            }
+        }
+    }
+    int options = available_tile.size();
+    // if no move is available for NPC
+    if (options == 0) {
+        return;
+    }
+    srand(time(0));
+    int chosen = rand() % options;
+    int new_ID = available_tile[chosen]->get_index();
+    EntitySpawnable* curr_tile = dynamic_cast<EntitySpawnable*>(floor->get_cell_at_index(npc->get_tile_ID()));
+    curr_tile->set_entity_on_cell(nullptr);
+    curr_tile->set_open_to_entity(true);
+    npc->set_tile_ID(new_ID);
+    available_tile[chosen]->set_entity_on_cell(npc);
+    available_tile[chosen]->set_open_to_entity(false);
 }
 
 
 
-int calculate_dmg(int atk, int def) {
-    double numerator = 100;
-    double def_src = 100 + def;
-    int dmg = ceil((numerator / def_src) * atk);
-    return dmg;
-}
+
 
 
 
@@ -440,8 +465,15 @@ const int ARG_NUM_WIDTH = 5;
 
 
 int main(int argc, char *argv[]) {
+    std::string filename;
+    // if a file argument is provided
+    if (argc > 1) {
+        filename = argv[1];
+    } else {
+        filename = "empty";
+    }
     
-    std::string filename = argv[ARG_NUM_FILENAME];
+    
     int num_floors = NUM_FLOORS;
     int num_players = NUM_PLAYERS;
     int map_height = DEFAULT_HEIGHT;
@@ -449,7 +481,7 @@ int main(int argc, char *argv[]) {
     int num_chambers = DEFAULT_CHAMBER_ON_FLOOR;
 
     Game* game = nullptr;
-    PC* pc = new PC();
+    PC* pc = nullptr;
 
     if (argv[ARG_NUM_READY_MAP]) {
         if (argv[ARG_NUM_NUMFLOORS]) {
@@ -485,7 +517,7 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-        // spawn Entities and PC
+        // spawn Entities and PC 
     }
     
     string cmd;
