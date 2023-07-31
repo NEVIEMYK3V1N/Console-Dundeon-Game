@@ -2,8 +2,7 @@
 #define PLAYERWALKABLE_H
 
 #include "cell.h"
-
-class PC;
+#include "pc.h"
 
 class PlayerWalkableCell : public Cell {
  protected:
