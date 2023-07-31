@@ -1,0 +1,26 @@
+Entities:
+	NPC:
+		human(int tile_ID);
+		dwarf(int tile_ID);
+		elf(int tile_ID);
+		orcs(int tile_ID);
+		merchat(int tile_ID);
+		halfing(int tile_ID);
+		dragon is subject to change
+	PC:
+		shade(int tile_ID);
+		drow(int tile_ID);
+		vampire(int tile_ID);
+		troll(int tile_ID);
+		goblin(int tile_ID);
+	item:
+		potion:
+			potionHP(bool eff, int tile_ID);
+			potionAtk(bool eff, int tile_ID);
+			potionDef(bool eff, int tile_ID);
+		treasure:
+			treGround(int val, int tile_ID, string size);
+			// string size does not really matter, just the name of the tresure
+			// and not being used for any functions
+
+			treDragon is subject to change

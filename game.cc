@@ -76,3 +76,8 @@ Game::Game(int num_floors, int num_players) : num_players{num_players}, num_floo
 void Game::emplace_floor(std::unique_ptr<Floor> floor) {
     this->all_floors.emplace_back(floor);
 }
+
+void Game::set_pc(PC* new_pc) {
+    (this->pc).reset();
+    this->pc = std::make_unique<PC>(new_pc);
+}

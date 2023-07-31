@@ -97,3 +97,11 @@ void Floor::emplace_chamber(std::unique_ptr<ChamberInterior> ci) {
 int Floor::get_num_cells() {
     return this->height * this->width;
 }
+
+PC* Floor::get_pc_on_floor() {
+    return this->pc_on_floor;
+}
+
+void Floor::set_pc_on_floor(PC* pc_on_floor) {
+    this->pc_on_floor = pc_on_floor;
+}

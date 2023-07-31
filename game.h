@@ -50,6 +50,8 @@ class Game {
     //void set_cmdInt(CmdInterpreter* cmdInt);
 
     void emplace_floor(std::unique_ptr<Floor> floor);
+
+    void set_pc(PC* new_pc);
 };
 
 #endif

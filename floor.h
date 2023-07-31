@@ -58,6 +58,7 @@ class Floor {
   int get_floor_level();
   int get_width();
   int get_height();
+  PC* get_pc_on_floor();
 
   Entity* get_entity_at_index(int index);
   Cell* get_cell_at_index(int index);
@@ -71,6 +72,7 @@ class Floor {
   void set_floor_level(int floor_level);
   void set_width(int width);
   void set_height(int height);
+  void set_pc_on_floor(PC* pc_on_floor);
 };
 
 #endif
