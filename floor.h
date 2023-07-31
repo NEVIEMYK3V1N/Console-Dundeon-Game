@@ -47,6 +47,7 @@ class Floor {
   //void move_all_entities();
 
   Floor(PC* pc, int height, int width, int floor_level, int num_stairway = 0, int num_potions = 0, int num_gold = 0, int num_enemy = 0);
+  ~Floor();
 
   //void emplace_cell(std::unique_ptr<Cell> cell);
   //void emplace_entity(std::unique_ptr<Entity> entity);

@@ -88,3 +88,11 @@ void Game::set_pc(PC* new_pc) {
     //this->pc = std::make_unique<PC>(new_pc);
     this->pc = new_pc;
 }
+
+Game::~Game() {
+    free(this->pc);
+    //std::vector<std::unique_ptr<Floor>> all_floors;
+    for(int i = 0; i < (this->all_floors).size(); i++) {
+        free(this->all_floors[i]);
+    }
+}

@@ -27,7 +27,7 @@ class Game {
 
     //Game(int num_floors, int num_players, CmdInterpreter* cmdInt);
     Game(int num_floors, int num_players);
-    //~Game();
+    ~Game();
     //Game(const Game &other);
     //Game &operator=(const Game &other);
     //Game(const Game &&other);

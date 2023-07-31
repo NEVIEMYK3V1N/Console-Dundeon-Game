@@ -109,3 +109,15 @@ PC* Floor::get_pc_on_floor() {
 void Floor::set_pc_on_floor(PC* pc_on_floor) {
     this->pc_on_floor = pc_on_floor;
 }
+
+Floor::~Floor() {
+    for (int i = 0; i < this->entities_on_floor.size(); i++) {
+        free(this->entities_on_floor[i]);
+    }
+    for (int i = 0; i < this->map.size(); i++) {
+        free(this->map[i]);
+    }
+    for (int i = 0; i < this->chambers_on_floor.size(); i++) {
+        free(this->chambers_on_floor[i]);
+    }
+}
