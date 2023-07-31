@@ -52,7 +52,7 @@ void Game::set_game_on(bool game_on) {
 Game::Game(int num_floors, int num_players) : num_players{num_players}, num_floors{num_floors} {
     this->curr_floor = 0;
     this->game_on = true;
-    PC* new_pc = new PC();
+    PC* new_pc = nullptr;
     this->pc = std::make_unique<PC> (new_pc);
     //for (int i = 0; i < num_players; i++) {
     //    PC* pc = new PC();

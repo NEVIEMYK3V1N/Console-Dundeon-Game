@@ -67,7 +67,7 @@ void Floor::set_height(int height) {
     this->height = height;
 }
 
-
+/*
 Floor::Floor(std::string file_name, int num_stairway, int num_potions,
                 int num_gold, int num_enemy, int floor_level, PC* pc)
     : num_stairway {num_stairway}, num_potions {num_potions}, num_gold {num_gold}, 
@@ -81,6 +81,7 @@ Floor::Floor(std::string file_name, int num_stairway, int num_potions,
 
     //this->player_cells = {};
 }
+*/
 
 void Floor::emplace_cell(std::unique_ptr<Cell> cell) {
     (this->map).emplace_back(cell);
