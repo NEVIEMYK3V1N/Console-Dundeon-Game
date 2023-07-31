@@ -841,6 +841,8 @@ int main(int argc, char *argv[]) {
     game = new Game(num_floors, num_players);
     bool need_random_gen = read_entity_map_file(game, filename, map_width, map_height, num_floors);
 
+    
+    
     //Floor* curr_floor_playing = game->get_floor_at(current_floor_playing_index);
     //render_map(curr_floor_playing); 
     //Floor* curr_floor_playing = game->get_floor_at(1);
@@ -850,6 +852,12 @@ int main(int argc, char *argv[]) {
     Floor* flr = game->get_floor_at(0);
     flr->set_pc_on_floor(pc);
 
+    NPC* ene = new orcs(246);
+    FloorTile* tile = dynamic_cast<FloorTile*>(flr->get_cell_at_index(246));
+    tile->set_entity_on_cell(ene);
+     render_map(flr);
+     process_NPC_action(ene, flr);
+     render_map(flr);
     /*
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < flr->get_height() * flr->get_width() - 1; ++j) {
