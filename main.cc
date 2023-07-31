@@ -181,57 +181,159 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == RH) {
                     potionHP *pot = new potionHP(true, index);
-                    //FloorTile *ft = new FloorTile(c, index);
-                    //ft->set_entity_on_index(dynamic_cast<Entity*> (pot));
-                    //floor->emplace_cell(make_unique<FloorTile> (*ft));
-                    //floor->emplace_entity(make_unique<Entity> (*pot));
-                    //contain_entity = true;
-                    //index++;
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
+                    //NPC* ene = new orcs(246);
+                    //FloorTile* tile = dynamic_cast<FloorTile*>(flr->get_cell_at_index(246));
+                    //tile->set_entity_on_cell(ene);
+
                     floor->set_num_potions(floor->get_num_potions() + 1);
-                    read_in_entity(floor, pot, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+
+                    pot = nullptr;
+                    ft = nullptr;
+                    //read_in_entity(floor, pot, c, index, contain_entity);
                 }
                 else if (c == BA) {
                     potionAtk *pot = new potionAtk(true, index);
+                    //floor->set_num_potions(floor->get_num_potions() + 1);
+                    //read_in_entity(floor, pot, c, index, contain_entity);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    
                     floor->set_num_potions(floor->get_num_potions() + 1);
-                    read_in_entity(floor, pot, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+
+                    pot = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == BD) {
                     potionDef *pot = new potionDef(true, index);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_potions(floor->get_num_potions() + 1);
-                    read_in_entity(floor, pot, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+                    //read_in_entity(floor, pot, c, index, contain_entity);
+
+                    pot = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == PH) {
                     potionHP *pot = new potionHP(false, index);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_potions(floor->get_num_potions() + 1);
-                    read_in_entity(floor, pot, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+                    //read_in_entity(floor, pot, c, index, contain_entity);
+
+                    pot = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == WA) {
                     potionAtk *pot = new potionAtk(false, index);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_potions(floor->get_num_potions() + 1);
-                    read_in_entity(floor, pot, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+                    //read_in_entity(floor, pot, c, index, contain_entity);
+
+                    pot = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == WD) {
                     potionDef *pot = new potionDef(false, index);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_potions(floor->get_num_potions() + 1);
-                    read_in_entity(floor, pot, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+                    //read_in_entity(floor, pot, c, index, contain_entity);
+
+                    pot = nullptr;
+                    ft = nullptr;
+                    
                 }
                 else if (c == NGP) {
                     treGround *normal_pile_gold = new treGround(NGP_VAL, index, NGP_MSG);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(normal_pile_gold);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_gold(floor->get_num_gold() + 1);
-                    read_in_entity(floor, normal_pile_gold, c, index, contain_entity);
+                    //read_in_entity(floor, normal_pile_gold, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+
+                    normal_pile_gold = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == SH) {
                     treGround *small_hoard = new treGround(SH_VAL, index, SH_MSG);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(small_hoard);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_gold(floor->get_num_gold() + 1);
-                    read_in_entity(floor, small_hoard, c, index, contain_entity);
+                    //read_in_entity(floor, small_hoard, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+
+                    small_hoard = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == MH) {
                     treGround *merchant_hoard = new treGround(MH_VAL, index, MC_MSG);
-                    read_in_entity(floor, merchant_hoard, c, index, contain_entity);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(merchant_hoard);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
+                    //floor->set_num_gold(floor->get_num_gold() + 1);
+                    //read_in_entity(floor, merchant_hoard, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+
+                    merchant_hoard = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == DH) {
                     treDragon * td = new treDragon(DH_VAL, index);
-                    read_in_entity(floor, td, c, index, contain_entity);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(td);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    
+                    floor->set_num_gold(floor->get_num_gold() + 1);
+                    index++;
+                    contain_entity = true;
+                    //read_in_entity(floor, td, c, index, contain_entity);
+
+                    td = nullptr;
+                    ft = nullptr;
                 }
 
                 else if (c == PLAYER) {
@@ -245,54 +347,141 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     game->set_pc(pc);
                     contain_player = true;
                     index++;
+
+                    pc = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == STAIRWAY) {
                     Stairway *stw = new Stairway(index);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(stw);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
                     floor->set_num_stairway(floor->get_num_stairway() + 1);
-                    read_in_entity(floor, stw, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+                    //read_in_entity(floor, stw, c, index, contain_entity);
+
+                    stw = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == ENEMY_HUMAN_RENDER) {
                     human *hm = new human(index);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(hm);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    read_in_entity(floor, hm, c, index, contain_entity);
+                    //read_in_entity(floor, hm, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+
+                    hm = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == ENEMY_DWARF_RENDER) {
                     dwarf *dw = new dwarf(index);
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(dw);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    read_in_entity(floor, dw, c, index, contain_entity);
+                    //read_in_entity(floor, dw, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+
+                    dw = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == ENEMY_ELF_RENDER) {
                     elf *ef = new elf(index);
+
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(ef);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    read_in_entity(floor, ef, c, index, contain_entity);
+                    //read_in_entity(floor, ef, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+
+                    ef = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == ENEMY_ORC_RENDER) {
                     orcs *oc = new orcs(index);
+
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(oc);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    read_in_entity(floor, oc, c, index, contain_entity);
+                    //read_in_entity(floor, oc, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+
+                    oc = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == ENEMY_MERCHANT_RENDER) {
                     merchant *mr = new merchant(index);
+
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(mr);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    read_in_entity(floor, mr, c, index, contain_entity);
+                    //read_in_entity(floor, mr, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+
+                    mr = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == ENEMY_HALFLING_RENDER) {
                     halfling *hf = new halfling(index);
+
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(hf);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    read_in_entity(floor, hf, c, index, contain_entity);
+                    //read_in_entity(floor, hf, c, index, contain_entity);
+                    index++;
+                    contain_entity = true;
+
+                    hf = nullptr;
+                    ft = nullptr;
                 }
                 else if (c == ENEMY_DRAGON_RENDER) {
                     dragon *dr = new dragon(index);
+
+                    FloorTile *ft = new FloorTile(c, index);
+                    floor->emplace_cell(ft);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(dr);
+                    dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    read_in_entity(floor, dr, c, index, contain_entity);
+                    //read_in_entity(floor, dr, c, index, contain_entity);
                     unbounded_drags.emplace_back(dr);
+                    index++;
+                    contain_entity = true;
+
+                    dr = nullptr;
+                    ft = nullptr;
                 } else {
                     //std::cout << "guard reached" << std::endl;
                 }
             }
         }
         
-        for (int i = 0; i < unbounded_drags.size(); i++) {
+        /*for (int i = 0; i < unbounded_drags.size(); i++) {
             bool top = true;
             bool left = true;
             bool right = true;
@@ -342,10 +531,12 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
             }
         }
+        */
 
 
         //game->emplace_floor(std::make_unique<Floor>(floor));
         game->emplace_floor(floor);
+        floor = nullptr;
     }
     //std::cout << "read terminated" << std::endl;
     return (contain_player || contain_entity);
