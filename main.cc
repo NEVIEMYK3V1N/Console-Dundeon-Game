@@ -136,27 +136,32 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 char c = s[w];
                 if (c == WALL_HORIZONTAL || WALL_VERTICAL) {
                     Wall *wall = new Wall(c, index);
-                    floor->emplace_cell(make_unique<Wall> (*wall));
+                    //floor->emplace_cell(make_unique<Wall> (*wall));
+                    floor->emplace_cell(wall);
                     index++;
                 } 
                 else if (c == VOID_CELL) {
                     VoidCell *vc = new VoidCell(c, index);
-                    floor->emplace_cell(make_unique<VoidCell> (*vc));
+                    //floor->emplace_cell(make_unique<VoidCell> (*vc));
+                    floor->emplace_cell(vc);
                     index++;
                 }
                 else if (c == FLOOR_TILE) {
                     FloorTile *ft = new FloorTile(c, index);
-                    floor->emplace_cell(make_unique<FloorTile> (*ft));
+                    //floor->emplace_cell(make_unique<FloorTile> (*ft));
+                    floor->emplace_cell(ft);
                     index++;
                 }
                 else if (c == DOORWAY) {
                     Doorway *dw = new Doorway(c, index);
-                    floor->emplace_cell(make_unique<Doorway> (*dw));
+                    //floor->emplace_cell(make_unique<Doorway> (*dw));
+                    floor->emplace_cell(dw);
                     index++;
                 }
                 else if (c == PASSAGE) {
                     Passage *psg = new Passage(c, index);
-                    floor->emplace_cell(make_unique<Passage> (*psg));
+                    //floor->emplace_cell(make_unique<Passage> (*psg));
+                    floor->emplace_cell(psg);
                     index++;
                 }
                 else if (c == RH) {
@@ -218,7 +223,9 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     PC* pc = new shade(index);
                     FloorTile *ft = new FloorTile(c, index);
                     ft->set_player_on_cell(pc);
-                    floor->emplace_cell(make_unique<FloorTile> (*ft));
+                    //floor->emplace_cell(make_unique<FloorTile> (*ft));
+                    floor->emplace_cell(ft);
+
                     floor->set_pc_on_floor(pc);
                     game->set_pc(pc);
                     contain_player = true;
@@ -319,7 +326,8 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
             }
         }
         
-        game->emplace_floor(std::make_unique<Floor>(floor));
+        //game->emplace_floor(std::make_unique<Floor>(floor));
+        game->emplace_floor(floor);
     }
     return (contain_player || contain_entity);
 }
@@ -380,8 +388,10 @@ void read_in_entity(Floor* floor, Entity* entity, char &c, int &index, bool &con
     FloorTile *ft = new FloorTile(c, index);
     ft->set_entity_on_cell(entity);
     ft->set_open_to_entity(false);
-    floor->emplace_cell(make_unique<FloorTile> (*ft));
-    floor->emplace_entity(make_unique<Entity> (*entity));
+    //floor->emplace_cell(make_unique<FloorTile> (*ft));
+    floor->emplace_cell(ft);
+    //floor->emplace_entity(make_unique<Entity> (*entity));
+    floor->emplace_entity(entity);
     contain_entity = true;
     index++;
 }
@@ -414,7 +424,8 @@ void determine_chambers(Floor* floor, int num_chambers = 6) {
 
     for (int i = 0; i < num_chambers; i++) {
         ChamberInterior *ci = new ChamberInterior(i, floor);
-        floor->emplace_chamber(make_unique<ChamberInterior>(*ci));
+        //floor->emplace_chamber(make_unique<ChamberInterior>(*ci));
+        floor->emplace_chamber(ci);
     }
 
     for(int h = 0; h < floor->get_height(); h++) {
@@ -691,7 +702,8 @@ void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairw
             cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
             Stairway* stw = new Stairway(cell_index);
             attach_entity_to_cell(floor, cell_index, stw);
-            floor->emplace_entity(make_unique<Stairway>(stw));
+            //floor->emplace_entity(make_unique<Stairway>(stw));
+            floor->emplace_entity(stw);
             floor->set_num_stairway(floor->get_num_stairway() + 1);
             floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
         }
@@ -722,7 +734,8 @@ void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairw
                 pot = new potionDef(false, cell_index);
             }
             attach_entity_to_cell(floor, cell_index, pot);
-            floor->emplace_entity(make_unique<potion>(pot));
+            //floor->emplace_entity(make_unique<potion>(pot));
+            floor->emplace_entity(pot);
             floor->set_num_potions(floor->get_num_potions() + 1);
             floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
         }
@@ -738,12 +751,18 @@ void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairw
             }
             cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
             int gold_type = rand() % TYPES_OF_GOLD;
-            treGround* gold = nullptr;
-            if (gold_type == SH_SPAWN) {
-                gold = new treGround(SH_VAL, cell_index, SH_MSG);
-            } else if (gold_type) {
-                
+            if (gold_type == DH_SPAWN) {
+                treDragon* drag_gold = new treDragon(DH_VAL, cell_index);
+                //dragon *drag = new
+            } else {
+                treGround* gold = nullptr;
+                if (gold_type == SH_SPAWN) {
+                    gold = new treGround(SH_VAL, cell_index, SH_MSG);
+                } else if (gold_type == NGP_SPAWN) {
+                    gold = new treGround(NGP_VAL, cell_index, NGP_MSG);
+                }
             }
+            
         }
 
         // generate enemy
@@ -773,7 +792,8 @@ void determine_all_chambers(Game *game, int num_chambers) {
                     if(is_top_left_unchecked_wall(curr_floor, curr_cell)) {
                         ChamberInterior* curr_chamber = new ChamberInterior(chamber_index, curr_floor);
                         find_all_cell_in_chamber(curr_floor, curr_cell, curr_chamber);
-                        curr_floor->emplace_chamber(std::make_unique<ChamberInterior>(curr_chamber));
+                        //curr_floor->emplace_chamber(std::make_unique<ChamberInterior>(curr_chamber));
+                        curr_floor->emplace_chamber(curr_chamber);
                         chamber_index++;
                     }
                 }

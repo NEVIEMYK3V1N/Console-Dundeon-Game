@@ -33,15 +33,18 @@ int Floor::get_height() {
 
 Entity* Floor::get_entity_at_index(int index) {
     // NEEDED - error check range
-    return (this->entities_on_floor[index]).get();
+    // return (this->entities_on_floor[index]).get();
+    return this->entities_on_floor[index];
 }
 Cell* Floor::get_cell_at_index(int index) {
     // NEEDED - error check range
-    return (this->map[index]).get();
+    // return (this->map[index]).get();
+    return this->map[index];
 }
 ChamberInterior* Floor::get_chamber_at_index(int index) {
     // NEEDED - error check range
-    return (this->chambers_on_floor[index]).get();
+    // return (this->chambers_on_floor[index]).get();
+    return this->chambers_on_floor[index];
 }
 
 int Floor::get_num_chambers() {
@@ -71,16 +74,28 @@ void Floor::set_height(int height) {
     this->height = height;
 }
 
-void Floor::emplace_cell(std::unique_ptr<Cell> cell) {
+//void Floor::emplace_cell(std::unique_ptr<Cell> cell) {
+//    (this->map).emplace_back(cell);
+//}
+
+void Floor::emplace_cell(Cell* cell) {
     (this->map).emplace_back(cell);
 }
 
-void Floor::emplace_entity(std::unique_ptr<Entity> entity) {
-    (this->entities_on_floor).emplace_back(entity);
+//void Floor::emplace_entity(std::unique_ptr<Entity> entity) {
+//   (this->entities_on_floor).emplace_back(entity);
+//}
+
+void Floor::emplace_entity(Entity* entity) {
+   (this->entities_on_floor).emplace_back(entity);
 }
 
-void Floor::emplace_chamber(std::unique_ptr<ChamberInterior> ci) {
-    (this->entities_on_floor).emplace_back(ci);
+//void Floor::emplace_chamber(std::unique_ptr<ChamberInterior> ci) {
+//    (this->chambers_on_floor).emplace_back(ci);
+//}
+
+void Floor::emplace_chamber(ChamberInterior* ci) {
+    (this->chambers_on_floor).emplace_back(ci);
 }
 
 int Floor::get_num_cells() {

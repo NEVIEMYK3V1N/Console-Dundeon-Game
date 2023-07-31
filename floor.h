@@ -22,9 +22,13 @@ class Floor {
   int height;
   //std::vector<PC*> pc_on_floor;
   PC* pc_on_floor;
-  std::vector<std::unique_ptr<Entity>> entities_on_floor;
-  std::vector<std::unique_ptr<Cell>> map;
-  std::vector<std::unique_ptr<ChamberInterior>> chambers_on_floor;
+  //std::vector<std::unique_ptr<Entity>> entities_on_floor;
+  //std::vector<std::unique_ptr<Cell>> map;
+  //std::vector<std::unique_ptr<ChamberInterior>> chambers_on_floor;
+
+  std::vector<Entity*> entities_on_floor;
+  std::vector<Cell*> map;
+  std::vector<ChamberInterior*> chambers_on_floor;
 
   //std::vector<playerWalkableCell*> player_cells;
 
@@ -44,9 +48,13 @@ class Floor {
 
   Floor(PC* pc, int height, int width, int floor_level, int num_stairway = 0, int num_potions = 0, int num_gold = 0, int num_enemy = 0);
 
-  void emplace_cell(std::unique_ptr<Cell> cell);
-  void emplace_entity(std::unique_ptr<Entity> entity);
-  void emplace_chamber(std::unique_ptr<ChamberInterior> ci);
+  //void emplace_cell(std::unique_ptr<Cell> cell);
+  //void emplace_entity(std::unique_ptr<Entity> entity);
+  //void emplace_chamber(std::unique_ptr<ChamberInterior> ci);
+
+  void emplace_cell(Cell* cell);
+  void emplace_entity(Entity* entity);
+  void emplace_chamber(ChamberInterior* ci);
 
   int get_num_cells();
 

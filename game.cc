@@ -23,12 +23,14 @@ bool Game::get_game_on() {
 //}
 
 PC* Game::get_pc() {
-    return (this->pc).get();
+    return this->pc;
+    //return (this->pc).get();
 }
 
 Floor* Game::get_floor_at(int index) {
     // NEED - error check range
-    return (this->all_floors[index]).get();
+    // return (this->all_floors[index]).get();
+    return (this->all_floors[index]);
 }
 
 // setters
@@ -52,8 +54,9 @@ void Game::set_game_on(bool game_on) {
 Game::Game(int num_floors, int num_players) : num_players{num_players}, num_floors{num_floors} {
     this->curr_floor = 0;
     this->game_on = true;
-    PC* new_pc = nullptr;
-    this->pc = std::make_unique<PC> (new_pc);
+    this->pc = nullptr;
+    //PC* new_pc = nullptr;
+    //this->pc = std::make_unique<PC> (new_pc);
     //for (int i = 0; i < num_players; i++) {
     //    PC* pc = new PC();
     //    (this->pc).emplace_back(std::make_unique<PC> (pc));
@@ -73,11 +76,15 @@ Game::Game(int num_floors, int num_players) : num_players{num_players}, num_floo
 //    (this->all_floors).emplace_back(std::make_unique<Floor> (*floor));
 //}
 
-void Game::emplace_floor(std::unique_ptr<Floor> floor) {
+//void Game::emplace_floor(std::unique_ptr<Floor> floor) {
+//    this->all_floors.emplace_back(floor);
+//}
+void Game::emplace_floor(Floor* floor) {
     this->all_floors.emplace_back(floor);
 }
 
 void Game::set_pc(PC* new_pc) {
-    (this->pc).reset();
-    this->pc = std::make_unique<PC>(new_pc);
+    //(this->pc).reset();
+    //this->pc = std::make_unique<PC>(new_pc);
+    this->pc = new_pc;
 }
