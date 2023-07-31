@@ -35,6 +35,10 @@ int PC::get_gold() const {
     return gold;
 }
 
+char PC::get_sym() const {
+    return sym;
+}
+
 void PC::mod_gold(int val) {
     gold += val;
 }
@@ -119,6 +123,10 @@ int PotionEffect::get_tile_ID() const {
 
 int PotionEffect::get_gold() const {
     return player->get_gold();
+}
+
+char PotionEffect::get_sym() const {
+    return player->get_sym();
 }
 
 void PotionEffect::mod_gold(int val) {

@@ -4,6 +4,8 @@
 
 using namespace std;
 
+class dragon;
+
 class Entity {
 protected:
     int tile_ID;
@@ -65,12 +67,11 @@ class treasure: public item {
 protected:
     int val;
     string size;
-    bool dragon;
+    bool is_dragon;
 public:
-    treasure(int val, int tile_ID, string size, bool dragon);
+    treasure(int val, int tile_ID, string size, bool is_dragon);
     ~treasure();
-    bool dragon_alive() const;
-    void set_dragon(bool val);
+    bool is_treDragon() const;
     PC* consume_item (PC* player) override;
 };
 
@@ -81,8 +82,11 @@ public:
 };
 
 class treDragon: public treasure {
+    dragon* guard;
 public:
     treDragon(int val, int tile_ID);
     ~treDragon();
+    dragon* get_guard() const;
+    void set_guard(dragon* guard);
 };
 

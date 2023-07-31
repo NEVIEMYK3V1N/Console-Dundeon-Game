@@ -22,6 +22,7 @@ public:
     virtual string get_faction() const;
     virtual int get_tile_ID() const;
     virtual int get_gold() const;
+    virtual char get_sym() const;
     virtual void mod_gold(int val);
     virtual void set_tile_ID(int val);
     virtual void set_miss(bool val);
@@ -82,6 +83,7 @@ public:
     string get_faction() const override;
     int get_tile_ID() const override;
     int get_gold() const override;
+    char get_sym() const override;
     void mod_gold(int val) override;
     void set_tile_ID(int val) override;
     void set_miss(bool val) override;

@@ -80,17 +80,14 @@ PC* potionDef::consume_item(PC* player) {
 }
 
 
-treasure::treasure(int val, int tile_ID, string size, bool dragon) :
-    item{true, false, false, tile_ID}, val{val}, size{size}, dragon{dragon} {};
+treasure::treasure(int val, int tile_ID, string size, bool is_dragon) :
+    item{true, false, false, tile_ID}, val{val}, size{size}, is_dragon{is_dragon} {};
 treasure::~treasure() {};
 
-bool treasure::dragon_alive() const {
-    return dragon;
+bool treasure::is_treDragon() const {
+    return is_dragon;
 }
 
-void treasure::set_dragon(bool val) {
-    dragon = val;
-}
 
 PC* treasure::consume_item(PC* player) {
     player->mod_gold(val);
@@ -106,4 +103,10 @@ treDragon::treDragon(int val, int tile_ID) :
     treasure{val, tile_ID, "dragon_hoard", true} {};
 treDragon::~treDragon() {};
 
+dragon* treDragon::get_guard() const {
+    return guard;
+}
 
+void treDragon::set_guard(dragon* guard) {
+    this->guard = guard;
+}

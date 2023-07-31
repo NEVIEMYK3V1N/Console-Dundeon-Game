@@ -63,3 +63,7 @@ dragon::~dragon() {};
 int dragon::get_treasure_tild_ID() const {
     return treasure_tile_ID;
 }
+
+void dragon::set_treasure_tild_ID(int val) {
+    treasure_tile_ID = val;
+}
