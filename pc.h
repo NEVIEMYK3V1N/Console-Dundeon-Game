@@ -1,3 +1,6 @@
+#ifndef PC_H
+#define PC_H
+
 #include <iostream>
 #include <string>
 
@@ -104,4 +107,4 @@ public:
     int get_def() const override;
 };
 
-
+#endif

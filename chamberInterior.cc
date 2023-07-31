@@ -1,6 +1,6 @@
 #include "chamberInterior.h"
 
-ChamberInterior::ChamberInterior(int chamber_id, Floor* root_floor, int num_entities = 0, bool has_player = false)
+ChamberInterior::ChamberInterior(int chamber_id, Floor* root_floor, int num_entities, bool has_player)
     : chamber_id{chamber_id}, root_floor{root_floor}, num_entities{num_entities}, has_player{has_player} {
     this->interior_tiles = {};
 }

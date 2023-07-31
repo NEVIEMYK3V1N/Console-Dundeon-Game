@@ -58,7 +58,7 @@ char potion::get_sym() const {
     return 'P';
 }
 
-potionHP::potionHP(bool eff, int tile_ID, int val = 10) :
+potionHP::potionHP(bool eff, int tile_ID, int val) :
     potion{val, eff, "HP", tile_ID} {};
 potionHP::~potionHP() {};
 

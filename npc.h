@@ -67,7 +67,7 @@ class dragon: public NPC {
     public:
     dragon(int tile_ID, int treasure_tile_ID = -1);
     ~dragon();
-    int get_treasure_tild_ID() const {};
-    void set_treasure_tild_ID(int val) {};
+    int get_treasure_tild_ID() const;
+    void set_treasure_tild_ID(int val);
 };
 

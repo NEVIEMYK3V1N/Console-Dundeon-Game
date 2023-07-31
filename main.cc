@@ -83,17 +83,8 @@ const int SH_VAL = 1;
 const int MH_VAL = 4;
 const int DH_VAL = 6;
 
-const char STAIRWAY = '\\';
-const char ENEMY_HUMAN_RENDER = 'H';
-const char ENEMY_DWARF_RENDER = 'W';
-const char ENEMY_ELF_RENDER = 'E';
-const char ENEMY_ORC_RENDER = 'O';
-const char ENEMY_MERCHANT_RENDER = 'M';
-const char ENEMY_DRAGON_RENDER = 'D';
-const char ENEMY_HALFLING_RENDER = 'L';
-
 const int NUM_PLAYERS = 1;
-const int NUM_FLOORS = 1;
+const int NUM_FLOORS = 5;
 const int DEFAULT_WIDTH = 79;
 const int DEFAULT_HEIGHT = 25;
 const int DEFAULT_CHAMBER_ON_FLOOR = 5;
@@ -113,10 +104,28 @@ const int SH_SPAWN = 0;
 const int NGP_SPAWN = 1;
 const int DH_SPAWN = 2;
 
+const int DEFAULT_NUM_STAIRWAY = 1;
+const int DEFAULT_NUM_POTIONS = 10;
+const int DEFAULT_NUM_PLAYER = 1;
+const int DEFAULT_NUM_GOLD = 10;
+const int DEFAULT_NUM_ENEMY = 20;
+
 const std::string SH_MSG = "small";
 const std::string NGP_MSG = "normal";
 const std::string MC_MSG = "merchant";
 const std::string DH_MSG = "dragon";
+
+void read_in_entity(Floor* floor, Entity* entity, char &c, int &index, bool &contain_entity) {
+    FloorTile *ft = new FloorTile(c, index);
+    ft->set_entity_on_cell(entity);
+    ft->set_open_to_entity(false);
+    //floor->emplace_cell(make_unique<FloorTile> (*ft));
+    floor->emplace_cell(ft);
+    //floor->emplace_entity(make_unique<Entity> (*entity));
+    floor->emplace_entity(entity);
+    contain_entity = true;
+    index++;
+}
 
 bool read_entity_map_file(Game* game, std::string file_name, int map_width, int map_height, int num_floors) {
     std::ifstream f(file_name);
@@ -124,17 +133,25 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
     int index = 0;
     bool contain_entity = false;
     bool contain_player = false;
-    std::vector<dragon*> unbounded_drags = {};
+    std::vector<dragon*> unbounded_drags;
     PC* pc = game->get_pc();
 
     for (int numf = 0; numf < num_floors; numf++) {
+
+        std::cout << "first loop reach" << std::endl;
+
         Floor* floor = new Floor(pc, map_height, map_width, numf);
         for (int h = 0; h < map_height; h++) {
-            std::getline(std::cin, s);
+
+
+            std::getline(f, s);
             int len = s.length();
             for (int w = 0; w < map_width; w++) {
+
+                // index = w + h * map_height;
+                
                 char c = s[w];
-                if (c == WALL_HORIZONTAL || WALL_VERTICAL) {
+                if ((c == WALL_HORIZONTAL) || (c == WALL_VERTICAL)) {
                     Wall *wall = new Wall(c, index);
                     //floor->emplace_cell(make_unique<Wall> (*wall));
                     floor->emplace_cell(wall);
@@ -271,6 +288,8 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
                     read_in_entity(floor, dr, c, index, contain_entity);
                     unbounded_drags.emplace_back(dr);
+                } else {
+                    std::cout << "guard reached" << std::endl;
                 }
             }
         }
@@ -325,10 +344,12 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
             }
         }
-        
+
+
         //game->emplace_floor(std::make_unique<Floor>(floor));
         game->emplace_floor(floor);
     }
+    std::cout << "read terminated" << std::endl;
     return (contain_player || contain_entity);
 }
 
@@ -384,17 +405,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
 }
 */
 
-void read_in_entity(Floor* floor, Entity* entity, char &c, int &index, bool &contain_entity) {
-    FloorTile *ft = new FloorTile(c, index);
-    ft->set_entity_on_cell(entity);
-    ft->set_open_to_entity(false);
-    //floor->emplace_cell(make_unique<FloorTile> (*ft));
-    floor->emplace_cell(ft);
-    //floor->emplace_entity(make_unique<Entity> (*entity));
-    floor->emplace_entity(entity);
-    contain_entity = true;
-    index++;
-}
+
 
 void render_map(Floor* floor) {
     int width = floor->get_width();
@@ -413,38 +424,11 @@ void render_map(Floor* floor) {
                 std::cout << RED_TEXT;
             }
             std::cout << c;
-            std::cout << std::endl << RESET_TEXT;
+            std::cout << RESET_TEXT;
         }
+        std::cout << std::endl;
     }
     // NEED - render the character information below
-}
-
-void determine_chambers(Floor* floor, int num_chambers = 6) {
-    int curr_chamber = 0;
-
-    for (int i = 0; i < num_chambers; i++) {
-        ChamberInterior *ci = new ChamberInterior(i, floor);
-        //floor->emplace_chamber(make_unique<ChamberInterior>(*ci));
-        floor->emplace_chamber(ci);
-    }
-
-    for(int h = 0; h < floor->get_height(); h++) {
-        for(int w = 0; w < floor->get_width(); w++) {
-            Cell* curr_cell = floor->get_cell_at_index(h * floor->get_height() + w);
-            if (is_top_left_unchecked_wall(floor, curr_cell)) {
-                Wall* tl_wall = dynamic_cast<Wall*>(curr_cell);
-                if (tl_wall->get_has_chamber()) {
-                    continue;
-                }
-                tl_wall->set_has_chamber(true);
-                EntitySpawnable* tl_spawnable = dynamic_cast<EntitySpawnable*> (floor->get_cell_at_index((h + 1) * floor->get_height() + w + 1));
-                tl_spawnable->set_root_chamber(floor->get_chamber_at_index(curr_chamber));
-                floor->get_chamber_at_index(curr_chamber)->emplace_entityspawnable(tl_spawnable);
-                find_all_cell_in_chamber(floor, tl_spawnable, floor->get_chamber_at_index(curr_chamber));
-                curr_chamber++;
-            }
-        }
-    }
 }
 
 bool is_top_left_unchecked_wall(Floor* floor, Cell* cell) {
@@ -550,6 +534,35 @@ void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* cha
     }
     return;
 }
+
+void determine_chambers(Floor* floor, int num_chambers = 6) {
+    int curr_chamber = 0;
+
+    for (int i = 0; i < num_chambers; i++) {
+        ChamberInterior *ci = new ChamberInterior(i, floor);
+        //floor->emplace_chamber(make_unique<ChamberInterior>(*ci));
+        floor->emplace_chamber(ci);
+    }
+
+    for(int h = 0; h < floor->get_height(); h++) {
+        for(int w = 0; w < floor->get_width(); w++) {
+            Cell* curr_cell = floor->get_cell_at_index(h * floor->get_height() + w);
+            if (is_top_left_unchecked_wall(floor, curr_cell)) {
+                Wall* tl_wall = dynamic_cast<Wall*>(curr_cell);
+                if (tl_wall->get_has_chamber()) {
+                    continue;
+                }
+                tl_wall->set_has_chamber(true);
+                EntitySpawnable* tl_spawnable = dynamic_cast<EntitySpawnable*> (floor->get_cell_at_index((h + 1) * floor->get_height() + w + 1));
+                tl_spawnable->set_root_chamber(floor->get_chamber_at_index(curr_chamber));
+                floor->get_chamber_at_index(curr_chamber)->emplace_entityspawnable(tl_spawnable);
+                find_all_cell_in_chamber(floor, tl_spawnable, floor->get_chamber_at_index(curr_chamber));
+                curr_chamber++;
+            }
+        }
+    }
+}
+
 
 // calculate damage using attacker's atk value and defender's def value
 int calculate_dmg(int atk, int def) {
@@ -660,7 +673,7 @@ int get_cell_from_chamber(ChamberInterior* chamber) {
         return (chamber->get_tile_at(index))->get_index();
     }
     else {
-        get_cell_from_chamber(chamber);
+        return get_cell_from_chamber(chamber);
     }
 }
 
@@ -802,11 +815,7 @@ void determine_all_chambers(Game *game, int num_chambers) {
     }
 }
 
-const int DEFAULT_NUM_STAIRWAY = 1;
-const int DEFAULT_NUM_POTIONS = 10;
-const int DEFAULT_NUM_PLAYER = 1;
-const int DEFAULT_NUM_GOLD = 10;
-const int DEFAULT_NUM_ENEMY = 20;
+
 
 int main(int argc, char *argv[]) {
     std::string filename;
@@ -832,7 +841,8 @@ int main(int argc, char *argv[]) {
     bool need_random_gen = read_entity_map_file(game, filename, map_width, map_height, num_floors);
 
     Floor* curr_floor_playing = game->get_floor_at(current_floor_playing_index);
-    
+    render_map(curr_floor_playing); 
+    /*
     string cmd;
     cout << "Welcome to CC3K! Please enter the faction that you'd like to play." << endl;
     while (true) {
@@ -857,6 +867,7 @@ int main(int argc, char *argv[]) {
         }
         game->set_pc(pc);
     }
-    
+    */
+    delete game;
 
 }

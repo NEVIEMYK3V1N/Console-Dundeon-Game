@@ -12,7 +12,7 @@
 //    this->entity_spawnable = true;
 //}
 
-EntitySpawnable::EntitySpawnable(ChamberInterior* root_chamber = nullptr, Entity* entity_on_cell = nullptr, bool open_to_entity = true) 
+EntitySpawnable::EntitySpawnable(ChamberInterior* root_chamber, Entity* entity_on_cell, bool open_to_entity) 
     : PlayerWalkableCell{}, open_to_entity{open_to_entity}, root_chamber{root_chamber}, entity_on_cell{entity_on_cell} {
     this->entity_spawnable = true;
 }

@@ -1,3 +1,6 @@
+#ifndef ENTITY_H
+#define ENTITY_H
+
 #include <iostream>
 #include <string>
 #include "pc.h"
@@ -97,3 +100,4 @@ public:
     void set_guard(dragon* guard);
 };
 
+#endif

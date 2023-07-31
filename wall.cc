@@ -1,6 +1,7 @@
 #include "wall.h"
 
-Wall::Wall(char notation, int index, bool has_chamber = false) : BlockedCell{}, has_chamber{has_chamber} {
+Wall::Wall(char notation, int index, bool has_chamber) 
+    : BlockedCell{}, has_chamber{has_chamber} {
     this->notation = notation;
     this->index = index;
 }
