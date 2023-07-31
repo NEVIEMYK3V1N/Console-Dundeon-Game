@@ -108,6 +108,15 @@ const int PH_SPAWN = 3;
 const int WA_SPAWN = 4;
 const int WD_SPAWN = 5;
 
+const int TYPES_OF_GOLD = 3;
+const int SH_SPAWN = 0;
+const int NGP_SPAWN = 1;
+const int DH_SPAWN = 2;
+
+const std::string SH_MSG = "small";
+const std::string NGP_MSG = "normal";
+const std::string MC_MSG = "merchant";
+const std::string DH_MSG = "dragon";
 
 bool read_entity_map_file(Game* game, std::string file_name, int map_width, int map_height, int num_floors) {
     std::ifstream f(file_name);
@@ -187,23 +196,22 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     read_in_entity(floor, pot, c, index, contain_entity);
                 }
                 else if (c == NGP) {
-                    treGround *normal_pile_gold = new treGround(NGP_VAL, index, "normal");
+                    treGround *normal_pile_gold = new treGround(NGP_VAL, index, NGP_MSG);
                     floor->set_num_gold(floor->get_num_gold() + 1);
                     read_in_entity(floor, normal_pile_gold, c, index, contain_entity);
                 }
                 else if (c == SH) {
-                    treGround *small_hoard = new treGround(SH_VAL, index, "small");
+                    treGround *small_hoard = new treGround(SH_VAL, index, SH_MSG);
                     floor->set_num_gold(floor->get_num_gold() + 1);
                     read_in_entity(floor, small_hoard, c, index, contain_entity);
                 }
                 else if (c == MH) {
-                    treGround *merchant_hoard = new treGround(MH_VAL, index, "merchant");
+                    treGround *merchant_hoard = new treGround(MH_VAL, index, MC_MSG);
                     read_in_entity(floor, merchant_hoard, c, index, contain_entity);
                 }
-
-                // need change
                 else if (c == DH) {
-                    
+                    treDragon * td = new treDragon(DH_VAL, index);
+                    read_in_entity(floor, td, c, index, contain_entity);
                 }
 
                 else if (c == PLAYER) {
@@ -251,8 +259,6 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
                     read_in_entity(floor, hf, c, index, contain_entity);
                 }
-
-                // need change
                 else if (c == ENEMY_DRAGON_RENDER) {
                     dragon *dr = new dragon(index);
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
@@ -717,7 +723,39 @@ void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairw
                 pot = new potionDef(false, cell_index);
             }
             attach_entity_to_cell(floor, cell_index, pot);
-            //floor->emplace_entity(make)
+            floor->emplace_entity(make_unique<potion>(pot));
+            floor->set_num_potions(floor->get_num_potions() + 1);
+            floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
+        }
+
+        // generate gold
+        for (int i = 0; i < num_gold; i++) {
+            while(true) {
+                chamber_index = rand() % num_chambers;
+                if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
+                    continue;
+                }
+                break;
+            }
+            cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
+            int gold_type = rand() % TYPES_OF_GOLD;
+            treGround* gold = nullptr;
+            if (gold_type == SH_SPAWN) {
+                gold = new treGround(SH_VAL, cell_index, SH_MSG);
+            }
+        }
+
+        // generate enemy
+        for (int i = 0; i < num_enemy; i++) {
+            while(true) {
+                chamber_index = rand() % num_chambers;
+                if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
+                    continue;
+                }
+                break;
+            }
+            cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
+            int pot_type = rand() % TYPES_OF_POTIONS;
         }
     }
 }
