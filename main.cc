@@ -185,6 +185,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(pot);
 
                     //NPC* ene = new orcs(246);
                     //FloorTile* tile = dynamic_cast<FloorTile*>(flr->get_cell_at_index(246));
@@ -206,6 +207,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(pot);
                     
                     floor->set_num_potions(floor->get_num_potions() + 1);
                     index++;
@@ -220,6 +222,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(pot);
 
                     floor->set_num_potions(floor->get_num_potions() + 1);
                     index++;
@@ -235,6 +238,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(pot);
 
                     floor->set_num_potions(floor->get_num_potions() + 1);
                     index++;
@@ -250,6 +254,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(pot);
 
                     floor->set_num_potions(floor->get_num_potions() + 1);
                     index++;
@@ -265,6 +270,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(pot);
 
                     floor->set_num_potions(floor->get_num_potions() + 1);
                     index++;
@@ -281,6 +287,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(normal_pile_gold);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(normal_pile_gold);
 
                     floor->set_num_gold(floor->get_num_gold() + 1);
                     //read_in_entity(floor, normal_pile_gold, c, index, contain_entity);
@@ -296,6 +303,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(small_hoard);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(small_hoard);
 
                     floor->set_num_gold(floor->get_num_gold() + 1);
                     //read_in_entity(floor, small_hoard, c, index, contain_entity);
@@ -311,6 +319,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(merchant_hoard);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(merchant);
 
                     //floor->set_num_gold(floor->get_num_gold() + 1);
                     //read_in_entity(floor, merchant_hoard, c, index, contain_entity);
@@ -326,6 +335,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(td);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(td);
                     
                     floor->set_num_gold(floor->get_num_gold() + 1);
                     index++;
@@ -357,6 +367,8 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(stw);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(stw);
+
                     floor->set_num_stairway(floor->get_num_stairway() + 1);
                     index++;
                     contain_entity = true;
@@ -371,6 +383,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(hm);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(hm);
 
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
                     //read_in_entity(floor, hm, c, index, contain_entity);
@@ -386,6 +399,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(dw);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(dw);
 
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
                     //read_in_entity(floor, dw, c, index, contain_entity);
@@ -402,6 +416,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(ef);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(ef);
 
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
                     //read_in_entity(floor, ef, c, index, contain_entity);
@@ -418,6 +433,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(oc);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(oc);
 
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
                     //read_in_entity(floor, oc, c, index, contain_entity);
@@ -434,6 +450,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(mr);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(mr);
 
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
                     //read_in_entity(floor, mr, c, index, contain_entity);
@@ -450,6 +467,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(hf);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(hf);
 
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
                     //read_in_entity(floor, hf, c, index, contain_entity);
@@ -466,6 +484,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(dr);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    floor->emplace_entity(dr);
 
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
                     //read_in_entity(floor, dr, c, index, contain_entity);
