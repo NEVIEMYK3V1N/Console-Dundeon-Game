@@ -1,6 +1,6 @@
 #include "floor.h"
 
-Floor::Floor(PC* pc, int height, int width, int num_stairway = 0, int num_potions = 0, int num_gold = 0, int num_enemy = 0, int floor_level = 0)
+Floor::Floor(PC* pc, int height, int width, int floor_level, int num_stairway, int num_potions, int num_gold, int num_enemy)
     : num_stairway{num_stairway}, num_potions{num_potions}, num_gold{num_gold}, num_enemy{num_enemy}, floor_level{floor_level},
       width{width}, height{height}, pc_on_floor{pc} {
     this->entities_on_floor = {};
@@ -42,6 +42,10 @@ Cell* Floor::get_cell_at_index(int index) {
 ChamberInterior* Floor::get_chamber_at_index(int index) {
     // NEEDED - error check range
     return (this->chambers_on_floor[index]).get();
+}
+
+int Floor::get_num_chambers() {
+    return (this->chambers_on_floor).size();
 }
 
 // setters

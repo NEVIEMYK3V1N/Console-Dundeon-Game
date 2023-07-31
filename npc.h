@@ -65,7 +65,7 @@ class halfling: public NPC {
 class dragon: public NPC {
     int treasure_tile_ID;
     public:
-    dragon(int tile_ID, int treasure_tile_ID);
+    dragon(int tile_ID, int treasure_tile_ID = -1);
     ~dragon();
     int get_treasure_tild_ID() const {};
     void set_treasure_tild_ID(int val) {};

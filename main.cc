@@ -2,7 +2,7 @@
 #include "blockedCell.h"
 #include "cell.h"
 #include "chamberInterior.h"
-#include "cmdInterpreter.h"
+//#include "cmdInterpreter.h"
 #include "entitySpawnable.h"
 #include "floor.h"
 #include "game.h"
@@ -100,6 +100,14 @@ const int DEFAULT_CHAMBER_ON_FLOOR = 5;
 
 const int ARG_NUM_FILENAME = 1;
 
+const int TYPES_OF_POTIONS = 6;
+const int RH_SPAWN = 0;
+const int BA_SPAWN = 1;
+const int BD_SPAWN = 2;
+const int PH_SPAWN = 3;
+const int WA_SPAWN = 4;
+const int WD_SPAWN = 5;
+
 
 bool read_entity_map_file(Game* game, std::string file_name, int map_width, int map_height, int num_floors) {
     std::ifstream f(file_name);
@@ -111,7 +119,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
     PC* pc = game->get_pc();
 
     for (int numf = 0; numf < num_floors; numf++) {
-        Floor* floor = new Floor(pc, map_height, map_width);
+        Floor* floor = new Floor(pc, map_height, map_width, numf);
         for (int h = 0; h < map_height; h++) {
             std::getline(std::cin, s);
             int len = s.length();
@@ -150,38 +158,46 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     //floor->emplace_entity(make_unique<Entity> (*pot));
                     //contain_entity = true;
                     //index++;
+                    floor->set_num_potions(floor->get_num_potions() + 1);
                     read_in_entity(floor, pot, c, index, contain_entity);
                 }
                 else if (c == BA) {
                     potionAtk *pot = new potionAtk(true, index);
+                    floor->set_num_potions(floor->get_num_potions() + 1);
                     read_in_entity(floor, pot, c, index, contain_entity);
                 }
                 else if (c == BD) {
                     potionDef *pot = new potionDef(true, index);
+                    floor->set_num_potions(floor->get_num_potions() + 1);
                     read_in_entity(floor, pot, c, index, contain_entity);
                 }
                 else if (c == PH) {
                     potionHP *pot = new potionHP(false, index);
+                    floor->set_num_potions(floor->get_num_potions() + 1);
                     read_in_entity(floor, pot, c, index, contain_entity);
                 }
                 else if (c == WA) {
                     potionAtk *pot = new potionAtk(false, index);
+                    floor->set_num_potions(floor->get_num_potions() + 1);
                     read_in_entity(floor, pot, c, index, contain_entity);
                 }
                 else if (c == WD) {
                     potionDef *pot = new potionDef(false, index);
+                    floor->set_num_potions(floor->get_num_potions() + 1);
                     read_in_entity(floor, pot, c, index, contain_entity);
                 }
                 else if (c == NGP) {
-                    treGround *normal_pile_gold = new treGround(NGP_VAL, index);
+                    treGround *normal_pile_gold = new treGround(NGP_VAL, index, "normal");
+                    floor->set_num_gold(floor->get_num_gold() + 1);
                     read_in_entity(floor, normal_pile_gold, c, index, contain_entity);
                 }
                 else if (c == SH) {
-                    treGround *small_hoard = new treGround(SH_VAL, index);
+                    treGround *small_hoard = new treGround(SH_VAL, index, "small");
+                    floor->set_num_gold(floor->get_num_gold() + 1);
                     read_in_entity(floor, small_hoard, c, index, contain_entity);
                 }
                 else if (c == MH) {
-                    treGround *merchant_hoard = new treGround(MH_VAL, index);
+                    treGround *merchant_hoard = new treGround(MH_VAL, index, "merchant");
                     read_in_entity(floor, merchant_hoard, c, index, contain_entity);
                 }
 
@@ -201,37 +217,45 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     index++;
                 }
                 else if (c == STAIRWAY) {
-                    Stairway *stw = new Stairway();
+                    Stairway *stw = new Stairway(index);
+                    floor->set_num_stairway(floor->get_num_stairway() + 1);
                     read_in_entity(floor, stw, c, index, contain_entity);
                 }
                 else if (c == ENEMY_HUMAN_RENDER) {
                     human *hm = new human(index);
+                    floor->set_num_enemy(floor->get_num_enemy() + 1);
                     read_in_entity(floor, hm, c, index, contain_entity);
                 }
                 else if (c == ENEMY_DWARF_RENDER) {
                     dwarf *dw = new dwarf(index);
+                    floor->set_num_enemy(floor->get_num_enemy() + 1);
                     read_in_entity(floor, dw, c, index, contain_entity);
                 }
                 else if (c == ENEMY_ELF_RENDER) {
                     elf *ef = new elf(index);
+                    floor->set_num_enemy(floor->get_num_enemy() + 1);
                     read_in_entity(floor, ef, c, index, contain_entity);
                 }
                 else if (c == ENEMY_ORC_RENDER) {
                     orcs *oc = new orcs(index);
+                    floor->set_num_enemy(floor->get_num_enemy() + 1);
                     read_in_entity(floor, oc, c, index, contain_entity);
                 }
                 else if (c == ENEMY_MERCHANT_RENDER) {
                     merchant *mr = new merchant(index);
+                    floor->set_num_enemy(floor->get_num_enemy() + 1);
                     read_in_entity(floor, mr, c, index, contain_entity);
                 }
                 else if (c == ENEMY_HALFLING_RENDER) {
                     halfling *hf = new halfling(index);
+                    floor->set_num_enemy(floor->get_num_enemy() + 1);
                     read_in_entity(floor, hf, c, index, contain_entity);
                 }
 
                 // need change
                 else if (c == ENEMY_DRAGON_RENDER) {
                     dragon *dr = new dragon(index);
+                    floor->set_num_enemy(floor->get_num_enemy() + 1);
                     read_in_entity(floor, dr, c, index, contain_entity);
                     unbounded_drags.emplace_back(dr);
                 }
@@ -280,9 +304,9 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
 
                     int target_index = index + h * floor->get_height() + w;
                     treDragon* target_dh = dynamic_cast<treDragon*>(floor->get_cell_at_index(target_index));
-                    if (target_dh && !(target_dh->dragon)) {
-                        target_dh->dragon = unbounded_drags[i];
-                        unbounded_drags[i]->hoard = target_dh;
+                    if (target_dh && !(target_dh->get_guard())) {
+                        target_dh->set_guard(unbounded_drags[i]);
+                        unbounded_drags[i]->set_treasure_tild_ID(target_index);
                         break;
                     }
                 }
@@ -490,8 +514,8 @@ void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* cha
             Cell* curr_cell = floor->get_cell_at_index(curr_index);
 
             EntitySpawnable* casted_curr_cell = dynamic_cast<EntitySpawnable*> (curr_cell);
-            if (casted_curr_cell->get_entity_on_cell() && dynamic_cast<Stairway> (casted_curr_cell->get_entity_on_cell())) {
-                chamber->set_has_stairway(true);
+            if (casted_curr_cell->get_entity_on_cell() && dynamic_cast<PC*> (casted_curr_cell->get_player_on_cell())) {
+                chamber->set_has_player(true);
                 continue;
             }
             if (casted_curr_cell && casted_curr_cell->get_root_chamber()) {
@@ -518,7 +542,6 @@ int calculate_dmg(int atk, int def) {
     int dmg = ceil((numerator / def_src) * atk);
     return dmg;
 }
-
 
 // process available NPC action
 void process_NPC_action(NPC* npc, Floor* floor) {
@@ -615,6 +638,95 @@ void process_NPC_action(NPC* npc, Floor* floor) {
     available_tile[chosen]->set_open_to_entity(false);
 }
 
+int get_cell_from_chamber(ChamberInterior* chamber) {
+    int index = rand() % chamber->get_num_cells();
+    if ((chamber->get_tile_at(index))->get_entity_on_cell()) {
+        return (chamber->get_tile_at(index))->get_index();
+    }
+    else {
+        get_cell_from_chamber(chamber);
+    }
+}
+
+void attach_entity_to_cell(Floor* curr_floor_playing, int cell_index, Entity* entity) {
+    dynamic_cast<EntitySpawnable*>(curr_floor_playing->get_cell_at_index(cell_index))->set_open_to_entity(false);
+    dynamic_cast<EntitySpawnable*>(curr_floor_playing->get_cell_at_index(cell_index))->set_entity_on_cell(entity);
+    entity->set_tile_ID(cell_index);
+}
+
+void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairway = DEFAULT_NUM_STAIRWAY, int num_potions = DEFAULT_NUM_POTIONS, 
+                      int num_gold = DEFAULT_NUM_GOLD, int num_enemy = DEFAULT_NUM_ENEMY, int num_player = DEFAULT_NUM_PLAYER) {
+    int num_chambers = floor->get_num_chambers();
+    if (need_random_gen) {
+        srand(time(0));
+        int chamber_index = 0;
+        int cell_index = 0;
+        //We require that generation happens in the following order: player character location, stairway location, potions, gold, enemies
+        // generate player:
+        for (int i = 0; i < num_player; i++) {
+            chamber_index = rand() % num_chambers;
+            cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
+            pc->set_tile_ID(cell_index);
+            floor->get_chamber_at_index(chamber_index)->set_has_player(true);
+            floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
+        }
+
+        // generate stairway
+        for (int i = 0; i < num_stairway; i++) {
+            while(true) {
+                chamber_index = rand() % num_chambers;
+                if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
+                    continue;
+                }
+                if (floor->get_chamber_at_index(chamber_index)->get_has_player()) {
+                    continue;
+                }
+                break;
+            }
+            cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
+            Stairway* stw = new Stairway(cell_index);
+            attach_entity_to_cell(floor, cell_index, stw);
+            floor->emplace_entity(make_unique<Stairway>(stw));
+            floor->set_num_stairway(floor->get_num_stairway() + 1);
+            floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
+        }
+
+        // generate potion
+        for (int i = 0; i < num_potions; i++) {
+            while(true) {
+                chamber_index = rand() % num_chambers;
+                if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
+                    continue;
+                }
+                break;
+            }
+            cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
+            int pot_type = rand() % TYPES_OF_POTIONS;
+            potion *pot = nullptr;
+            if (pot_type == RH_SPAWN) {
+                pot = new potionHP(true, cell_index);
+            } else if (pot_type == BA_SPAWN) {
+                pot = new potionAtk(true, cell_index);
+            } else if (pot_type == BD_SPAWN) {
+                pot = new potionDef(true, cell_index);
+            } else if (pot_type == PH_SPAWN) {
+                pot = new potionHP(false, cell_index);
+            } else if (pot_type == WA_SPAWN) {
+                pot = new potionAtk(false, cell_index);
+            } else if (pot_type == WD_SPAWN) {
+                pot = new potionDef(false, cell_index);
+            }
+            attach_entity_to_cell(floor, cell_index, pot);
+            //floor->emplace_entity(make)
+        }
+    }
+}
+
+const int DEFAULT_NUM_STAIRWAY = 1;
+const int DEFAULT_NUM_POTIONS = 10;
+const int DEFAULT_NUM_PLAYER = 1;
+const int DEFAULT_NUM_GOLD = 10;
+const int DEFAULT_NUM_ENEMY = 20;
 
 int main(int argc, char *argv[]) {
     std::string filename;
@@ -624,6 +736,8 @@ int main(int argc, char *argv[]) {
     } else {
         filename = "empty.txt";
     }
+
+    int current_floor_playing_index = 0;
     
     int num_floors = NUM_FLOORS;
     int num_players = NUM_PLAYERS;
@@ -654,11 +768,9 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    if (need_random_gen) {
-        for (int i = 0; i < num_floors; i++) {
-            
-        }
-    }
+    Floor* curr_floor_playing = game->get_floor_at(current_floor_playing_index);
+
+    
     
     string cmd;
     cout << "Welcome to CC3K! Please enter the faction that you'd like to play." << endl;

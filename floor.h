@@ -34,15 +34,15 @@ class Floor {
  protected:
   bool enemy_movable;
  public:
-  void spawn_all_player(PC* pc);
-  void spawn_all_stairway();
-  void spawn_all_potion();
-  void spawn_all_gold();
-  void spawn_all_enemy();
-  void render_map();
-  void move_all_entities();
+  //void spawn_all_player(PC* pc);
+  //void spawn_all_stairway();
+  //void spawn_all_potion();
+  //void spawn_all_gold();
+  //void spawn_all_enemy();
+  //void render_map();
+  //void move_all_entities();
 
-  Floor(PC* pc, int height, int width, int num_stairway = 0, int num_potions = 0, int num_gold = 0, int num_enemy = 0, int floor_level = 0);
+  Floor(PC* pc, int height, int width, int floor_level, int num_stairway = 0, int num_potions = 0, int num_gold = 0, int num_enemy = 0);
 
   void emplace_cell(std::unique_ptr<Cell> cell);
   void emplace_entity(std::unique_ptr<Entity> entity);
@@ -59,6 +59,8 @@ class Floor {
   int get_width();
   int get_height();
   PC* get_pc_on_floor();
+
+  int get_num_chambers();
 
   Entity* get_entity_at_index(int index);
   Cell* get_cell_at_index(int index);
