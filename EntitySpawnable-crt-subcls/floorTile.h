@@ -2,6 +2,8 @@
 #define FLOORTILE_H
 
 #include "entitySpawnable.h"
+#include "pc.h"
+#include "entity.h"
 
 class FloorTile : public EntitySpawnable {
  public:
