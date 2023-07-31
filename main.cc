@@ -324,7 +324,6 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
     return (contain_player || contain_entity);
 }
 
-
 /*void read_empty_map_file(Floor* floor, std::string file_name) {
     std::ifstream f(file_name);
     std::string s;
@@ -742,6 +741,8 @@ void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairw
             treGround* gold = nullptr;
             if (gold_type == SH_SPAWN) {
                 gold = new treGround(SH_VAL, cell_index, SH_MSG);
+            } else if (gold_type) {
+                
             }
         }
 
@@ -756,6 +757,27 @@ void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairw
             }
             cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
             int pot_type = rand() % TYPES_OF_POTIONS;
+        }
+    }
+}
+
+void determine_all_chambers(Game *game, int num_chambers) {
+    int num_floors = game->get_num_floors();
+    for (int i = 0; i < num_floors; i++) {
+        Floor* curr_floor = game->get_floor_at(i);
+        int chamber_index = 0;
+        while (chamber_index < num_chambers) {
+            for (int h = 0; h < curr_floor->get_height(); h++) {
+                for (int w = 0; w < curr_floor->get_width(); w++) {
+                    Cell* curr_cell = curr_floor->get_cell_at_index(h * curr_floor->get_height() + w);
+                    if(is_top_left_unchecked_wall(curr_floor, curr_cell)) {
+                        ChamberInterior* curr_chamber = new ChamberInterior(chamber_index, curr_floor);
+                        find_all_cell_in_chamber(curr_floor, curr_cell, curr_chamber);
+                        curr_floor->emplace_chamber(std::make_unique<ChamberInterior>(curr_chamber));
+                        chamber_index++;
+                    }
+                }
+            }
         }
     }
 }
@@ -788,27 +810,8 @@ int main(int argc, char *argv[]) {
 
     game = new Game(num_floors, num_players);
     bool need_random_gen = read_entity_map_file(game, filename, map_width, map_height, num_floors);
-    for (int i = 0; i < num_floors; i++) {
-        Floor* curr_floor = game->get_floor_at(i);
-        int chamber_index = 0;
-        while (chamber_index < num_chambers) {
-            for (int h = 0; h < curr_floor->get_height(); h++) {
-                for (int w = 0; w < curr_floor->get_width(); w++) {
-                    Cell* curr_cell = curr_floor->get_cell_at_index(h * curr_floor->get_height() + w);
-                    if(is_top_left_unchecked_wall(curr_floor, curr_cell)) {
-                        ChamberInterior* curr_chamber = new ChamberInterior(chamber_index, curr_floor);
-                        find_all_cell_in_chamber(curr_floor, curr_cell, curr_chamber);
-                        curr_floor->emplace_chamber(std::make_unique<ChamberInterior>(curr_chamber));
-                        chamber_index++;
-                    }
-                }
-            }
-        }
-    }
 
     Floor* curr_floor_playing = game->get_floor_at(current_floor_playing_index);
-
-    
     
     string cmd;
     cout << "Welcome to CC3K! Please enter the faction that you'd like to play." << endl;
@@ -832,6 +835,7 @@ int main(int argc, char *argv[]) {
         } else {
             cout << "your command is not valid, please enter a valid faction" << endl;
         }
+        game->set_pc(pc);
     }
     
 
