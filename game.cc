@@ -61,7 +61,7 @@ Game::Game(int num_floors, int num_players) : num_players{num_players}, num_floo
     //    PC* pc = new PC();
     //    (this->pc).emplace_back(std::make_unique<PC> (pc));
     //}
-    this->all_floors = {};
+    // this->all_floors = {};
 }
 
 //void Game::generate_floor(std::string file_name, int num_stairway, int num_potions, int num_gold, int num_enemy) {

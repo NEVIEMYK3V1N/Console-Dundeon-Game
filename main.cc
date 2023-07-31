@@ -137,13 +137,11 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
     PC* pc = game->get_pc();
 
     for (int numf = 0; numf < num_floors; numf++) {
-
-        std::cout << "first loop reach" << std::endl;
+        index = 0;
+        //std::cout << "first loop reach" << std::endl;
 
         Floor* floor = new Floor(pc, map_height, map_width, numf);
         for (int h = 0; h < map_height; h++) {
-
-
             std::getline(f, s);
             int len = s.length();
             for (int w = 0; w < map_width; w++) {
@@ -289,7 +287,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     read_in_entity(floor, dr, c, index, contain_entity);
                     unbounded_drags.emplace_back(dr);
                 } else {
-                    std::cout << "guard reached" << std::endl;
+                    //std::cout << "guard reached" << std::endl;
                 }
             }
         }
@@ -349,7 +347,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
         //game->emplace_floor(std::make_unique<Floor>(floor));
         game->emplace_floor(floor);
     }
-    std::cout << "read terminated" << std::endl;
+    //std::cout << "read terminated" << std::endl;
     return (contain_player || contain_entity);
 }
 
@@ -405,14 +403,16 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
 }
 */
 
-
-
 void render_map(Floor* floor) {
     int width = floor->get_width();
     int height = floor->get_height();
     for (int h = 0; h < height; h++) {
         for (int w = 0; w < width; w++) {
-            Cell* cell = floor->get_cell_at_index(w + h * height);
+            //int index = w + h * width;
+            //std::cerr << "h: " << h << "|";
+            //std::cerr << "w: " << w << "|";
+            //std::cerr << index << std::endl;
+            Cell* cell = floor->get_cell_at_index(w + (h * width));
             char c = cell->render_cell();
             if (c == PLAYER || c == STAIRWAY) {
                 std::cout << BLUE_TEXT;
@@ -660,11 +660,12 @@ void process_NPC_action(NPC* npc, Floor* floor) {
     int chosen = rand() % options;
     int new_ID = available_tile[chosen]->get_index();
     EntitySpawnable* curr_tile = dynamic_cast<EntitySpawnable*>(floor->get_cell_at_index(npc->get_tile_ID()));
+    available_tile[chosen]->set_entity_on_cell(npc);
+    available_tile[chosen]->set_open_to_entity(false);
     curr_tile->set_entity_on_cell(nullptr);
     curr_tile->set_open_to_entity(true);
     npc->set_tile_ID(new_ID);
-    available_tile[chosen]->set_entity_on_cell(npc);
-    available_tile[chosen]->set_open_to_entity(false);
+    
 }
 
 int get_cell_from_chamber(ChamberInterior* chamber) {
@@ -835,13 +836,51 @@ int main(int argc, char *argv[]) {
     int num_chambers = DEFAULT_CHAMBER_ON_FLOOR;
 
     Game* game = nullptr;
-    PC* pc = nullptr;
+    PC* pc = new vampire(246);
 
     game = new Game(num_floors, num_players);
     bool need_random_gen = read_entity_map_file(game, filename, map_width, map_height, num_floors);
 
-    Floor* curr_floor_playing = game->get_floor_at(current_floor_playing_index);
-    render_map(curr_floor_playing); 
+    //Floor* curr_floor_playing = game->get_floor_at(current_floor_playing_index);
+    //render_map(curr_floor_playing); 
+    //Floor* curr_floor_playing = game->get_floor_at(1);
+    //render_map(curr_floor_playing); 
+
+    game->set_pc(pc);
+    Floor* flr = game->get_floor_at(0);
+    flr->set_pc_on_floor(pc);
+
+    /*
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < flr->get_height() * flr->get_width() - 1; ++j) {
+            if (flr->get_cell_at_index(j)->get_entity_spawnable()) {
+                EntitySpawnable* casted = dynamic_cast<EntitySpawnable*>(flr->get_cell_at_index(j));
+                Entity* ent_on_tile = casted->get_entity_on_cell();
+                if (ent_on_tile != nullptr) {
+                    if (ent_on_tile->is_NPC()) {
+                        NPC* NPC_on_tile = dynamic_cast<NPC*>(ent_on_tile);
+                        process_NPC_action(NPC_on_tile, flr);
+                    }
+                }
+            }
+        }
+        render_map(flr);
+    }
+    */  
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 30; ++j) {
+                Entity* ent_on_tile = flr->get_entity_at_index(j);
+                if (ent_on_tile != nullptr) {
+                    if (ent_on_tile->is_NPC()) {
+                        NPC* NPC_on_tile = dynamic_cast<NPC*>(ent_on_tile);
+                        process_NPC_action(NPC_on_tile, flr);
+                    }
+                }
+            }
+        render_map(flr);
+    }
+
+
     /*
     string cmd;
     cout << "Welcome to CC3K! Please enter the faction that you'd like to play." << endl;
