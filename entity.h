@@ -21,7 +21,12 @@ public:
     virtual char get_sym() const = 0;
 };
 
-
+class Stairway : public Entity {
+public:
+    Stairway(int tile_ID);
+    ~Stairway();
+    char get_sym () const;
+};
 
 class item : public Entity {
 public:
@@ -48,6 +53,7 @@ public:
     ~potionHP();
     PC* consume_item (PC* player) override;
 };
+
 class potionAtk: public potion {
 public:
     potionAtk(bool eff, int tile_ID, int val = 5);
@@ -73,6 +79,7 @@ public:
     ~treasure();
     bool is_treDragon() const;
     PC* consume_item (PC* player) override;
+    char get_sym() const override;
 };
 
 class treGround: public treasure {

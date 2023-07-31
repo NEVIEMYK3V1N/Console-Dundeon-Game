@@ -27,6 +27,13 @@ void Entity::set_tile_ID(int val) {
     tile_ID = val;
 }
 
+Stairway::Stairway(int tile_ID) :
+    Entity{false, false, false, tile_ID} {};
+Stairway::~Stairway() {};
+
+char Stairway::get_sym() const {
+    return '\\';
+}
 
 item::item(bool gold, bool pot, bool NPC, int tile_ID) :
     Entity{gold, pot, NPC, tile_ID} {};
@@ -92,6 +99,10 @@ bool treasure::is_treDragon() const {
 PC* treasure::consume_item(PC* player) {
     player->mod_gold(val);
     return nullptr;
+}
+
+char treasure::get_sym() const {
+    return 'G';
 }
 
 treGround::treGround(int val, int tile_ID, string size) :
