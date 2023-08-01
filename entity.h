@@ -72,26 +72,26 @@ public:
 };
 
 
-class treasure: public item {
+class Treasure: public item {
 protected:
     int val;
     string size;
     bool is_dragon;
 public:
-    treasure(int val, int tile_ID, string size, bool is_dragon);
-    ~treasure();
+    Treasure(int val, int tile_ID, string size, bool is_dragon);
+    ~Treasure();
     bool is_treDragon() const;
     PC* consume_item (PC* player) override;
     char get_sym() const override;
 };
 
-class treGround: public treasure {
+class treGround: public Treasure {
 public:
     treGround(int val, int tile_ID, string size);
     ~treGround();
 };
 
-class treDragon: public treasure {
+class treDragon: public Treasure {
     dragon* guard;
 public:
     treDragon(int val, int tile_ID);

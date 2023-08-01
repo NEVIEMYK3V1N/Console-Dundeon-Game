@@ -23,6 +23,10 @@ bool PC::get_merch_stat() const {
     return merchant_status;
 }
 
+bool PC::get_miss() const {
+    return can_miss;
+}
+
 string PC::get_faction() const {
     return faction;
 }
@@ -111,6 +115,10 @@ int PotionEffect::get_hp() const {
 
 bool PotionEffect::get_merch_stat() const {
     return player->get_merch_stat();
+}
+
+bool PotionEffect::get_miss() const {
+    return player->get_miss();
 }
 
 string PotionEffect::get_faction() const {

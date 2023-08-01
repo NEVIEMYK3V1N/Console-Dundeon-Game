@@ -87,31 +87,31 @@ PC* potionDef::consume_item(PC* player) {
 }
 
 
-treasure::treasure(int val, int tile_ID, string size, bool is_dragon) :
+Treasure::Treasure(int val, int tile_ID, string size, bool is_dragon) :
     item{true, false, false, tile_ID}, val{val}, size{size}, is_dragon{is_dragon} {};
-treasure::~treasure() {};
+Treasure::~Treasure() {};
 
-bool treasure::is_treDragon() const {
+bool Treasure::is_treDragon() const {
     return is_dragon;
 }
 
 
-PC* treasure::consume_item(PC* player) {
+PC* Treasure::consume_item(PC* player) {
     player->mod_gold(val);
     return nullptr;
 }
 
-char treasure::get_sym() const {
+char Treasure::get_sym() const {
     return 'G';
 }
 
 treGround::treGround(int val, int tile_ID, string size) :
-    treasure{val, tile_ID, size, false} {};
+    Treasure{val, tile_ID, size, false} {};
 treGround::~treGround() {};
 
 
 treDragon::treDragon(int val, int tile_ID) :
-    treasure{val, tile_ID, "dragon_hoard", true} {};
+    Treasure{val, tile_ID, "dragon_hoard", true} {};
 treDragon::~treDragon() {};
 
 dragon* treDragon::get_guard() const {

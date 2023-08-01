@@ -22,7 +22,9 @@ class NPC: public Entity{
     ~NPC();
     int get_atk() const;
     int get_def() const;
+    int get_hp() const;
     char get_sym() const override;
+    string get_faction() const;
     virtual bool mod_hp(int dmg);
 };
 
@@ -64,7 +66,7 @@ class halfling: public NPC {
 
 class dragon: public NPC {
     int treasure_tile_ID;
-    public:
+    public: 
     dragon(int tile_ID, int treasure_tile_ID = -1);
     ~dragon();
     int get_treasure_tild_ID() const;

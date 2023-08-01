@@ -22,6 +22,7 @@ public:
     virtual int get_def() const;
     virtual int get_hp() const;
     virtual bool get_merch_stat() const;
+    virtual bool get_miss() const;
     virtual string get_faction() const;
     virtual int get_tile_ID() const;
     virtual int get_gold() const;
@@ -83,6 +84,7 @@ public:
     virtual int get_def() const override;
     int get_hp() const override;
     bool get_merch_stat() const override;
+    bool get_miss() const override;
     string get_faction() const override;
     int get_tile_ID() const override;
     int get_gold() const override;

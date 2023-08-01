@@ -15,8 +15,16 @@ int NPC::get_def() const {
     return def;
 }
 
+int NPC::get_hp() const {
+    return hp;
+}
+
 char NPC::get_sym() const {
     return sym;
+}
+
+string NPC::get_faction() const {
+    return faction;
 }
 
 bool NPC::mod_hp(int dmg) {
