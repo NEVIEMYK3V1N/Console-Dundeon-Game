@@ -544,12 +544,6 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                         Entity* target_entity_on_cell = target_es->get_entity_on_cell();
                         target_dh = dynamic_cast<treDragon*>(target_entity_on_cell);
                     }
-
-                    //std::cerr << "is dh nullptr: " << (target_dh == nullptr) << std::endl;
-                    //if ((target_dh != nullptr)) {
-                    //    std::cerr << "is guard nummptr: " << (target_dh->get_guard() == nullptr) << std:: endl;
-                    //}
-
                     if (target_dh && (target_dh->get_guard() == nullptr)) {
                         //std::cerr << "bounding drag: " << i << std::endl; 
                         target_dh->set_guard(unbounded_drags[i]);
@@ -758,7 +752,6 @@ void process_PC_action(Floor* floor) {
             PC* player = floor->get_pc_on_floor();
             int curr_tile_ID = player->get_tile_ID();
             Cell* curr_cell = floor->get_cell_at_index(curr_tile_ID);
-
             Cell* new_cell = floor->get_cell_at_index(curr_tile_ID - 1);
             PlayerWalkableCell* new_cell_casted = dynamic_cast<PlayerWalkableCell*>(new_cell);
             PlayerWalkableCell* curr_cell_casted = dynamic_cast<PlayerWalkableCell*>(curr_cell);
@@ -1326,11 +1319,28 @@ int main(int argc, char *argv[]) {
                         break;
                     }
                 }
+                // set merchant aggro once attacked
+                if (enemy->get_faction() == "merchant") {
+                    curr_player->set_merch_stat(false);
+                }
+
                 int atk = curr_player->get_atk();
                 int def = enemy->get_def();
                 int dmg = calculate_dmg(atk, def);
                 // if the enemy is killed
                 if (!enemy->mod_hp(-dmg)) {
+                    // make dragon hoard available
+                    if (enemy->get_faction() == "dragon") {
+                        dragon* enemy_casted = dynamic_cast<dragon*>(enemy);
+                        Cell* hoard_tile = flr->get_cell_at_index(enemy_casted->get_treasure_tild_ID());
+                        EntitySpawnable* hoard_tile_casted = dynamic_cast<EntitySpawnable*>(hoard_tile);
+                        treDragon* dragon_hoard = dynamic_cast<treDragon*>(hoard_tile_casted->get_entity_on_cell());
+                        dragon_hoard->set_guard(nullptr);
+                        enemy_casted->set_treasure_tild_ID(-1);
+                    }
+                    if (enemy->get_faction() == "merchant") {
+                        treGround* merch_hoard = new 
+                    }
                     enemy_cell_casted->set_entity_on_cell(nullptr);
                     enemy_cell_casted->set_open_to_entity(true);
                     enemy->set_tile_ID(-1);
