@@ -44,10 +44,18 @@ const char ENEMY_ORC_RENDER = 'O';
 const char ENEMY_MERCHANT_RENDER = 'M';
 const char ENEMY_DRAGON_RENDER = 'D';
 const char ENEMY_HALFLING_RENDER = 'L';
-
 const char POTION_RENDER = 'P';
 const char GOLD_RENDER = 'G';
 
+bool is_char_enemy (char c) {
+    return (c == ENEMY_HUMAN_RENDER || 
+            c == ENEMY_DWARF_RENDER ||
+            c == ENEMY_ELF_RENDER ||
+            c == ENEMY_ORC_RENDER || 
+            c == ENEMY_MERCHANT_RENDER || 
+            c == ENEMY_DRAGON_RENDER ||
+            c == ENEMY_HALFLING_RENDER);
+}
 
 // colors for rendering
 const std::string BLUE_TEXT = "\033[34m";
@@ -91,12 +99,10 @@ const int PH_SPAWN = 3;
 const int WA_SPAWN = 4;
 const int WD_SPAWN = 5;
 
-const int TYPES_OF_GOLD = 8;
-const int NGP_RATE = 4;
-const int DH_RATE = NGP_RATE + 1;
-const int SH_RATE = DH_RATE + 2;
-
-
+const int TYPES_OF_GOLD = 3;
+const int SH_SPAWN = 0;
+const int NGP_SPAWN = 1;
+const int DH_SPAWN = 2;
 
 const int DEFAULT_NUM_STAIRWAY = 1;
 const int DEFAULT_NUM_POTIONS = 10;
@@ -110,7 +116,7 @@ const std::string MC_MSG = "merchant";
 const std::string DH_MSG = "dragon";
 
 void read_in_entity(Floor* floor, Entity* entity, char &c, int &index, bool &contain_entity) {
-    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+    FloorTile *ft = new FloorTile(c, index);
     ft->set_entity_on_cell(entity);
     ft->set_open_to_entity(false);
     //floor->emplace_cell(make_unique<FloorTile> (*ft));
@@ -137,7 +143,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
         Floor* floor = new Floor(pc, map_height, map_width, numf);
         for (int h = 0; h < map_height; h++) {
             std::getline(f, s);
-            //int len = s.length();
+            int len = s.length();
             for (int w = 0; w < map_width; w++) {
 
                 // index = w + h * map_height;
@@ -175,7 +181,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == RH) {
                     potionHP *pot = new potionHP(true, index);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -197,7 +203,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     potionAtk *pot = new potionAtk(true, index);
                     //floor->set_num_potions(floor->get_num_potions() + 1);
                     //read_in_entity(floor, pot, c, index, contain_entity);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -212,7 +218,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == BD) {
                     potionDef *pot = new potionDef(true, index);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -228,7 +234,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == PH) {
                     potionHP *pot = new potionHP(false, index);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -244,7 +250,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == WA) {
                     potionAtk *pot = new potionAtk(false, index);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -260,7 +266,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == WD) {
                     potionDef *pot = new potionDef(false, index);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -277,7 +283,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == NGP) {
                     treGround *normal_pile_gold = new treGround(NGP_VAL, index, NGP_MSG);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(normal_pile_gold);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -293,7 +299,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == SH) {
                     treGround *small_hoard = new treGround(SH_VAL, index, SH_MSG);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(small_hoard);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -309,7 +315,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == MH) {
                     treGround *merchant_hoard = new treGround(MH_VAL, index, MC_MSG);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(merchant_hoard);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -325,7 +331,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == DH) {
                     treDragon * td = new treDragon(DH_VAL, index);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(td);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -342,7 +348,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
 
                 else if (c == PLAYER) {
                     PC* pc = new shade(index);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     ft->set_player_on_cell(pc);
                     //floor->emplace_cell(make_unique<FloorTile> (*ft));
                     floor->emplace_cell(ft);
@@ -357,7 +363,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == STAIRWAY) {
                     Stairway *stw = new Stairway(index);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(stw);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -373,7 +379,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == ENEMY_HUMAN_RENDER) {
                     human *hm = new human(index);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(hm);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -389,7 +395,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
                 else if (c == ENEMY_DWARF_RENDER) {
                     dwarf *dw = new dwarf(index);
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(dw);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -406,7 +412,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 else if (c == ENEMY_ELF_RENDER) {
                     elf *ef = new elf(index);
 
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(ef);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -423,7 +429,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 else if (c == ENEMY_ORC_RENDER) {
                     orcs *oc = new orcs(index);
 
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(oc);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -440,7 +446,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 else if (c == ENEMY_MERCHANT_RENDER) {
                     merchant *mr = new merchant(index);
 
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(mr);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -457,7 +463,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 else if (c == ENEMY_HALFLING_RENDER) {
                     halfling *hf = new halfling(index);
 
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(hf);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -474,7 +480,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 else if (c == ENEMY_DRAGON_RENDER) {
                     dragon *dr = new dragon(index);
 
-                    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    FloorTile *ft = new FloorTile(c, index);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(dr);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -494,7 +500,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
             }
         }
         
-        for (int i = 0; i < (int)unbounded_drags.size(); i++) {
+        /*for (int i = 0; i < unbounded_drags.size(); i++) {
             bool top = true;
             bool left = true;
             bool right = true;
@@ -511,7 +517,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 left = false;
             }
             // the right of map
-            if (index & (floor->get_width() == floor->get_width() - 1)) {
+            if (index & floor->get_width() == floor->get_width() - 1) {
                 right = false;
             }
             // the bottom of map
@@ -544,7 +550,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
             }
         }
-        
+        */
 
 
         //game->emplace_floor(std::make_unique<Floor>(floor));
@@ -555,41 +561,76 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
     return (contain_player || contain_entity);
 }
 
-bool is_char_enemy (char c) {
-    return (c == ENEMY_HUMAN_RENDER || 
-            c == ENEMY_DWARF_RENDER ||
-            c == ENEMY_ELF_RENDER ||
-            c == ENEMY_ORC_RENDER || 
-            c == ENEMY_MERCHANT_RENDER || 
-            c == ENEMY_DRAGON_RENDER ||
-            c == ENEMY_HALFLING_RENDER);
+/*void read_empty_map_file(Floor* floor, std::string file_name) {
+    std::ifstream f(file_name);
+    std::string s;
+    int max_width = 0;
+    int file_height = 0;
+    int index = 0;
+    bool contain_entity = false;
+    bool contain_player = false;
+    while(true) {
+        std::getline(std::cin, s);
+        int len = s.length();
+        if (len == 0) {
+            break;
+        }
+        if (len > max_width) {
+            max_width = len;
+        }
+        for (int i = 0; i < len; i++) {
+            char c = s[i];
+            if (c == WALL_HORIZONTAL || WALL_VERTICAL) {
+                Wall *wall = new Wall(c, index);
+                floor->emplace_cell(make_unique<Wall> (*wall));
+                index++;
+            } 
+            else if (c == VOID_CELL) {
+                VoidCell *vc = new VoidCell(c, index);
+                floor->emplace_cell(make_unique<VoidCell> (*vc));
+                index++;
+            }
+            else if (c == FLOOR_TILE) {
+                FloorTile *ft = new FloorTile(c, index);
+                floor->emplace_cell(make_unique<FloorTile> (*ft));
+                index++;
+            }
+            else if (c == DOORWAY) {
+                Doorway *dw = new Doorway(c, index);
+                floor->emplace_cell(make_unique<Doorway> (*dw));
+                index++;
+            }
+            else if (c == PASSAGE) {
+                Passage *psg = new Passage(c, index);
+                floor->emplace_cell(make_unique<Passage> (*psg));
+                index++;
+            }
+        }
+        file_height++;
+    }
+    floor->set_width(max_width);
+    floor->set_height(file_height);
 }
+*/
 
 void render_map(Floor* floor) {
     int width = floor->get_width();
     int height = floor->get_height();
-    //std::cerr << "size: " << floor->get_num_cells() << std::endl;
-    char c = 'X';
     for (int h = 0; h < height; h++) {
         for (int w = 0; w < width; w++) {
             //int index = w + h * width;
             //std::cerr << "h: " << h << "|";
             //std::cerr << "w: " << w << "|";
             //std::cerr << index << std::endl;
-            //std::cerr << "index: " << w + (h * width) << std::endl;
             Cell* cell = floor->get_cell_at_index(w + (h * width));
-            c = cell->render_cell();
+            char c = cell->render_cell();
             if (c == PLAYER || c == STAIRWAY) {
-                //std::cerr << "1-";
                 std::cout << BLUE_TEXT;
             } else if (c == GOLD_RENDER) {
-                //std::cerr << "2-";
                 std::cout << YELLOW_TEXT;
             } else if (c == POTION_RENDER) {
-                //std::cerr << "3-";
                 std::cout << GREEN_TEXT;
             } else if (is_char_enemy(c)) {
-                //std::cerr << "4-";
                 std::cout << RED_TEXT;
             }
             std::cout << c;
@@ -601,7 +642,7 @@ void render_map(Floor* floor) {
 }
 
 bool is_top_left_unchecked_wall(Floor* floor, Cell* cell) {
-    if (cell->render_cell() == WALL_VERTICAL) {
+    if (cell->get_notation() == WALL_VERTICAL) {
         int index = cell->get_index();
         if (index % floor->get_width() == floor->get_width() - 1) {
             return false;
@@ -616,8 +657,8 @@ bool is_top_left_unchecked_wall(Floor* floor, Cell* cell) {
 
         int num_cells = floor->get_num_cells();
         if (right_cell_index < num_cells && bottom_cell_index < num_cells && br_cell_index < num_cells) {
-            return (floor->get_cell_at_index(right_cell_index)->render_cell() == WALL_HORIZONTAL &&
-                    floor->get_cell_at_index(bottom_cell_index)->render_cell() == WALL_VERTICAL &&
+            return (floor->get_cell_at_index(right_cell_index)->get_notation() == WALL_HORIZONTAL &&
+                    floor->get_cell_at_index(bottom_cell_index)->get_notation() == WALL_VERTICAL &&
                     dynamic_cast<EntitySpawnable*> (floor->get_cell_at_index(br_cell_index)) &&
                     !dynamic_cast<Wall*> (floor->get_cell_at_index(right_cell_index))->get_has_chamber() &&
                     !dynamic_cast<Wall*> (floor->get_cell_at_index(bottom_cell_index))->get_has_chamber() &&
@@ -630,7 +671,7 @@ bool is_top_left_unchecked_wall(Floor* floor, Cell* cell) {
 void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* chamber) {
     int ori_index = top_left->get_index();
     int f_height = floor->get_height();
-    //int f_width = floor->get_width();
+    int f_width = floor->get_width();
 
     bool top = true;
     bool left = true;
@@ -646,7 +687,7 @@ void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* cha
         left = false;
     }
     // the right of map
-    if (ori_index & (floor->get_width() == floor->get_width() - 1)) {
+    if (ori_index & floor->get_width() == floor->get_width() - 1) {
         right = false;
     }
     // the bottom of map
@@ -732,6 +773,7 @@ void determine_chambers(Floor* floor, int num_chambers = 6) {
     }
 }
 
+
 // calculate damage using attacker's atk value and defender's def value
 int calculate_dmg(int atk, int def) {
     double numerator = 100;
@@ -763,7 +805,7 @@ void process_NPC_action(NPC* npc, Floor* floor) {
 
     // find if any adjacent cell has a player present and attack if there are
     int atk_left = 1;
-    for (int i = 0; i < (int)adj_tiles.size(); ++i) {
+    for (int i = 0; i < adj_tiles.size(); ++i) {
         PlayerWalkableCell* casted = dynamic_cast<PlayerWalkableCell*>(adj_tiles[i]);
         PC* player = casted->get_player_on_cell();
         if (player != nullptr) {
@@ -810,7 +852,7 @@ void process_NPC_action(NPC* npc, Floor* floor) {
 
     // move NPC if no player adjacent
     vector<EntitySpawnable*> available_tile;
-    for (int i = 0; i < (int)adj_tiles.size(); ++i) {
+    for (int i = 0; i < adj_tiles.size(); ++i) {
         if (adj_tiles[i]->get_entity_spawnable()) {
             EntitySpawnable* casted = dynamic_cast<EntitySpawnable*>(adj_tiles[i]);
             // check if tile is empty
@@ -850,62 +892,6 @@ void attach_entity_to_cell(Floor* curr_floor_playing, int cell_index, Entity* en
     dynamic_cast<EntitySpawnable*>(curr_floor_playing->get_cell_at_index(cell_index))->set_open_to_entity(false);
     dynamic_cast<EntitySpawnable*>(curr_floor_playing->get_cell_at_index(cell_index))->set_entity_on_cell(entity);
     entity->set_tile_ID(cell_index);
-}
-
-const int NUM_SURROUNDING_CELL = 8;
-
-Cell* rand_a_surrounding_cell(Floor* floor, int index) {
-    bool top = true;
-    bool left = true;
-    bool right = true;
-    bool bottom = true;
-
-    // the top of map
-    if (index < floor->get_width()) {
-        top = false;
-    }
-    // the left of map
-    if (index % floor->get_width() == 0) {
-        left = false;
-    }
-    // the right of map
-    if (index & (floor->get_width() == floor->get_width() - 1)) {
-        right = false;
-    }
-    // the bottom of map
-    if (index + floor->get_width() >= floor->get_num_cells()) {
-        bottom = false;
-    }
-
-    while (true) {
-        int h_rand = (rand() % 3) - 1;
-        int w_rand = (rand() % 3) - 1;
-        if (!top && h_rand == -1) {
-            continue;
-        }
-        if (!left && w_rand == -1) {
-            continue;
-        }
-        if (!right && w_rand == 1) {
-            continue;
-        }
-        if (!bottom && h_rand == 1) {
-            continue;
-        }
-        if (h_rand == 0 && w_rand == 0) {
-            continue;
-        }
-        int ret_index = index + h_rand * floor->get_width() + w_rand;
-        Cell* ret_cell = floor->get_cell_at_index(ret_index);
-        EntitySpawnable* ret_es = dynamic_cast<EntitySpawnable*> (ret_cell);
-        if (ret_es && (ret_es->get_entity_on_cell() == nullptr)) {
-            return ret_cell;
-        }
-        else {
-            continue;
-        }
-    }
-    // return nullptr;
 }
 
 void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairway = DEFAULT_NUM_STAIRWAY, int num_potions = DEFAULT_NUM_POTIONS, 
@@ -971,7 +957,6 @@ void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairw
             } else if (pot_type == WD_SPAWN) {
                 pot = new potionDef(false, cell_index);
             }
-
             attach_entity_to_cell(floor, cell_index, pot);
             //floor->emplace_entity(make_unique<potion>(pot));
             floor->emplace_entity(pot);
@@ -990,29 +975,16 @@ void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairw
             }
             cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
             int gold_type = rand() % TYPES_OF_GOLD;
-            if (gold_type > NGP_RATE && gold_type <= DH_RATE) {
+            if (gold_type == DH_SPAWN) {
                 treDragon* drag_gold = new treDragon(DH_VAL, cell_index);
-                Cell* drag_cell = rand_a_surrounding_cell(floor, cell_index);
-                dragon *drag = new dragon(drag_cell->get_index(), cell_index);
-
-                attach_entity_to_cell(floor, cell_index, drag_gold);
-                attach_entity_to_cell(floor, drag_cell->get_index(), drag);
-                floor->emplace_entity(drag_gold);
-                floor->emplace_entity(drag);
-                floor->set_num_gold(floor->get_num_gold() + 1);
-                floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 2);
+                //dragon *drag = new
             } else {
                 treGround* gold = nullptr;
-                if (gold_type > DH_RATE && gold_type <= SH_RATE) {
+                if (gold_type == SH_SPAWN) {
                     gold = new treGround(SH_VAL, cell_index, SH_MSG);
-                } else if (gold_type <= NGP_RATE) {
+                } else if (gold_type == NGP_SPAWN) {
                     gold = new treGround(NGP_VAL, cell_index, NGP_MSG);
                 }
-                
-                attach_entity_to_cell(floor, cell_index, gold);
-                floor->emplace_entity(gold);
-                floor->set_num_gold(floor->get_num_gold() + 1);
-                floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
             }
             
         }
@@ -1027,7 +999,7 @@ void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairw
                 break;
             }
             cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
-            //int pot_type = rand() % TYPES_OF_POTIONS;
+            int pot_type = rand() % TYPES_OF_POTIONS;
         }
     }
 }
@@ -1054,6 +1026,8 @@ void determine_all_chambers(Game *game, int num_chambers) {
     }
 }
 
+
+
 int main(int argc, char *argv[]) {
     std::string filename;
     // if a file argument is provided
@@ -1075,14 +1049,8 @@ int main(int argc, char *argv[]) {
     PC* pc = new vampire(246);
 
     game = new Game(num_floors, num_players);
-    //std::cerr << "reading" << std::endl;
     bool need_random_gen = read_entity_map_file(game, filename, map_width, map_height, num_floors);
-    //std::cerr << "reading done" << std::endl;
-    if (need_random_gen) {
-        if (num_chambers == DEFAULT_CHAMBER_ON_FLOOR) {
 
-        }
-    }
     
     
     //Floor* curr_floor_playing = game->get_floor_at(current_floor_playing_index);
@@ -1091,14 +1059,15 @@ int main(int argc, char *argv[]) {
     //render_map(curr_floor_playing); 
 
     game->set_pc(pc);
-    Floor* flr = game->get_floor_at(current_floor_playing_index);
+    Floor* flr = game->get_floor_at(0);
     flr->set_pc_on_floor(pc);
 
-    //NPC* ene = new orcs(246);
-    //FloorTile* tile = dynamic_cast<FloorTile*>(flr->get_cell_at_index(246));
-    //tile->set_entity_on_cell(ene);
-    // render_map(flr);
-    // render_map(flr);
+    NPC* ene = new orcs(246);
+    FloorTile* tile = dynamic_cast<FloorTile*>(flr->get_cell_at_index(246));
+    tile->set_entity_on_cell(ene);
+     render_map(flr);
+     process_NPC_action(ene, flr);
+     render_map(flr);
     /*
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < flr->get_height() * flr->get_width() - 1; ++j) {
@@ -1116,8 +1085,8 @@ int main(int argc, char *argv[]) {
         render_map(flr);
     }
     */  
-    /*for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 20; ++j) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 30; ++j) {
                 Entity* ent_on_tile = flr->get_entity_at_index(j);
                 if (ent_on_tile != nullptr) {
                     if (ent_on_tile->is_NPC()) {
@@ -1127,31 +1096,7 @@ int main(int argc, char *argv[]) {
                 }
             }
         render_map(flr);
-    }*/
-    render_map(flr);
-    /*
-    NPC* npc = dynamic_cast<NPC*> (flr->get_entity_at_index(1));
-    if (npc) {
-        //std::cerr << "process NPC" << std::endl;
-        //process_NPC_action(npc, flr);
-              
-        int new_tile_id = (npc->get_tile_ID() + 1);
-        EntitySpawnable* old_es = dynamic_cast<EntitySpawnable*>(flr->get_cell_at_index(npc->get_tile_ID()));
-        Cell* new_cell = flr->get_cell_at_index(new_tile_id);
-        EntitySpawnable* new_es = dynamic_cast<EntitySpawnable*>(new_cell);
-        if (new_es) {
-            new_es->set_entity_on_cell(npc);
-            new_es->set_open_to_entity(false);
-            old_es->set_entity_on_cell(nullptr);
-            old_es->set_open_to_entity(true);
-            npc->set_tile_ID(new_tile_id);
-            //old_es->set_notation(FLOOR_TILE);
-        }
     }
-    */
-    //std::cerr << "rendering" << std::endl;
-    render_map(flr);
-    //std::cerr << "redering done" << std::endl;
 
 
     /*
