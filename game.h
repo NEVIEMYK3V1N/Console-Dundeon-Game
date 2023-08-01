@@ -13,7 +13,6 @@
 
 class Game {
     int num_floors;
-    bool game_on;
     std::vector<Floor*> all_floors;
  public:
    // Constructor: initialize a basic game
@@ -29,12 +28,10 @@ class Game {
 
    // getters
    int get_num_floors();
-   bool get_game_on();
    Floor* get_floor_at(int index = 0);
 
    // setters
    void set_num_floors(int num_floors);
-   void set_game_on(bool game_on);
 };
 
 #endif
