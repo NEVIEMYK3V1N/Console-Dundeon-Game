@@ -745,6 +745,40 @@ void process_PC_action(Floor* floor) {
         }
 }
 
+// process dragon action
+void process_dragon(dragon* drag, Floor* floor, ostringstream& action) {
+    int row = floor->get_width();
+    PC* curr_player = floor->get_pc_on_floor();
+    int player_tile_ID = curr_player->get_tile_ID();
+    int dragon_ID = drag->get_tile_ID();
+    int dragonHoard_ID = drag->get_treasure_tild_ID();
+    vector<int> attack_range;
+    // put every cell_ID that a dragon can reach in a vector
+    for (int i = -1; i < 2; ++i) {
+        for (int j = -1; j < 2; ++j) {
+            attack_range.push_back(dragon_ID + i * row + j);
+            attack_range.push_back(dragonHoard_ID + i * row + j);
+        }
+    }
+
+    for (int i = 0; i < attack_range.size(); ++i) {
+        if (attack_range[i] == player_tile_ID) {
+            srand(time(0));
+                int hit = rand() % 2;
+                if (hit == 0) {
+                    action << drag->get_sym() << " attacks the player but missed!\n";
+                } else {
+                    int atk = drag->get_atk();
+                int def = curr_player->get_def();
+                int dmg = calculate_dmg(atk, def);
+                curr_player->mod_hp(-dmg);
+                action << drag->get_sym() << " attacks the player and deals " << dmg << " damage!\n";
+            }   
+        return;
+        }
+    }
+}
+
 // process available NPC action
 void process_NPC_action(NPC* npc, Floor* floor, bool move_enable, ostringstream& action) {
     int row = floor->get_width();
@@ -800,12 +834,8 @@ void process_NPC_action(NPC* npc, Floor* floor, bool move_enable, ostringstream&
                             player->set_miss(true);
                         }
                     }
-
-                    if (!player->mod_hp(-dmg)) {
-                        // if this occurs it means the player is killed! do what you need to do for I/O and dtor
-                    } else {
-                        action << npc->get_sym() << " attacks the player and deals " << dmg << " damage!\n";
-                    }
+                    player->mod_hp(-dmg);
+                    action << npc->get_sym() << " attacks the player and deals " << dmg << " damage!\n";
                 }
                 --atk_left;
             }
@@ -820,7 +850,7 @@ void process_NPC_action(NPC* npc, Floor* floor, bool move_enable, ostringstream&
             if (adj_tiles[i]->get_entity_spawnable()) {
                 EntitySpawnable* casted = dynamic_cast<EntitySpawnable*>(adj_tiles[i]);
                 // check if tile is empty
-                if (casted && casted->get_open_to_entity()) {
+                if (casted && casted->get_open_to_entity() && (casted->get_player_on_cell() == nullptr)) {
                     available_tile.emplace_back(casted);
                 }
             }
@@ -1117,6 +1147,9 @@ int main(int argc, char *argv[]) {
     Floor* flr = game->get_floor_at(floor_id);
     PC* curr_player = flr->get_pc_on_floor();
     std::ostringstream round_action;
+
+    
+
     while (true) {
         // troll's ability
         if (curr_player->get_faction() == "troll") {
@@ -1240,7 +1273,7 @@ int main(int argc, char *argv[]) {
             }
 
             // attack function
-            if (cmd == "a" ) {
+            if (cmd == "a") {
                 Cell* enemy_cell = flr->get_cell_at_index(new_tile);
                 // check to make sure it's a tile that an entity can be on
                 if (!enemy_cell->get_entity_spawnable()) {
@@ -1283,7 +1316,8 @@ int main(int argc, char *argv[]) {
                         curr_player->mod_gold(5);
                     }
                 } else {
-                    round_action << "Player attacks the " << enemy->get_faction() << " and dealt " << dmg << " damage!\n";
+                    round_action << "Player attacks the " << enemy->get_faction() << "("<< enemy->get_hp() << " HP)"
+                    " and dealt " << dmg << " damage!\n";
                 }
                 break;
             }
@@ -1330,13 +1364,18 @@ int main(int argc, char *argv[]) {
                 if (ent_on_tile->is_NPC()) {
                     NPC* NPC_on_tile = dynamic_cast<NPC*>(ent_on_tile);
                     if (NPC_on_tile->get_hp() > 0) {
-                        process_NPC_action(NPC_on_tile, flr, NPC_move_enabled, round_action);
+                        if (NPC_on_tile->get_faction() == "dragon") {
+                            dragon* drag = dynamic_cast<dragon*>(NPC_on_tile);
+                            process_dragon(drag, flr, round_action);
+                            cout << drag->get_treasure_tild_ID() << endl;
+                        } else {
+                            process_NPC_action(NPC_on_tile, flr, NPC_move_enabled, round_action);
+                        }   
                     }
                 }
             }
         }
     }
-    delete game;
 }
 
 
