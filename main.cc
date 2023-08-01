@@ -1165,9 +1165,13 @@ int main(int argc, char *argv[]) {
     PC* curr_player = flr->get_pc_on_floor();
     std::ostringstream round_action;
 
-    
-
     while (true) {
+        if (curr_player->get_hp() <= 0) {
+            render_map(flr);
+            std::cout << "Whoops, it seems like you lost" << endl;
+            std::cout << "Your final score is:" << curr_player->get_gold() << endl;
+            return 0;
+        }
         // troll's ability
         if (curr_player->get_faction() == "troll") {
             curr_player->mod_hp(5);
@@ -1254,10 +1258,14 @@ int main(int argc, char *argv[]) {
                             }
                             // set to higher floor
                             int curr_hp = curr_player->get_hp();
+                            bool curr_merch_status = curr_player->get_merch_stat();
                             floor_id++;
                             flr = game->get_floor_at(floor_id);
                             curr_player = flr->get_pc_on_floor();
+                            // set HP
                             curr_player->mod_hp(-(curr_player->get_hp() - curr_hp));
+                            // set merchant status
+                            curr_player->set_merch_stat(curr_merch_status);
                             round_action << "Player advances to another floor!\n"; 
                             break;
                         }
@@ -1324,6 +1332,15 @@ int main(int argc, char *argv[]) {
                     curr_player->set_merch_stat(false);
                 }
 
+                // dwarf and vampire ability
+                if (curr_player->get_faction() == "vampire") {
+                    if (enemy->get_faction() == "dwarf") {
+                        curr_player->mod_hp(-5);
+                    } else {
+                        curr_player->mod_gold(5);
+                    }
+                }
+
                 int atk = curr_player->get_atk();
                 int def = enemy->get_def();
                 int dmg = calculate_dmg(atk, def);
@@ -1337,12 +1354,30 @@ int main(int argc, char *argv[]) {
                         treDragon* dragon_hoard = dynamic_cast<treDragon*>(hoard_tile_casted->get_entity_on_cell());
                         dragon_hoard->set_guard(nullptr);
                         enemy_casted->set_treasure_tild_ID(-1);
+                        enemy_cell_casted->set_entity_on_cell(nullptr);
+                        enemy_cell_casted->set_open_to_entity(true);
+                    } else if (enemy->get_faction() == "merchant") {
+                        // spawn merchant hoard when merchant is killed
+                        treGround* merch_hoard = new treGround(4, enemy->get_tile_ID(), "merchant");
+                        flr->emplace_entity(merch_hoard);
+                        enemy_cell_casted->set_entity_on_cell(merch_hoard);
+                    } else if (enemy->get_faction() == "human") {
+                        // spawn human drop
+                        treGround* human_hoard = new treGround(4, enemy->get_tile_ID(), "human");
+                        flr->emplace_entity(human_hoard);
+                        enemy_cell_casted->set_entity_on_cell(human_hoard);
+                    } else {
+                        // for other NPCs killed
+                        srand(time(0));
+                        int drop = rand() % 2;
+                        if (drop == 0) {
+                            curr_player->mod_gold(1);
+                        } else {
+                            curr_player->mod_gold(2);
+                        }
+                        enemy_cell_casted->set_entity_on_cell(nullptr);
+                        enemy_cell_casted->set_open_to_entity(true);
                     }
-                    if (enemy->get_faction() == "merchant") {
-                        treGround* merch_hoard = new 
-                    }
-                    enemy_cell_casted->set_entity_on_cell(nullptr);
-                    enemy_cell_casted->set_open_to_entity(true);
                     enemy->set_tile_ID(-1);
                     round_action << "Player attacks the " << enemy->get_faction() << " and killed it!\n";
                     // goblin ability
@@ -1401,7 +1436,6 @@ int main(int argc, char *argv[]) {
                         if (NPC_on_tile->get_faction() == "dragon") {
                             dragon* drag = dynamic_cast<dragon*>(NPC_on_tile);
                             process_dragon(drag, flr, round_action);
-                            cout << drag->get_treasure_tild_ID() << endl;
                         } else {
                             process_NPC_action(NPC_on_tile, flr, NPC_move_enabled, round_action);
                         }   
