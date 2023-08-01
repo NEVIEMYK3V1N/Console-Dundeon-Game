@@ -81,18 +81,26 @@ const int DEFAULT_CHAMBER_ON_FLOOR = 5;
 
 const int ARG_NUM_FILENAME = 1;
 
-const int TYPES_OF_POTIONS = 6;
-const int RH_SPAWN = 0;
-const int BA_SPAWN = 1;
-const int BD_SPAWN = 2;
-const int PH_SPAWN = 3;
-const int WA_SPAWN = 4;
-const int WD_SPAWN = 5;
+const int RATE_OF_POTIONS = 6;
+const int RH_RATE = 0;
+const int BA_RATE = RH_RATE + 1;
+const int BD_RATE = BA_RATE + 1;
+const int PH_RATE = BD_RATE + 1;
+const int WA_RATE = PH_RATE + 1;
+const int WD_RATE = WA_RATE + 1;
 
-const int TYPES_OF_GOLD = 8;
+const int RATE_OF_GOLD = 8;
 const int NGP_RATE = 4;
 const int DH_RATE = NGP_RATE + 1;
 const int SH_RATE = DH_RATE + 2;
+
+const int RATE_OF_ENEMY = 18;
+const int HUMAN_RATE = 3;
+const int DWARF_RATE = HUMAN_RATE + 3;
+const int HALFLING_RATE = DWARF_RATE + 5;
+const int ELF_RATE = HALFLING_RATE + 2;
+const int ORC_RATE = ELF_RATE + 2;
+const int MER_RATE = ORC_RATE + 2;
 
 const int DEFAULT_NUM_STAIRWAY = 1;
 const int DEFAULT_NUM_POTIONS = 10;
@@ -100,239 +108,301 @@ const int DEFAULT_NUM_PLAYER = 1;
 const int DEFAULT_NUM_GOLD = 10;
 const int DEFAULT_NUM_ENEMY = 20;
 
+const int NUM_SURROUNDING_CELL = 8;
+
 const std::string SH_MSG = "small";
 const std::string NGP_MSG = "normal";
 const std::string MC_MSG = "merchant";
 const std::string DH_MSG = "dragon";
 
-void read_in_entity(Floor* floor, Entity* entity, char &c, int &index, bool &contain_entity) {
-    FloorTile *ft = new FloorTile(FLOOR_TILE, index);
-    ft->set_entity_on_cell(entity);
-    ft->set_open_to_entity(false);
-    floor->emplace_cell(ft);
-    floor->emplace_entity(entity);
-    contain_entity = true;
-    index++;
-}
-
+// read_entity_map_file(game, file_name, map_width, map_height, num_floors, race):
+//      takes in the name of the file consisting of (num_floors) number of maps, each with width (map_width) and height (map_height)
+//      and initializes the game with that many floors, each corresponding to one floor layout specified in the txt file, with
+//      each player on each floor initialized to the race (race)
+//      The function returns true if ANY objects (entity / player) exist in ANY of the floor layout, and false otherwise
+// Requires: file_name is a valid file
+//           game is a valid game
+//           map_width, map_height corresponds to the width and height of each individual floor layout in the text file
 bool read_entity_map_file(Game* game, std::string file_name, int map_width, int map_height, int num_floors, std::string race) {
     std::ifstream f(file_name);
     std::string s;
+    // index / ID of the current cell on each floor being processed
     int index = 0;
+    // return value
     bool contain_entity = false;
     bool contain_player = false;
 
     for (int numf = 0; numf < num_floors; numf++) {
-        std::vector<dragon*> unbounded_drags;
+        // reset counters for floor
         index = 0;
-        //std::cout << "first loop reach" << std::endl;
+        // used for binding dragons with dragon hoards
+        std::vector<dragon*> unbounded_drags;
 
+        // intialize the empty map with no cells and player
         Floor* floor = new Floor(nullptr, map_height, map_width, numf);
+
+        // loop through height / lines of the floor layout
         for (int h = 0; h < map_height; h++) {
             std::getline(f, s);
-            //int len = s.length();
+
+            // loop through each individual cell on each line
             for (int w = 0; w < map_width; w++) {
+                // cell character
                 char c = s[w];
+                // if the cell is a wall of any kinds
                 if ((c == WALL_HORIZONTAL) || (c == WALL_VERTICAL)) {
+                    // initialize wall
                     Wall *wall = new Wall(c, index);
-                    //floor->emplace_cell(make_unique<Wall> (*wall));
+                    // adds wall to floor
                     floor->emplace_cell(wall);
+                    // update counter
                     index++;
                 } 
+                // if the cell is a void / empty space cell
                 else if (c == VOID_CELL) {
+                    // initialize cell
                     VoidCell *vc = new VoidCell(c, index);
-                    //floor->emplace_cell(make_unique<VoidCell> (*vc));
+                    // adds cell
                     floor->emplace_cell(vc);
+                    // increase counter
                     index++;
                 }
+                // if the cell is a floortile cell
                 else if (c == FLOOR_TILE) {
+                    // initialize cell
                     FloorTile *ft = new FloorTile(c, index);
-                    //floor->emplace_cell(make_unique<FloorTile> (*ft));
+                    // add cell to floor
                     floor->emplace_cell(ft);
+                    // update counter
                     index++;
                 }
+                // if the cell is a doorway cell
                 else if (c == DOORWAY) {
+                    // initialize cell
                     Doorway *dw = new Doorway(c, index);
-                    //floor->emplace_cell(make_unique<Doorway> (*dw));
+                    // adds cell to floor
                     floor->emplace_cell(dw);
+                    // update counter
                     index++;
                 }
+                // if the cell is a passage
                 else if (c == PASSAGE) {
+                    // initialize cell
                     Passage *psg = new Passage(c, index);
-                    //floor->emplace_cell(make_unique<Passage> (*psg));
+                    // adds cell to floor
                     floor->emplace_cell(psg);
+                    // update counter
                     index++;
                 }
+            // handleing entities / non-default cells
+                // handleing potions
                 else if (c == RH) {
+                    // initialize potion
                     potionHP *pot = new potionHP(true, index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // adds cell to floor
                     floor->emplace_cell(ft);
+                    // binds pot to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds pot to floor
                     floor->emplace_entity(pot);
-
-                    //NPC* ene = new orcs(246);
-                    //FloorTile* tile = dynamic_cast<FloorTile*>(flr->get_cell_at_index(246));
-                    //tile->set_entity_on_cell(ene);
-
                     floor->set_num_potions(floor->get_num_potions() + 1);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     pot = nullptr;
                     ft = nullptr;
-                    //read_in_entity(floor, pot, c, index, contain_entity);
                 }
+
                 else if (c == BA) {
+                    // initialize potion
                     potionAtk *pot = new potionAtk(true, index);
-                    //floor->set_num_potions(floor->get_num_potions() + 1);
-                    //read_in_entity(floor, pot, c, index, contain_entity);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // adds cell to floor
                     floor->emplace_cell(ft);
+                    // binds pot to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds pot to floor
                     floor->emplace_entity(pot);
-                    
                     floor->set_num_potions(floor->get_num_potions() + 1);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     pot = nullptr;
                     ft = nullptr;
                 }
+
                 else if (c == BD) {
+                    // initialize potion
                     potionDef *pot = new potionDef(true, index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // adds cell to floor
                     floor->emplace_cell(ft);
+                    // binds pot to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds pot to floor
                     floor->emplace_entity(pot);
-
                     floor->set_num_potions(floor->get_num_potions() + 1);
+                    // update counters
                     index++;
                     contain_entity = true;
-                    //read_in_entity(floor, pot, c, index, contain_entity);
-
                     pot = nullptr;
                     ft = nullptr;
                 }
+
                 else if (c == PH) {
+                    // initialize potion
                     potionHP *pot = new potionHP(false, index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // adds cell to floor
                     floor->emplace_cell(ft);
+                    // binds pot to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds pot to floor
                     floor->emplace_entity(pot);
-
                     floor->set_num_potions(floor->get_num_potions() + 1);
+                    // update counters
                     index++;
                     contain_entity = true;
-                    //read_in_entity(floor, pot, c, index, contain_entity);
-
                     pot = nullptr;
                     ft = nullptr;
                 }
+
                 else if (c == WA) {
+                    // initialize potion
                     potionAtk *pot = new potionAtk(false, index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // adds cell to floor
                     floor->emplace_cell(ft);
+                    // binds pot to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds pot to floor
                     floor->emplace_entity(pot);
-
                     floor->set_num_potions(floor->get_num_potions() + 1);
+                    // update counters
                     index++;
                     contain_entity = true;
-                    //read_in_entity(floor, pot, c, index, contain_entity);
-
                     pot = nullptr;
                     ft = nullptr;
                 }
+
                 else if (c == WD) {
+                    // initialize potion
                     potionDef *pot = new potionDef(false, index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // adds cell to floor
                     floor->emplace_cell(ft);
+                    // binds pot to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(pot);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds pot to floor
                     floor->emplace_entity(pot);
-
                     floor->set_num_potions(floor->get_num_potions() + 1);
+                    // update counters
                     index++;
                     contain_entity = true;
-                    //read_in_entity(floor, pot, c, index, contain_entity);
-
                     pot = nullptr;
                     ft = nullptr;
                     
                 }
+
+                // handeling golds
                 else if (c == NGP) {
+                    // initialize gold
                     treGround *normal_pile_gold = new treGround(NGP_VAL, index, NGP_MSG);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // add cell to floor
                     floor->emplace_cell(ft);
+                    // bind gold to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(normal_pile_gold);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // add gold to floor
                     floor->emplace_entity(normal_pile_gold);
-
                     floor->set_num_gold(floor->get_num_gold() + 1);
-                    //read_in_entity(floor, normal_pile_gold, c, index, contain_entity);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     normal_pile_gold = nullptr;
                     ft = nullptr;
                 }
+
                 else if (c == SH) {
+                    // initialize gold
                     treGround *small_hoard = new treGround(SH_VAL, index, SH_MSG);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // add cell to floor
                     floor->emplace_cell(ft);
+                    // bind gold to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(small_hoard);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // add gold to floor
                     floor->emplace_entity(small_hoard);
-
                     floor->set_num_gold(floor->get_num_gold() + 1);
-                    //read_in_entity(floor, small_hoard, c, index, contain_entity);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     small_hoard = nullptr;
                     ft = nullptr;
                 }
+                
                 else if (c == MH) {
+                    // initialize gold
                     treGround *merchant_hoard = new treGround(MH_VAL, index, MC_MSG);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // add cell to floor
                     floor->emplace_cell(ft);
+                    // bind gold to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(merchant_hoard);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // add gold to floor
                     floor->emplace_entity(merchant_hoard);
-
-                    //floor->set_num_gold(floor->get_num_gold() + 1);
-                    //read_in_entity(floor, merchant_hoard, c, index, contain_entity);
+                    floor->set_num_gold(floor->get_num_gold() + 1);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     merchant_hoard = nullptr;
                     ft = nullptr;
                 }
+                
                 else if (c == DH) {
+                    // initialize gold
                     treDragon * td = new treDragon(DH_VAL, index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // reset guard / dragon for dragon hoard
                     td->set_guard(nullptr);
+                    // adds cell to floor
                     floor->emplace_cell(ft);
+                    // binds gold to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(td);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
-                    floor->emplace_entity(td);
-                    
+                    // add gold to floor
+                    floor->emplace_entity(td);      
                     floor->set_num_gold(floor->get_num_gold() + 1);
+                    // update counters
                     index++;
                     contain_entity = true;
-                    //read_in_entity(floor, td, c, index, contain_entity);
-
                     td = nullptr;
                     ft = nullptr;
                 }
 
+                // handeling players
                 else if (c == PLAYER) {
-                    // determine faction/race of the player
+                    // determine faction/race of the player and initialize pc
                     PC* pc;
                     if (race == "s") {
                         pc = new shade(index);
@@ -345,186 +415,218 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     } else if (race == "t") {
                         pc = new troll(index);
                     }
+                    // initialize floor
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // bind pc to cell
                     ft->set_player_on_cell(pc);
+                    // adds cell to floor
                     floor->emplace_cell(ft);
+                    // binds pc to floor
                     floor->set_pc_on_floor(pc);
+                    // update counters
                     contain_player = true;
                     index++;
-
                     pc = nullptr;
                     ft = nullptr;
                 }
+
+                // handeling stairway
                 else if (c == STAIRWAY) {
+                    // initialize stairway
                     Stairway *stw = new Stairway(index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // adds cell to floor
                     floor->emplace_cell(ft);
+                    // binds stairway to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(stw);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // add stairway to floor
                     floor->emplace_entity(stw);
-
                     floor->set_num_stairway(floor->get_num_stairway() + 1);
+                    // update counters
                     index++;
                     contain_entity = true;
-                    //read_in_entity(floor, stw, c, index, contain_entity);
-
                     stw = nullptr;
                     ft = nullptr;
                 }
+
+                // handeling enemies
                 else if (c == ENEMY_HUMAN_RENDER) {
+                    // initialize enemy
                     human *hm = new human(index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // add cell to floor
                     floor->emplace_cell(ft);
+                    // bind enemy to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(hm);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds enemy to floor
                     floor->emplace_entity(hm);
-
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    //read_in_entity(floor, hm, c, index, contain_entity);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     hm = nullptr;
                     ft = nullptr;
                 }
+
                 else if (c == ENEMY_DWARF_RENDER) {
+                    // initialize enemy
                     dwarf *dw = new dwarf(index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // add cell to floor
                     floor->emplace_cell(ft);
+                    // bind enemy to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(dw);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds enemy to floor
                     floor->emplace_entity(dw);
-
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    //read_in_entity(floor, dw, c, index, contain_entity);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     dw = nullptr;
                     ft = nullptr;
                 }
-                else if (c == ENEMY_ELF_RENDER) {
-                    elf *ef = new elf(index);
 
+                else if (c == ENEMY_ELF_RENDER) {
+                    // initialize enemy
+                    elf *ef = new elf(index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // add cell to floor
                     floor->emplace_cell(ft);
+                    // bind enemy to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(ef);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds enemy to floor
                     floor->emplace_entity(ef);
-
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    //read_in_entity(floor, ef, c, index, contain_entity);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     ef = nullptr;
                     ft = nullptr;
                 }
-                else if (c == ENEMY_ORC_RENDER) {
-                    orcs *oc = new orcs(index);
 
+                else if (c == ENEMY_ORC_RENDER) {
+                    // initialize enemy
+                    orcs *oc = new orcs(index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // add cell to floor
                     floor->emplace_cell(ft);
+                    // bind enemy to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(oc);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds enemy to floor
                     floor->emplace_entity(oc);
-
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    //read_in_entity(floor, oc, c, index, contain_entity);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     oc = nullptr;
                     ft = nullptr;
                 }
-                else if (c == ENEMY_MERCHANT_RENDER) {
-                    merchant *mr = new merchant(index);
 
+                else if (c == ENEMY_MERCHANT_RENDER) {
+                    // initialize enemy
+                    merchant *mr = new merchant(index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // add cell to floor
                     floor->emplace_cell(ft);
+                    // bind enemy to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(mr);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds enemy to floor
                     floor->emplace_entity(mr);
-
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    //read_in_entity(floor, mr, c, index, contain_entity);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     mr = nullptr;
                     ft = nullptr;
                 }
-                else if (c == ENEMY_HALFLING_RENDER) {
-                    halfling *hf = new halfling(index);
 
+                else if (c == ENEMY_HALFLING_RENDER) {
+                    // initialize enemy
+                    halfling *hf = new halfling(index);
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // add cell to floor
                     floor->emplace_cell(ft);
+                    // bind enemy to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(hf);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds enemy to floor
                     floor->emplace_entity(hf);
-
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    //read_in_entity(floor, hf, c, index, contain_entity);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     hf = nullptr;
                     ft = nullptr;
                 }
+                
                 else if (c == ENEMY_DRAGON_RENDER) {
+                    // initialize enemy
                     dragon *dr = new dragon(index);
-
+                    // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    // adds cell to floor
                     floor->emplace_cell(ft);
+                    // binds enemy to cell
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(dr);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
+                    // adds enemy to floor
                     floor->emplace_entity(dr);
-
                     floor->set_num_enemy(floor->get_num_enemy() + 1);
-                    //read_in_entity(floor, dr, c, index, contain_entity);
+                    // append drag for hoard process
                     unbounded_drags.emplace_back(dr);
+                    // update counters
                     index++;
                     contain_entity = true;
-
                     dr = nullptr;
                     ft = nullptr;
-                } else {
-                    //std::cout << "guard reached" << std::endl;
                 }
             }
         }
-        
+
+        // process read in dragons to bind with dragon hoard
         for (int i = 0; i < (int)unbounded_drags.size(); i++) {
+            // get position of the current dragon
+            int index = unbounded_drags[i]->get_tile_ID();
+
+            // map boundary checks
             bool top = true;
             bool left = true;
             bool right = true;
             bool bottom = true;
-
-            int index = unbounded_drags[i]->get_tile_ID();
-
             // the top of map
             if (index < floor->get_width()) {
-                std::cerr << "A" << std::endl;
                 top = false;
             }
             // the left of map
             if (index % floor->get_width() == 0) {
-                std::cerr << "B" << std::endl;
                 left = false;
             }
             // the right of map
             if (index & (floor->get_width() == floor->get_width() - 1)) {
-                std::cerr << "C" << std::endl;
                 right = false;
             }
             // the bottom of map
             if (index + floor->get_width() >= floor->get_num_cells()) {
-                std::cerr << "D" << std::endl;
                 bottom = false;
             }
-
+            
+            // checking the surrounding cells
             for (int h = -1; h <= 1; h++) {
                 for (int w = -1; w <= 1; w++) {
+                    // check the border cells correctly
                     if (!top && h == -1) {
                         continue;
                     }
@@ -537,36 +639,48 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     if (!bottom && h == 1) {
                         continue;
                     }
+                    // ignore the cell the dragon is on
+                    if (h == 0 && w == 0) {
+                        continue;
+                    }
 
-                    int target_index = index + h * floor->get_width() + w;
-                    //treDragon* target_dh = dynamic_cast<treDragon*>(floor->get_cell_at_index(target_index));
+                    // hoard placeholder
                     treDragon* target_dh = nullptr;
 
-                    //std::cerr << "checkin tre: " << target_index << std::endl; 
+                    // gets information about the current checking cell
+                    int target_index = index + h * floor->get_width() + w;
                     Cell* target_cell = floor->get_cell_at_index(target_index);
                     EntitySpawnable* target_es = dynamic_cast<EntitySpawnable*>(target_cell);
 
-                    //std::cerr << "1" << i << std::endl; 
+                    // if the current checking cell is EntitySpawnable
                     if (target_es) {
-                        //std::cerr << "if is entityspawnable: " << i << std::endl; 
+                        // update hoard pointer
                         Entity* target_entity_on_cell = target_es->get_entity_on_cell();
                         target_dh = dynamic_cast<treDragon*>(target_entity_on_cell);
                     }
-                    if (target_dh && (target_dh->get_guard() == nullptr)) {
-                        //std::cerr << "bounding drag: " << i << std::endl; 
+                    // if there is a hoard at the current checking cell
+                    if (target_dh && (target_dh->get_guard() == nullptr)) {\
+                        // bind board to dragon
                         target_dh->set_guard(unbounded_drags[i]);
+                        // bind dragon with hoard id
                         unbounded_drags[i]->set_treasure_tild_ID(target_index);
+                        // continue to other dragons
                         break;
                     }
                 }
             }
         }
+        
+        // binds updated floor to game
         game->emplace_floor(floor);
+
+        // reset counters
         floor = nullptr;
     }
     return (contain_player || contain_entity);
 }
 
+// is_char_enemy (char c): returns true if c is any of the enemy symbols, false otherwise
 bool is_char_enemy (char c) {
     return (c == ENEMY_HUMAN_RENDER || 
             c == ENEMY_DWARF_RENDER ||
@@ -577,25 +691,24 @@ bool is_char_enemy (char c) {
             c == ENEMY_HALFLING_RENDER);
 }
 
+// void render_map(floor): outputs the map and player information in counsel with correct colering and formatting
+// Requires: floor is a valid floor
 void render_map(Floor* floor) {
     int width = floor->get_width();
     int height = floor->get_height();
     char c = 'X';
+    // loop through each cell on the floor
     for (int h = 0; h < height; h++) {
         for (int w = 0; w < width; w++) {
             Cell* cell = floor->get_cell_at_index(w + (h * width));
             c = cell->render_cell();
             if (c == PLAYER || c == STAIRWAY) {
-                //std::cerr << "1-";
                 std::cout << BLUE_TEXT;
             } else if (c == GOLD_RENDER) {
-                //std::cerr << "2-";
                 std::cout << YELLOW_TEXT;
             } else if (c == POTION_RENDER) {
-                //std::cerr << "3-";
                 std::cout << GREEN_TEXT;
             } else if (is_char_enemy(c)) {
-                //std::cerr << "4-";
                 std::cout << RED_TEXT;
             }
             std::cout << c;
@@ -613,22 +726,45 @@ void render_map(Floor* floor) {
     std::cout << "Action: ";
 }
 
+// is_top_left_unchecked_wall(floor, cell): returns true if the passed in cell is the top left corner of a chamber
+//      that has not been processed, and false otherwise
+//      The format of a top left wall of a uncheck chamber follows:
+//          |-
+//          -.
+//          where . is a floortile that has not been processed
+// Require: floor is a valid floor
+//          cell is a valid cell on that floor
 bool is_top_left_unchecked_wall(Floor* floor, Cell* cell) {
+    // the cell must be a vertical wall to be a top left corner
     if (cell->render_cell() == WALL_VERTICAL) {
         int index = cell->get_index();
+        // border checks, the top left corner can NOT be on the right most colume
         if (index % floor->get_width() == floor->get_width() - 1) {
             return false;
         }
+        // nor the left most colume
         if (index % floor->get_width() == 0) {
             return false;
         }
+        // nor the top of the map
+        if (index < floor->get_width()) {
+            return false;
+        }
+        // not the bottom of map
+        if (index + floor->get_width() >= floor->get_num_cells()) {
+            return false;
+        }
 
+        // get the cell index for the surrounding cells making up the identifier
         int right_cell_index = index + 1;
         int bottom_cell_index = index + floor->get_height();
         int br_cell_index = index + floor->get_height() + 1;
 
         int num_cells = floor->get_num_cells();
+
+        // boundary checks
         if (right_cell_index < num_cells && bottom_cell_index < num_cells && br_cell_index < num_cells) {
+            // checks if the cell types are correct, and that no cells has been processed already
             return (floor->get_cell_at_index(right_cell_index)->render_cell() == WALL_HORIZONTAL &&
                     floor->get_cell_at_index(bottom_cell_index)->render_cell() == WALL_VERTICAL &&
                     dynamic_cast<EntitySpawnable*> (floor->get_cell_at_index(br_cell_index)) &&
@@ -640,10 +776,16 @@ bool is_top_left_unchecked_wall(Floor* floor, Cell* cell) {
     return false;
 }
 
+// find_all_cell_in_chamber( floor, top_left, chamber): finds all interior (EntitySpawnable) tiles from the floor around top_left
+//      that are inside a given chamber marked by the given (top_left) cell, add binds them with the chamber
+// Require: floor is a valid floor
+//          top_left is the valid cell in chamber on the floor
+//          chamber is a valid chamber on the floor
 void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* chamber) {
     int ori_index = top_left->get_index();
     int f_height = floor->get_height();
 
+    // boundary checks
     bool top = true;
     bool left = true;
     bool right = true;
@@ -666,18 +808,20 @@ void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* cha
         bottom = false;
     }
 
+    // checking the surrounding cells
     for (int h = -1; h <= 1; h++) {
         for (int w = -1; w <= 1; w++) {
             if (h == 0 && w == 0) {
                 continue;
             }
-            //skip diagonal
+            // skip diagonal
             if ((h == -1 && w == -1) ||
                 (h == -1 && w == 1) ||
                 (h == 1 && w == -1) ||
                 (h == 1 && w == 1)) {
                 continue;
             }
+            // skip borders
             if (!top && h == -1) {
                 continue;
             }
@@ -691,22 +835,33 @@ void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* cha
                 continue;
             }
 
+            // sets up current checking cell
             int curr_index = ori_index + h * f_height + w;
             Cell* curr_cell = floor->get_cell_at_index(curr_index);
-
+            // if the current checking cell is EntitySpawnable
             EntitySpawnable* casted_curr_cell = dynamic_cast<EntitySpawnable*> (curr_cell);
-            if (casted_curr_cell->get_entity_on_cell() && dynamic_cast<PC*> (casted_curr_cell->get_player_on_cell())) {
-                chamber->set_has_player(true);
-                continue;
-            }
-            if (casted_curr_cell && casted_curr_cell->get_root_chamber()) {
+            
+            // if the current checking cell is EntitySpawnable, had does NOT have a root chamber yet
+            if (casted_curr_cell && !(casted_curr_cell->get_root_chamber())) {
+                // binds cell to chamber
                 casted_curr_cell->set_root_chamber(chamber);
+                // adds cell to chamber
                 chamber->emplace_entityspawnable(casted_curr_cell);
+                // if the current checking cell has a player occupying
+                if (dynamic_cast<PC*> (casted_curr_cell->get_player_on_cell())) {
+                    // update the chamber to contain player
+                    chamber->set_has_player(true);
+                }
+
+                // recursive call: find all cells around the current checking cell that belongs to the same chamber
                 find_all_cell_in_chamber(floor, curr_cell, chamber);
             } else {
                 Wall* casted_curr_wall = dynamic_cast<Wall*> (curr_cell);
+                // if the current cell is a wall
                 if (casted_curr_wall) {
+                    // without a chamber associated
                     if (!casted_curr_wall->get_has_chamber()) {
+                        // associate the wall with chamber
                         casted_curr_wall->set_has_chamber(true);
                     }
                 }
@@ -716,27 +871,43 @@ void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* cha
     return;
 }
 
-void determine_chambers(Floor* floor, int num_chambers = 6) {
-    int curr_chamber = 0;
 
+// determine_chambers_on_flr(floor, num_chambers = 5): find all (num_chambers) chambers on the current floor
+//      and associate then with their corresponding interior cells
+// Require: floor is a valid floor
+//          num_chambers correspond to the correct number of chambers in the floor
+void determine_chambers_on_flr(Floor* floor, int num_chambers = 5) {    
+    // initialize all chambers, and adds then to floor
     for (int i = 0; i < num_chambers; i++) {
         ChamberInterior *ci = new ChamberInterior(i, floor);
-        //floor->emplace_chamber(make_unique<ChamberInterior>(*ci));
         floor->emplace_chamber(ci);
     }
 
+    // loop through chambers
+    int curr_chamber = 0;
+    // loop through all cells in floor
     for(int h = 0; h < floor->get_height(); h++) {
         for(int w = 0; w < floor->get_width(); w++) {
-            Cell* curr_cell = floor->get_cell_at_index(h * floor->get_height() + w);
+            // set up current checking cell
+            Cell* curr_cell = floor->get_cell_at_index(h * floor->get_width() + w);
+            // if the current checking cell marks the top left of a chamber that has not been processed
             if (is_top_left_unchecked_wall(floor, curr_cell)) {
+                // set up the top left wall
                 Wall* tl_wall = dynamic_cast<Wall*>(curr_cell);
+                // if the corner has been processed
                 if (tl_wall->get_has_chamber()) {
                     continue;
                 }
+                // associate wall with chamber
                 tl_wall->set_has_chamber(true);
-                EntitySpawnable* tl_spawnable = dynamic_cast<EntitySpawnable*> (floor->get_cell_at_index((h + 1) * floor->get_height() + w + 1));
+                // get the top left EntitySpawnable cell of the chamber
+                EntitySpawnable* tl_spawnable = dynamic_cast<EntitySpawnable*> (floor->get_cell_at_index((h + 1) * floor->get_width() + w + 1));
+                // bind cell with chamber
                 tl_spawnable->set_root_chamber(floor->get_chamber_at_index(curr_chamber));
+                // adds cell to chamber
                 floor->get_chamber_at_index(curr_chamber)->emplace_entityspawnable(tl_spawnable);
+
+                // adds all cells corresponding to the chamber
                 find_all_cell_in_chamber(floor, tl_spawnable, floor->get_chamber_at_index(curr_chamber));
                 curr_chamber++;
             }
@@ -744,7 +915,7 @@ void determine_chambers(Floor* floor, int num_chambers = 6) {
     }
 }
 
-// calculate damage using attacker's atk value and defender's def value
+// calculate damage using attacker's atk value and defender's def value - need documentation
 int calculate_dmg(int atk, int def) {
     double numerator = 100;
     double def_src = 100 + def;
@@ -752,6 +923,7 @@ int calculate_dmg(int atk, int def) {
     return dmg;
 }
 
+// need documentation
 void process_PC_action(Floor* floor) {
     string cmd;
     cin >> cmd;
@@ -769,7 +941,7 @@ void process_PC_action(Floor* floor) {
         }
 }
 
-// process dragon action
+// process dragon action - need documentation
 void process_dragon(dragon* drag, Floor* floor, ostringstream& action) {
     int row = floor->get_width();
     PC* curr_player = floor->get_pc_on_floor();
@@ -803,7 +975,7 @@ void process_dragon(dragon* drag, Floor* floor, ostringstream& action) {
     }
 }
 
-// process available NPC action
+// process available NPC action - need documentation
 void process_NPC_action(NPC* npc, Floor* floor, bool move_enable, ostringstream& action) {
     int row = floor->get_width();
     int ID = npc->get_tile_ID();
@@ -896,9 +1068,13 @@ void process_NPC_action(NPC* npc, Floor* floor, bool move_enable, ostringstream&
     }    
 }
 
+// get_cell_from_chamber(chamber): returns of the cell index in floor that is randomly selected from a EntitySpawnable cell in chamber
+//      that is not being occupied by any Entity
+// Require: chamber is a valid chamber 
 int get_cell_from_chamber(ChamberInterior* chamber) {
     int index = rand() % chamber->get_num_cells();
-    if ((chamber->get_tile_at(index))->get_entity_on_cell()) {
+    // if the cell is not occupied
+    if (((chamber->get_tile_at(index))->get_entity_on_cell()) == nullptr) {
         return (chamber->get_tile_at(index))->get_index();
     }
     else {
@@ -906,14 +1082,21 @@ int get_cell_from_chamber(ChamberInterior* chamber) {
     }
 }
 
+// attach_entity_to_cell(curr_floor_playing, cell_index, entity): attaches entity to the cell at cell_index in floor
+//      and updating the corresponding parameters 
+// Require: curr_floor_playing is a valid floor
+//          cell_index is a valid cell index corresponding to a valid cell in floor
+//          entity is a valid entity
 void attach_entity_to_cell(Floor* curr_floor_playing, int cell_index, Entity* entity) {
     dynamic_cast<EntitySpawnable*>(curr_floor_playing->get_cell_at_index(cell_index))->set_open_to_entity(false);
     dynamic_cast<EntitySpawnable*>(curr_floor_playing->get_cell_at_index(cell_index))->set_entity_on_cell(entity);
     entity->set_tile_ID(cell_index);
 }
 
-const int NUM_SURROUNDING_CELL = 8;
-
+// rand_a_surrounding_cell(floor, index): returns a cell pointer to a randomly selected cell from the surrounding 8 cells 
+//      of the cell at the given index
+// Require: floor is a valid floor
+//          index corresponse to a valid cell index in the floor
 Cell* rand_a_surrounding_cell(Floor* floor, int index) {
     bool top = true;
     bool left = true;
@@ -968,153 +1151,212 @@ Cell* rand_a_surrounding_cell(Floor* floor, int index) {
     // return nullptr;
 }
 
-void generate_objects(Floor* floor, PC* pc, bool need_random_gen, int num_stairway = DEFAULT_NUM_STAIRWAY, int num_potions = DEFAULT_NUM_POTIONS, 
+// generate_objects(floor, pc, num_stairway, num_potions, num_gold, num_enemy, num_player):
+//      randomly generates the given number of each objects onto the floor
+// Require: floor is a valid floor
+//          pc is a valid pc
+void generate_objects(Floor* floor, PC* pc, int num_stairway = DEFAULT_NUM_STAIRWAY, int num_potions = DEFAULT_NUM_POTIONS, 
                       int num_gold = DEFAULT_NUM_GOLD, int num_enemy = DEFAULT_NUM_ENEMY, int num_player = DEFAULT_NUM_PLAYER) {
+    
+    // get chamber informations and relative counters
     int num_chambers = floor->get_num_chambers();
-    if (need_random_gen) {
-        srand(time(0));
-        int chamber_index = 0;
-        int cell_index = 0;
-        //We require that generation happens in the following order: player character location, stairway location, potions, gold, enemies
-        // generate player:
-        for (int i = 0; i < num_player; i++) {
-            chamber_index = rand() % num_chambers;
-            cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
+    srand(time(0));
+    int chamber_index = 0;
+    int cell_index = 0;
+
+    // generate player:
+    for (int i = 0; i < num_player; i++) {
+        // randomly select a chamber
+        chamber_index = rand() % num_chambers;
+        // randomly selects a cell from the chamber
+        cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
+        PlayerWalkableCell* pwc = dynamic_cast<PlayerWalkableCell*>(floor->get_cell_at_index(cell_index));
+        if (pwc) {
+            // bind pc to cell
             pc->set_tile_ID(cell_index);
-            floor->get_chamber_at_index(chamber_index)->set_has_player(true);
+            // bind cell to player
+            pwc->set_player_on_cell(pc);
+        }
+        // associate player to chamber
+        floor->get_chamber_at_index(chamber_index)->set_has_player(true);
+        // updates floor player counter
+        floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
+    }
+
+    // generate stairway
+    for (int i = 0; i < num_stairway; i++) {
+        // randomly generate a chamber without the player in it
+        while(true) {
+            chamber_index = rand() % num_chambers;
+            if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
+                continue;
+            }
+            if (floor->get_chamber_at_index(chamber_index)->get_has_player()) {
+                continue;
+            }
+            break;
+        }
+        // randomly generate a cell in the chamber
+        cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
+        // initialize stairway on give cell
+        Stairway* stw = new Stairway(cell_index);
+        // attach stairway to cell
+        attach_entity_to_cell(floor, cell_index, stw);
+
+        // adds stairway to floor
+        floor->emplace_entity(stw);
+        floor->set_num_stairway(floor->get_num_stairway() + 1);
+        floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
+    }
+
+    // generate potion
+    for (int i = 0; i < num_potions; i++) {
+        // randomly select a chamber that is not full
+        while(true) {
+            chamber_index = rand() % num_chambers;
+            if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
+                continue;
+            }
+            break;
+        }
+        // randomly select a cell in that chamber
+        cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
+
+        // randomly select a potion type
+        int pot_type = rand() % RATE_OF_POTIONS;
+        potion *pot = nullptr;
+        if (pot_type <= RH_RATE) {
+            pot = new potionHP(true, cell_index);
+        } else if (pot_type > RH_RATE && pot_type <= BA_RATE) {
+            pot = new potionAtk(true, cell_index);
+        } else if (pot_type > BA_RATE && pot_type <= BD_RATE) {
+            pot = new potionDef(true, cell_index);
+        } else if (pot_type > BD_RATE && pot_type <= PH_RATE) {
+            pot = new potionHP(false, cell_index);
+        } else if (pot_type > PH_RATE && pot_type <= WA_RATE) {
+            pot = new potionAtk(false, cell_index);
+        } else if (pot_type > WA_RATE && pot_type <= WD_RATE) {
+            pot = new potionDef(false, cell_index);
+        }
+        // attach potion to cell
+        attach_entity_to_cell(floor, cell_index, pot);
+
+        // adds potion to floor
+        floor->emplace_entity(pot);
+        floor->set_num_potions(floor->get_num_potions() + 1);
+        floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
+    }
+
+    // generate gold
+    for (int i = 0; i < num_gold; i++) {
+        // randomly select a chamber that is not full
+        while(true) {
+            chamber_index = rand() % num_chambers;
+            if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
+                continue;
+            }
+            break;
+        }
+        // randomly select a cell in the chamber
+        cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
+
+        // randomly select the type of gold with predetermained odds
+        int gold_type = rand() % RATE_OF_GOLD;
+
+        // if a dragon hoard needs to be generated
+        if (gold_type > NGP_RATE && gold_type <= DH_RATE) {
+            // initialize hoard on cell
+            treDragon* drag_gold = new treDragon(DH_VAL, cell_index);
+            // randomly select a surrounding cell to generate dragoon
+            Cell* drag_cell = rand_a_surrounding_cell(floor, cell_index);
+            // initialize dragon
+            dragon *drag = new dragon(drag_cell->get_index(), cell_index);
+            // attach dragon to hoard
+            drag_gold->set_guard(drag);
+
+            // adds dragon and hoard to cell
+            attach_entity_to_cell(floor, cell_index, drag_gold);
+            attach_entity_to_cell(floor, drag_cell->get_index(), drag);
+
+            // adds dragon and hoard to floor
+            floor->emplace_entity(drag_gold);
+            floor->emplace_entity(drag);
+            floor->set_num_gold(floor->get_num_gold() + 1);
+            floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 2);
+        } else {
+            // placeholder
+            treGround* gold = nullptr;
+            // initialize other individual types of gold
+            if (gold_type > DH_RATE && gold_type <= SH_RATE) {
+                gold = new treGround(SH_VAL, cell_index, SH_MSG);
+            } else if (gold_type <= NGP_RATE) {
+                gold = new treGround(NGP_VAL, cell_index, NGP_MSG);
+            }
+
+            // attach gold to cell
+            attach_entity_to_cell(floor, cell_index, gold);
+            // adds gold to floor
+            floor->emplace_entity(gold);
+            floor->set_num_gold(floor->get_num_gold() + 1);
             floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
         }
+        
+    }
 
-        // generate stairway
-        for (int i = 0; i < num_stairway; i++) {
-            while(true) {
-                chamber_index = rand() % num_chambers;
-                if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
-                    continue;
-                }
-                if (floor->get_chamber_at_index(chamber_index)->get_has_player()) {
-                    continue;
-                }
-                break;
+    // generate enemy
+    for (int i = 0; i < num_enemy; i++) {
+        // randomly select a chamber that is not full
+        while(true) {
+            chamber_index = rand() % num_chambers;
+            if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
+                continue;
             }
-            cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
-            Stairway* stw = new Stairway(cell_index);
-            attach_entity_to_cell(floor, cell_index, stw);
-            //floor->emplace_entity(make_unique<Stairway>(stw));
-            floor->emplace_entity(stw);
-            floor->set_num_stairway(floor->get_num_stairway() + 1);
-            floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
+            break;
+        }
+        // randomly select a cell in the chamber
+        cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
+
+        // randomly select an enemy type with predetermined odds
+        int enemy_type = rand() % RATE_OF_ENEMY;
+        // place holder
+        NPC *npc = nullptr;
+        // initialize the different types of enemy
+        if (enemy_type <= HUMAN_RATE) {
+            npc = new human(cell_index);
+        } else if (enemy_type > HUMAN_RATE && enemy_type <= DWARF_RATE) {
+            npc = new dwarf(cell_index);
+        } else if (enemy_type > DWARF_RATE && enemy_type <= HALFLING_RATE) {
+            npc = new halfling(cell_index);
+        } else if (enemy_type > HALFLING_RATE && enemy_type <= ELF_RATE) {
+            npc = new elf(cell_index);
+        } else if (enemy_type > ELF_RATE && enemy_type <= ORC_RATE) {
+            npc = new orcs(cell_index);
+        } else if (enemy_type > ORC_RATE && enemy_type <= MER_RATE) {
+            npc = new merchant(cell_index);
         }
 
-        // generate potion
-        for (int i = 0; i < num_potions; i++) {
-            while(true) {
-                chamber_index = rand() % num_chambers;
-                if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
-                    continue;
-                }
-                break;
-            }
-            cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
-            int pot_type = rand() % TYPES_OF_POTIONS;
-            potion *pot = nullptr;
-            if (pot_type == RH_SPAWN) {
-                pot = new potionHP(true, cell_index);
-            } else if (pot_type == BA_SPAWN) {
-                pot = new potionAtk(true, cell_index);
-            } else if (pot_type == BD_SPAWN) {
-                pot = new potionDef(true, cell_index);
-            } else if (pot_type == PH_SPAWN) {
-                pot = new potionHP(false, cell_index);
-            } else if (pot_type == WA_SPAWN) {
-                pot = new potionAtk(false, cell_index);
-            } else if (pot_type == WD_SPAWN) {
-                pot = new potionDef(false, cell_index);
-            }
+        // attach enemy to cell
+        attach_entity_to_cell(floor, cell_index, npc);
 
-            attach_entity_to_cell(floor, cell_index, pot);
-            //floor->emplace_entity(make_unique<potion>(pot));
-            floor->emplace_entity(pot);
-            floor->set_num_potions(floor->get_num_potions() + 1);
-            floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
-        }
-
-        // generate gold
-        for (int i = 0; i < num_gold; i++) {
-            while(true) {
-                chamber_index = rand() % num_chambers;
-                if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
-                    continue;
-                }
-                break;
-            }
-            cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
-            int gold_type = rand() % TYPES_OF_GOLD;
-            if (gold_type > NGP_RATE && gold_type <= DH_RATE) {
-                treDragon* drag_gold = new treDragon(DH_VAL, cell_index);
-                Cell* drag_cell = rand_a_surrounding_cell(floor, cell_index);
-                dragon *drag = new dragon(drag_cell->get_index(), cell_index);
-
-                attach_entity_to_cell(floor, cell_index, drag_gold);
-                attach_entity_to_cell(floor, drag_cell->get_index(), drag);
-                floor->emplace_entity(drag_gold);
-                floor->emplace_entity(drag);
-                floor->set_num_gold(floor->get_num_gold() + 1);
-                floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 2);
-            } else {
-                treGround* gold = nullptr;
-                if (gold_type > DH_RATE && gold_type <= SH_RATE) {
-                    gold = new treGround(SH_VAL, cell_index, SH_MSG);
-                } else if (gold_type <= NGP_RATE) {
-                    gold = new treGround(NGP_VAL, cell_index, NGP_MSG);
-                }
-                
-                attach_entity_to_cell(floor, cell_index, gold);
-                floor->emplace_entity(gold);
-                floor->set_num_gold(floor->get_num_gold() + 1);
-                floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
-            }
-            
-        }
-
-        // generate enemy
-        for (int i = 0; i < num_enemy; i++) {
-            while(true) {
-                chamber_index = rand() % num_chambers;
-                if (floor->get_chamber_at_index(chamber_index)->get_num_entities() >= floor->get_num_cells()) {
-                    continue;
-                }
-                break;
-            }
-            cell_index = get_cell_from_chamber(floor->get_chamber_at_index(chamber_index));
-            //int pot_type = rand() % TYPES_OF_POTIONS;
-        }
+        // adds enemy to floor
+        floor->emplace_entity(npc);
+        floor->set_num_enemy(floor->get_num_enemy() + 1);
+        floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 1);
     }
 }
 
+// determine_all_chambers(game, num_chambers) :
+//      processes and fills all chambers on all floors of the game with their corresponding inner cells
+// Require: game is a valid game
+//          each floor of the game has exactly (num_chambers) number of chambers
 void determine_all_chambers(Game *game, int num_chambers) {
     int num_floors = game->get_num_floors();
     for (int i = 0; i < num_floors; i++) {
-        Floor* curr_floor = game->get_floor_at(i);
-        int chamber_index = 0;
-        while (chamber_index < num_chambers) {
-            for (int h = 0; h < curr_floor->get_height(); h++) {
-                for (int w = 0; w < curr_floor->get_width(); w++) {
-                    Cell* curr_cell = curr_floor->get_cell_at_index(h * curr_floor->get_height() + w);
-                    if(is_top_left_unchecked_wall(curr_floor, curr_cell)) {
-                        ChamberInterior* curr_chamber = new ChamberInterior(chamber_index, curr_floor);
-                        find_all_cell_in_chamber(curr_floor, curr_cell, curr_chamber);
-                        //curr_floor->emplace_chamber(std::make_unique<ChamberInterior>(curr_chamber));
-                        curr_floor->emplace_chamber(curr_chamber);
-                        chamber_index++;
-                    }
-                }
-            }
-        }
+        determine_chambers_on_flr(game->get_floor_at(i), num_chambers);
     }
 }
 
-// gets the new tile that PC takes action on
+// gets the new tile that PC takes action on - need documentation
 bool get_new_cell(int curr_tile, int& new_tile, string cmd) {
     const int row = 79;
     if (cmd == "nw") {
