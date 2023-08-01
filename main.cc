@@ -1,16 +1,21 @@
 #include "blockedCell.h"
 #include "cell.h"
 #include "chamberInterior.h"
+#include "entity.h"
 #include "entitySpawnable.h"
 #include "floor.h"
+#include "floorTile.h"
 #include "game.h"
-#include "entity.h"
+#include "item.h"
 #include "npc.h"
 #include "pc.h"
 #include "playerWalkableCell.h"
 #include "doorway.h"
 #include "passage.h"
-#include "floorTile.h"
+#include "potion.h"
+#include "potionEffect.h"
+#include "stairway.h"
+#include "treasure.h"
 #include "voidCell.h"
 #include "wall.h"
 
@@ -258,7 +263,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
 
                 else if (c == PH) {
                     // initialize potion
-                    potionHP *pot = new potionHP(false, index);
+                    potionHP *pot = new potionHP(false, index, -10);
                     // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
                     // adds cell to floor
@@ -278,7 +283,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
 
                 else if (c == WA) {
                     // initialize potion
-                    potionAtk *pot = new potionAtk(false, index);
+                    potionAtk *pot = new potionAtk(false, index, -5);
                     // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
                     // adds cell to floor
@@ -298,7 +303,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
 
                 else if (c == WD) {
                     // initialize potion
-                    potionDef *pot = new potionDef(false, index);
+                    potionDef *pot = new potionDef(false, index, -5);
                     // initialize cell
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
                     // adds cell to floor
@@ -915,7 +920,7 @@ void determine_chambers_on_flr(Floor* floor, int num_chambers = 5) {
     }
 }
 
-// calculate damage using attacker's atk value and defender's def value - need documentation
+// calculate_dmg (atk, def): Calculate the damage using attacker's atk value and defender's def value 
 int calculate_dmg(int atk, int def) {
     double numerator = 100;
     double def_src = 100 + def;
@@ -923,25 +928,9 @@ int calculate_dmg(int atk, int def) {
     return dmg;
 }
 
-// need documentation
-void process_PC_action(Floor* floor) {
-    string cmd;
-    cin >> cmd;
-            if (cmd == "test") {
-            PC* player = floor->get_pc_on_floor();
-            int curr_tile_ID = player->get_tile_ID();
-            Cell* curr_cell = floor->get_cell_at_index(curr_tile_ID);
-            Cell* new_cell = floor->get_cell_at_index(curr_tile_ID - 1);
-            PlayerWalkableCell* new_cell_casted = dynamic_cast<PlayerWalkableCell*>(new_cell);
-            PlayerWalkableCell* curr_cell_casted = dynamic_cast<PlayerWalkableCell*>(curr_cell);
-            new_cell_casted->set_player_on_cell(player);
-            player->set_tile_ID(curr_tile_ID - 1);
-            curr_cell_casted->set_player_on_cell(nullptr);
 
-        }
-}
-
-// process dragon action - need documentation
+// process_dragon(drag, floor, action) determines the dragon's attack range and perform the 
+// attack on the player if in range
 void process_dragon(dragon* drag, Floor* floor, ostringstream& action) {
     int row = floor->get_width();
     PC* curr_player = floor->get_pc_on_floor();
@@ -975,7 +964,8 @@ void process_dragon(dragon* drag, Floor* floor, ostringstream& action) {
     }
 }
 
-// process available NPC action - need documentation
+// process_NPC_action(npc, floor, move_enable, action) determines the action available
+//      to NPC and perform the action accordingly
 void process_NPC_action(NPC* npc, Floor* floor, bool move_enable, ostringstream& action) {
     int row = floor->get_width();
     int ID = npc->get_tile_ID();
@@ -1356,7 +1346,7 @@ void determine_all_chambers(Game *game, int num_chambers) {
     }
 }
 
-// gets the new tile that PC takes action on - need documentation
+// get_new_cell (curr_tile, new_tile, cmd) interprets the command given and determines the corresponding tile
 bool get_new_cell(int curr_tile, int& new_tile, string cmd) {
     const int row = 79;
     if (cmd == "nw") {
@@ -1413,7 +1403,7 @@ int main(int argc, char *argv[]) {
     int map_width = DEFAULT_WIDTH;
     int num_chambers = DEFAULT_CHAMBER_ON_FLOOR;
 
-    Game* game = new Game(num_floors, num_players);
+    Game* game = new Game(num_floors);
     bool need_random_gen = read_entity_map_file(game, filename, map_width, map_height, num_floors, faction_select);
     /*
     if (need_random_gen) {

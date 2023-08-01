@@ -158,6 +158,8 @@ CMakeFiles/cc3k.dir/main.cc.obj: \
  C:/mingw64/include/c++/13.1.0/bits/stl_vector.h \
  C:/mingw64/include/c++/13.1.0/bits/stl_bvector.h \
  C:/mingw64/include/c++/13.1.0/bits/vector.tcc \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.h \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\potionEffect.h \
  C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\floor.h \
  C:/mingw64/include/c++/13.1.0/memory \
  C:/mingw64/include/c++/13.1.0/bits/stl_tempbuf.h \
@@ -175,8 +177,9 @@ CMakeFiles/cc3k.dir/main.cc.obj: \
  C:/mingw64/include/c++/13.1.0/backward/auto_ptr.h \
  C:/mingw64/include/c++/13.1.0/pstl/glue_memory_defs.h \
  C:/mingw64/include/c++/13.1.0/pstl/execution_defs.h \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\floorTile.h \
  C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\game.h \
- C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.h \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\item.h \
  C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\npc.h \
  C:/mingw64/include/c++/13.1.0/ctime C:/mingw64/include/c++/13.1.0/cmath \
  C:/mingw64/x86_64-w64-mingw32/include/math.h \
@@ -196,7 +199,9 @@ CMakeFiles/cc3k.dir/main.cc.obj: \
  C:/mingw64/include/c++/13.1.0/tr1/riemann_zeta.tcc \
  C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\doorway.h \
  C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\passage.h \
- C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\floorTile.h \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\potion.h \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\stairway.h \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\treasure.h \
  C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\voidCell.h \
  C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\wall.h \
  C:/mingw64/include/c++/13.1.0/fstream \

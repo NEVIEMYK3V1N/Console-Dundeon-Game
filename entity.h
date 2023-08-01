@@ -1,9 +1,17 @@
+/* @author: William Wang
+   @purpose: NPC is an abstract superclass and it is the parent class of Stairway, item and treasure.
+            It is also the ancestor class of item and treasure's subclasses, such as 
+            every entitySpawnable class has an entity pointer, and the specific subclass can be dynamically casted
+            accordingly
+*/
+
 #ifndef ENTITY_H
 #define ENTITY_H
 
 #include <iostream>
 #include <string>
 #include "pc.h"
+#include "potionEffect.h"
 
 using namespace std;
 
@@ -11,9 +19,12 @@ class dragon;
 
 class Entity {
 protected:
+    // shared stats of entities
     int tile_ID;
+    // three booleans to determine the type of entity, used for dynamic casting
     bool gold, pot, NPC;
 public:
+    // ctor and dtor
     Entity(bool gold, bool pot, bool NPC, int tile_ID);
     virtual ~Entity();
     bool is_gold() const;
@@ -21,83 +32,8 @@ public:
     bool is_NPC() const;
     int get_tile_ID() const;
     void set_tile_ID(int val);
+    // pure virtual get_sym() function used to print map
     virtual char get_sym() const = 0;
-};
-
-class Stairway : public Entity {
-public:
-    Stairway(int tile_ID);
-    ~Stairway();
-    char get_sym () const;
-};
-
-class item : public Entity {
-public:
-    item(bool gold, bool pot, bool NPC, int tile_ID);
-    virtual ~item();
-    virtual PC* consume_item(PC* player) = 0;
-};
-
-class potion: public item {
-protected:
-    int val;
-    string pot_type;
-
-public:
-    potion(int val, bool eff, string pot_type, int tile_ID);
-    ~potion();
-    void is_drow(const PC* player);
-    char get_sym() const override;
-};
-
-class potionHP: public potion {
-public:
-    potionHP(bool eff, int tile_ID, int val = 10);
-    ~potionHP();
-    PC* consume_item (PC* player) override;
-};
-
-class potionAtk: public potion {
-public:
-    potionAtk(bool eff, int tile_ID, int val = 5);
-    ~potionAtk();
-    PC* consume_item (PC* player) override;
-};
-
-class potionDef: public potion {
-public:
-    potionDef(bool eff, int tile_ID, int val = 5);
-    ~potionDef();
-    PC* consume_item (PC* player) override;
-};
-
-
-class Treasure: public item {
-protected:
-    int val;
-    string size;
-    bool is_dragon;
-public:
-    Treasure(int val, int tile_ID, string size, bool is_dragon);
-    ~Treasure();
-    bool is_treDragon() const;
-    PC* consume_item (PC* player) override;
-    char get_sym() const override;
-};
-
-class treGround: public Treasure {
-public:
-    treGround(int val, int tile_ID, string size);
-    ~treGround();
-};
-
-class treDragon: public Treasure {
-    dragon* guard;
-public:
-    treDragon(int val, int tile_ID);
-    ~treDragon();
-    dragon* get_guard() const;
-    void set_guard(dragon* guard);
 };
 
 #endif

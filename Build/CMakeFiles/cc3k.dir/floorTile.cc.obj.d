@@ -157,4 +157,5 @@ CMakeFiles/cc3k.dir/floorTile.cc.obj: \
  C:/mingw64/include/c++/13.1.0/bits/stl_vector.h \
  C:/mingw64/include/c++/13.1.0/bits/stl_bvector.h \
  C:/mingw64/include/c++/13.1.0/bits/vector.tcc \
- C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.h
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.h \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\potionEffect.h

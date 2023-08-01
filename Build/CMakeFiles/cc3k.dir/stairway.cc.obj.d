@@ -1,5 +1,6 @@
-CMakeFiles/cc3k.dir/entity.cc.obj: \
- C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.cc \
+CMakeFiles/cc3k.dir/stairway.cc.obj: \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\stairway.cc \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\stairway.h \
  C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.h \
  C:/mingw64/include/c++/13.1.0/iostream \
  C:/mingw64/include/c++/13.1.0/bits/requires_hosted.h \

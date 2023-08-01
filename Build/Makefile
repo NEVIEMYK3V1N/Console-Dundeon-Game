@@ -344,6 +344,30 @@ game.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/game.cc.s
 .PHONY : game.cc.s
 
+item.obj: item.cc.obj
+.PHONY : item.obj
+
+# target to build an object file
+item.cc.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/item.cc.obj
+.PHONY : item.cc.obj
+
+item.i: item.cc.i
+.PHONY : item.i
+
+# target to preprocess a source file
+item.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/item.cc.i
+.PHONY : item.cc.i
+
+item.s: item.cc.s
+.PHONY : item.s
+
+# target to generate assembly for a file
+item.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/item.cc.s
+.PHONY : item.cc.s
+
 main.obj: main.cc.obj
 .PHONY : main.obj
 
@@ -464,6 +488,102 @@ playerWalkableCell.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/playerWalkableCell.cc.s
 .PHONY : playerWalkableCell.cc.s
 
+potion.obj: potion.cc.obj
+.PHONY : potion.obj
+
+# target to build an object file
+potion.cc.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/potion.cc.obj
+.PHONY : potion.cc.obj
+
+potion.i: potion.cc.i
+.PHONY : potion.i
+
+# target to preprocess a source file
+potion.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/potion.cc.i
+.PHONY : potion.cc.i
+
+potion.s: potion.cc.s
+.PHONY : potion.s
+
+# target to generate assembly for a file
+potion.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/potion.cc.s
+.PHONY : potion.cc.s
+
+potionEffect.obj: potionEffect.cc.obj
+.PHONY : potionEffect.obj
+
+# target to build an object file
+potionEffect.cc.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/potionEffect.cc.obj
+.PHONY : potionEffect.cc.obj
+
+potionEffect.i: potionEffect.cc.i
+.PHONY : potionEffect.i
+
+# target to preprocess a source file
+potionEffect.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/potionEffect.cc.i
+.PHONY : potionEffect.cc.i
+
+potionEffect.s: potionEffect.cc.s
+.PHONY : potionEffect.s
+
+# target to generate assembly for a file
+potionEffect.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/potionEffect.cc.s
+.PHONY : potionEffect.cc.s
+
+stairway.obj: stairway.cc.obj
+.PHONY : stairway.obj
+
+# target to build an object file
+stairway.cc.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/stairway.cc.obj
+.PHONY : stairway.cc.obj
+
+stairway.i: stairway.cc.i
+.PHONY : stairway.i
+
+# target to preprocess a source file
+stairway.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/stairway.cc.i
+.PHONY : stairway.cc.i
+
+stairway.s: stairway.cc.s
+.PHONY : stairway.s
+
+# target to generate assembly for a file
+stairway.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/stairway.cc.s
+.PHONY : stairway.cc.s
+
+treasure.obj: treasure.cc.obj
+.PHONY : treasure.obj
+
+# target to build an object file
+treasure.cc.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/treasure.cc.obj
+.PHONY : treasure.cc.obj
+
+treasure.i: treasure.cc.i
+.PHONY : treasure.i
+
+# target to preprocess a source file
+treasure.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/treasure.cc.i
+.PHONY : treasure.cc.i
+
+treasure.s: treasure.cc.s
+.PHONY : treasure.s
+
+# target to generate assembly for a file
+treasure.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cc3k.dir\build.make CMakeFiles/cc3k.dir/treasure.cc.s
+.PHONY : treasure.cc.s
+
 voidCell.obj: voidCell.cc.obj
 .PHONY : voidCell.obj
 
@@ -548,6 +668,9 @@ help:
 	@echo ... game.obj
 	@echo ... game.i
 	@echo ... game.s
+	@echo ... item.obj
+	@echo ... item.i
+	@echo ... item.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
@@ -563,6 +686,18 @@ help:
 	@echo ... playerWalkableCell.obj
 	@echo ... playerWalkableCell.i
 	@echo ... playerWalkableCell.s
+	@echo ... potion.obj
+	@echo ... potion.i
+	@echo ... potion.s
+	@echo ... potionEffect.obj
+	@echo ... potionEffect.i
+	@echo ... potionEffect.s
+	@echo ... stairway.obj
+	@echo ... stairway.i
+	@echo ... stairway.s
+	@echo ... treasure.obj
+	@echo ... treasure.i
+	@echo ... treasure.s
 	@echo ... voidCell.obj
 	@echo ... voidCell.i
 	@echo ... voidCell.s

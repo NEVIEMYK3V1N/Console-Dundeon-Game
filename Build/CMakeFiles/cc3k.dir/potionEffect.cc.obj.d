@@ -1,6 +1,7 @@
-CMakeFiles/cc3k.dir/entity.cc.obj: \
- C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.cc \
- C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.h \
+CMakeFiles/cc3k.dir/potionEffect.cc.obj: \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\potionEffect.cc \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\potionEffect.h \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\pc.h \
  C:/mingw64/include/c++/13.1.0/iostream \
  C:/mingw64/include/c++/13.1.0/bits/requires_hosted.h \
  C:/mingw64/include/c++/13.1.0/x86_64-w64-mingw32/bits/c++config.h \
@@ -147,6 +148,4 @@ CMakeFiles/cc3k.dir/entity.cc.obj: \
  C:/mingw64/include/c++/13.1.0/bits/basic_ios.tcc \
  C:/mingw64/include/c++/13.1.0/bits/ostream.tcc \
  C:/mingw64/include/c++/13.1.0/istream \
- C:/mingw64/include/c++/13.1.0/bits/istream.tcc \
- C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\pc.h \
- C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\potionEffect.h
+ C:/mingw64/include/c++/13.1.0/bits/istream.tcc

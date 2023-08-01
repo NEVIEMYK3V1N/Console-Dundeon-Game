@@ -165,4 +165,5 @@ CMakeFiles/cc3k.dir/npc.cc.obj: \
  C:/mingw64/include/c++/13.1.0/tr1/poly_laguerre.tcc \
  C:/mingw64/include/c++/13.1.0/tr1/riemann_zeta.tcc \
  C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\pc.h \
- C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.h
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.h \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\potionEffect.h

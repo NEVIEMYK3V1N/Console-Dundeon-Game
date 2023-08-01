@@ -96,10 +96,24 @@ CMakeFiles/cc3k.dir/cell.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cc3k.dir/cell.cc.s"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\cell.cc" -o CMakeFiles\cc3k.dir\cell.cc.s
 
+CMakeFiles/cc3k.dir/stairway.cc.obj: CMakeFiles/cc3k.dir/flags.make
+CMakeFiles/cc3k.dir/stairway.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/stairway.cc
+CMakeFiles/cc3k.dir/stairway.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cc3k.dir/stairway.cc.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/stairway.cc.obj -MF CMakeFiles\cc3k.dir\stairway.cc.obj.d -o CMakeFiles\cc3k.dir\stairway.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\stairway.cc"
+
+CMakeFiles/cc3k.dir/stairway.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cc3k.dir/stairway.cc.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\stairway.cc" > CMakeFiles\cc3k.dir\stairway.cc.i
+
+CMakeFiles/cc3k.dir/stairway.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cc3k.dir/stairway.cc.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\stairway.cc" -o CMakeFiles\cc3k.dir\stairway.cc.s
+
 CMakeFiles/cc3k.dir/chamberInterior.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/chamberInterior.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/chamberInterior.cc
 CMakeFiles/cc3k.dir/chamberInterior.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cc3k.dir/chamberInterior.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cc3k.dir/chamberInterior.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/chamberInterior.cc.obj -MF CMakeFiles\cc3k.dir\chamberInterior.cc.obj.d -o CMakeFiles\cc3k.dir\chamberInterior.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\chamberInterior.cc"
 
 CMakeFiles/cc3k.dir/chamberInterior.cc.i: cmake_force
@@ -113,7 +127,7 @@ CMakeFiles/cc3k.dir/chamberInterior.cc.s: cmake_force
 CMakeFiles/cc3k.dir/doorway.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/doorway.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/doorway.cc
 CMakeFiles/cc3k.dir/doorway.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cc3k.dir/doorway.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/cc3k.dir/doorway.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/doorway.cc.obj -MF CMakeFiles\cc3k.dir\doorway.cc.obj.d -o CMakeFiles\cc3k.dir\doorway.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\doorway.cc"
 
 CMakeFiles/cc3k.dir/doorway.cc.i: cmake_force
@@ -127,7 +141,7 @@ CMakeFiles/cc3k.dir/doorway.cc.s: cmake_force
 CMakeFiles/cc3k.dir/entity.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/entity.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/entity.cc
 CMakeFiles/cc3k.dir/entity.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/cc3k.dir/entity.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/cc3k.dir/entity.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/entity.cc.obj -MF CMakeFiles\cc3k.dir\entity.cc.obj.d -o CMakeFiles\cc3k.dir\entity.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\entity.cc"
 
 CMakeFiles/cc3k.dir/entity.cc.i: cmake_force
@@ -141,7 +155,7 @@ CMakeFiles/cc3k.dir/entity.cc.s: cmake_force
 CMakeFiles/cc3k.dir/entitySpawnable.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/entitySpawnable.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/entitySpawnable.cc
 CMakeFiles/cc3k.dir/entitySpawnable.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/cc3k.dir/entitySpawnable.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/cc3k.dir/entitySpawnable.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/entitySpawnable.cc.obj -MF CMakeFiles\cc3k.dir\entitySpawnable.cc.obj.d -o CMakeFiles\cc3k.dir\entitySpawnable.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\entitySpawnable.cc"
 
 CMakeFiles/cc3k.dir/entitySpawnable.cc.i: cmake_force
@@ -155,7 +169,7 @@ CMakeFiles/cc3k.dir/entitySpawnable.cc.s: cmake_force
 CMakeFiles/cc3k.dir/floor.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/floor.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/floor.cc
 CMakeFiles/cc3k.dir/floor.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/cc3k.dir/floor.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/cc3k.dir/floor.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/floor.cc.obj -MF CMakeFiles\cc3k.dir\floor.cc.obj.d -o CMakeFiles\cc3k.dir\floor.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\floor.cc"
 
 CMakeFiles/cc3k.dir/floor.cc.i: cmake_force
@@ -169,7 +183,7 @@ CMakeFiles/cc3k.dir/floor.cc.s: cmake_force
 CMakeFiles/cc3k.dir/floorTile.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/floorTile.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/floorTile.cc
 CMakeFiles/cc3k.dir/floorTile.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/cc3k.dir/floorTile.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/cc3k.dir/floorTile.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/floorTile.cc.obj -MF CMakeFiles\cc3k.dir\floorTile.cc.obj.d -o CMakeFiles\cc3k.dir\floorTile.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\floorTile.cc"
 
 CMakeFiles/cc3k.dir/floorTile.cc.i: cmake_force
@@ -183,7 +197,7 @@ CMakeFiles/cc3k.dir/floorTile.cc.s: cmake_force
 CMakeFiles/cc3k.dir/game.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/game.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/game.cc
 CMakeFiles/cc3k.dir/game.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/cc3k.dir/game.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/cc3k.dir/game.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/game.cc.obj -MF CMakeFiles\cc3k.dir\game.cc.obj.d -o CMakeFiles\cc3k.dir\game.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\game.cc"
 
 CMakeFiles/cc3k.dir/game.cc.i: cmake_force
@@ -197,7 +211,7 @@ CMakeFiles/cc3k.dir/game.cc.s: cmake_force
 CMakeFiles/cc3k.dir/main.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/main.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/main.cc
 CMakeFiles/cc3k.dir/main.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/cc3k.dir/main.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/cc3k.dir/main.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/main.cc.obj -MF CMakeFiles\cc3k.dir\main.cc.obj.d -o CMakeFiles\cc3k.dir\main.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\main.cc"
 
 CMakeFiles/cc3k.dir/main.cc.i: cmake_force
@@ -211,7 +225,7 @@ CMakeFiles/cc3k.dir/main.cc.s: cmake_force
 CMakeFiles/cc3k.dir/npc.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/npc.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/npc.cc
 CMakeFiles/cc3k.dir/npc.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/cc3k.dir/npc.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/cc3k.dir/npc.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/npc.cc.obj -MF CMakeFiles\cc3k.dir\npc.cc.obj.d -o CMakeFiles\cc3k.dir\npc.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\npc.cc"
 
 CMakeFiles/cc3k.dir/npc.cc.i: cmake_force
@@ -225,7 +239,7 @@ CMakeFiles/cc3k.dir/npc.cc.s: cmake_force
 CMakeFiles/cc3k.dir/passage.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/passage.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/passage.cc
 CMakeFiles/cc3k.dir/passage.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/cc3k.dir/passage.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/cc3k.dir/passage.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/passage.cc.obj -MF CMakeFiles\cc3k.dir\passage.cc.obj.d -o CMakeFiles\cc3k.dir\passage.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\passage.cc"
 
 CMakeFiles/cc3k.dir/passage.cc.i: cmake_force
@@ -239,7 +253,7 @@ CMakeFiles/cc3k.dir/passage.cc.s: cmake_force
 CMakeFiles/cc3k.dir/pc.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/pc.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/pc.cc
 CMakeFiles/cc3k.dir/pc.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/cc3k.dir/pc.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/cc3k.dir/pc.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/pc.cc.obj -MF CMakeFiles\cc3k.dir\pc.cc.obj.d -o CMakeFiles\cc3k.dir\pc.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\pc.cc"
 
 CMakeFiles/cc3k.dir/pc.cc.i: cmake_force
@@ -250,10 +264,24 @@ CMakeFiles/cc3k.dir/pc.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cc3k.dir/pc.cc.s"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\pc.cc" -o CMakeFiles\cc3k.dir\pc.cc.s
 
+CMakeFiles/cc3k.dir/potionEffect.cc.obj: CMakeFiles/cc3k.dir/flags.make
+CMakeFiles/cc3k.dir/potionEffect.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/potionEffect.cc
+CMakeFiles/cc3k.dir/potionEffect.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/cc3k.dir/potionEffect.cc.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/potionEffect.cc.obj -MF CMakeFiles\cc3k.dir\potionEffect.cc.obj.d -o CMakeFiles\cc3k.dir\potionEffect.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\potionEffect.cc"
+
+CMakeFiles/cc3k.dir/potionEffect.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cc3k.dir/potionEffect.cc.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\potionEffect.cc" > CMakeFiles\cc3k.dir\potionEffect.cc.i
+
+CMakeFiles/cc3k.dir/potionEffect.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cc3k.dir/potionEffect.cc.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\potionEffect.cc" -o CMakeFiles\cc3k.dir\potionEffect.cc.s
+
 CMakeFiles/cc3k.dir/playerWalkableCell.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/playerWalkableCell.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/playerWalkableCell.cc
 CMakeFiles/cc3k.dir/playerWalkableCell.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/cc3k.dir/playerWalkableCell.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/cc3k.dir/playerWalkableCell.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/playerWalkableCell.cc.obj -MF CMakeFiles\cc3k.dir\playerWalkableCell.cc.obj.d -o CMakeFiles\cc3k.dir\playerWalkableCell.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\playerWalkableCell.cc"
 
 CMakeFiles/cc3k.dir/playerWalkableCell.cc.i: cmake_force
@@ -267,7 +295,7 @@ CMakeFiles/cc3k.dir/playerWalkableCell.cc.s: cmake_force
 CMakeFiles/cc3k.dir/voidCell.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/voidCell.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/voidCell.cc
 CMakeFiles/cc3k.dir/voidCell.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/cc3k.dir/voidCell.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/cc3k.dir/voidCell.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/voidCell.cc.obj -MF CMakeFiles\cc3k.dir\voidCell.cc.obj.d -o CMakeFiles\cc3k.dir\voidCell.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\voidCell.cc"
 
 CMakeFiles/cc3k.dir/voidCell.cc.i: cmake_force
@@ -281,7 +309,7 @@ CMakeFiles/cc3k.dir/voidCell.cc.s: cmake_force
 CMakeFiles/cc3k.dir/wall.cc.obj: CMakeFiles/cc3k.dir/flags.make
 CMakeFiles/cc3k.dir/wall.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/wall.cc
 CMakeFiles/cc3k.dir/wall.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/cc3k.dir/wall.cc.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/cc3k.dir/wall.cc.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/wall.cc.obj -MF CMakeFiles\cc3k.dir\wall.cc.obj.d -o CMakeFiles\cc3k.dir\wall.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\wall.cc"
 
 CMakeFiles/cc3k.dir/wall.cc.i: cmake_force
@@ -292,10 +320,53 @@ CMakeFiles/cc3k.dir/wall.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cc3k.dir/wall.cc.s"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\wall.cc" -o CMakeFiles\cc3k.dir\wall.cc.s
 
+CMakeFiles/cc3k.dir/item.cc.obj: CMakeFiles/cc3k.dir/flags.make
+CMakeFiles/cc3k.dir/item.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/item.cc
+CMakeFiles/cc3k.dir/item.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/cc3k.dir/item.cc.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/item.cc.obj -MF CMakeFiles\cc3k.dir\item.cc.obj.d -o CMakeFiles\cc3k.dir\item.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\item.cc"
+
+CMakeFiles/cc3k.dir/item.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cc3k.dir/item.cc.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\item.cc" > CMakeFiles\cc3k.dir\item.cc.i
+
+CMakeFiles/cc3k.dir/item.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cc3k.dir/item.cc.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\item.cc" -o CMakeFiles\cc3k.dir\item.cc.s
+
+CMakeFiles/cc3k.dir/treasure.cc.obj: CMakeFiles/cc3k.dir/flags.make
+CMakeFiles/cc3k.dir/treasure.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/treasure.cc
+CMakeFiles/cc3k.dir/treasure.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/cc3k.dir/treasure.cc.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/treasure.cc.obj -MF CMakeFiles\cc3k.dir\treasure.cc.obj.d -o CMakeFiles\cc3k.dir\treasure.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\treasure.cc"
+
+CMakeFiles/cc3k.dir/treasure.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cc3k.dir/treasure.cc.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\treasure.cc" > CMakeFiles\cc3k.dir\treasure.cc.i
+
+CMakeFiles/cc3k.dir/treasure.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cc3k.dir/treasure.cc.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\treasure.cc" -o CMakeFiles\cc3k.dir\treasure.cc.s
+
+CMakeFiles/cc3k.dir/potion.cc.obj: CMakeFiles/cc3k.dir/flags.make
+CMakeFiles/cc3k.dir/potion.cc.obj: C:/Users/wangt/Desktop/Software\ Projects/In\ Progress/CC3K/potion.cc
+CMakeFiles/cc3k.dir/potion.cc.obj: CMakeFiles/cc3k.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/cc3k.dir/potion.cc.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cc3k.dir/potion.cc.obj -MF CMakeFiles\cc3k.dir\potion.cc.obj.d -o CMakeFiles\cc3k.dir\potion.cc.obj -c "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\potion.cc"
+
+CMakeFiles/cc3k.dir/potion.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cc3k.dir/potion.cc.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\potion.cc" > CMakeFiles\cc3k.dir\potion.cc.i
+
+CMakeFiles/cc3k.dir/potion.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cc3k.dir/potion.cc.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\potion.cc" -o CMakeFiles\cc3k.dir\potion.cc.s
+
 # Object files for target cc3k
 cc3k_OBJECTS = \
 "CMakeFiles/cc3k.dir/blockedCell.cc.obj" \
 "CMakeFiles/cc3k.dir/cell.cc.obj" \
+"CMakeFiles/cc3k.dir/stairway.cc.obj" \
 "CMakeFiles/cc3k.dir/chamberInterior.cc.obj" \
 "CMakeFiles/cc3k.dir/doorway.cc.obj" \
 "CMakeFiles/cc3k.dir/entity.cc.obj" \
@@ -307,15 +378,20 @@ cc3k_OBJECTS = \
 "CMakeFiles/cc3k.dir/npc.cc.obj" \
 "CMakeFiles/cc3k.dir/passage.cc.obj" \
 "CMakeFiles/cc3k.dir/pc.cc.obj" \
+"CMakeFiles/cc3k.dir/potionEffect.cc.obj" \
 "CMakeFiles/cc3k.dir/playerWalkableCell.cc.obj" \
 "CMakeFiles/cc3k.dir/voidCell.cc.obj" \
-"CMakeFiles/cc3k.dir/wall.cc.obj"
+"CMakeFiles/cc3k.dir/wall.cc.obj" \
+"CMakeFiles/cc3k.dir/item.cc.obj" \
+"CMakeFiles/cc3k.dir/treasure.cc.obj" \
+"CMakeFiles/cc3k.dir/potion.cc.obj"
 
 # External object files for target cc3k
 cc3k_EXTERNAL_OBJECTS =
 
 cc3k.exe: CMakeFiles/cc3k.dir/blockedCell.cc.obj
 cc3k.exe: CMakeFiles/cc3k.dir/cell.cc.obj
+cc3k.exe: CMakeFiles/cc3k.dir/stairway.cc.obj
 cc3k.exe: CMakeFiles/cc3k.dir/chamberInterior.cc.obj
 cc3k.exe: CMakeFiles/cc3k.dir/doorway.cc.obj
 cc3k.exe: CMakeFiles/cc3k.dir/entity.cc.obj
@@ -327,14 +403,18 @@ cc3k.exe: CMakeFiles/cc3k.dir/main.cc.obj
 cc3k.exe: CMakeFiles/cc3k.dir/npc.cc.obj
 cc3k.exe: CMakeFiles/cc3k.dir/passage.cc.obj
 cc3k.exe: CMakeFiles/cc3k.dir/pc.cc.obj
+cc3k.exe: CMakeFiles/cc3k.dir/potionEffect.cc.obj
 cc3k.exe: CMakeFiles/cc3k.dir/playerWalkableCell.cc.obj
 cc3k.exe: CMakeFiles/cc3k.dir/voidCell.cc.obj
 cc3k.exe: CMakeFiles/cc3k.dir/wall.cc.obj
+cc3k.exe: CMakeFiles/cc3k.dir/item.cc.obj
+cc3k.exe: CMakeFiles/cc3k.dir/treasure.cc.obj
+cc3k.exe: CMakeFiles/cc3k.dir/potion.cc.obj
 cc3k.exe: CMakeFiles/cc3k.dir/build.make
 cc3k.exe: CMakeFiles/cc3k.dir/linkLibs.rsp
 cc3k.exe: CMakeFiles/cc3k.dir/objects1.rsp
 cc3k.exe: CMakeFiles/cc3k.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX executable cc3k.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\wangt\Desktop\Software Projects\In Progress\CC3K\Build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_22) "Linking CXX executable cc3k.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\cc3k.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

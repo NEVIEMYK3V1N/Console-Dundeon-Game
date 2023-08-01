@@ -1,5 +1,7 @@
-CMakeFiles/cc3k.dir/entity.cc.obj: \
- C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.cc \
+CMakeFiles/cc3k.dir/potion.cc.obj: \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\potion.cc \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\potion.h \
+ C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\item.h \
  C:\Users\wangt\Desktop\Software\ Projects\In\ Progress\CC3K\entity.h \
  C:/mingw64/include/c++/13.1.0/iostream \
  C:/mingw64/include/c++/13.1.0/bits/requires_hosted.h \
