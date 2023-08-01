@@ -10,7 +10,6 @@ char Wall::render_cell() {
     return this->notation;
 }
 
-
 // getters
 bool Wall::get_has_chamber() {
     return this->has_chamber;

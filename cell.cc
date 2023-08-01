@@ -9,10 +9,6 @@ int Cell::get_index() {
   return this->index;
 }
 
-//char Cell::get_notation() {
-//  return this->notation;
-//}
-
 bool Cell::get_player_walkable() {
   return this->player_walkable;
 }
@@ -25,9 +21,11 @@ bool Cell::get_entity_spawnable() {
 void Cell::set_root_floor(Floor* root_floor) {
   this->root_floor = root_floor;
 }
+
 void Cell::set_index(int index) {
   this->index = index;
 }
+
 void Cell::set_notation(char notation) {
   this->notation = notation;
 }

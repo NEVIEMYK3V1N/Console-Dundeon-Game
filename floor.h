@@ -1,3 +1,10 @@
+/* @author: Kevin Yang
+   @purpose: This is a concrete class representing the entire map of one floor, including 
+             the different cells, entities and player
+             This class possess ownership over all its cells, entities and player
+*/
+
+// Include guard
 #ifndef FLOOR_H
 #define FLOOR_H
 
@@ -6,58 +13,51 @@
 #include <vector>
 #include <string>
 #include "cell.h"
-#include "chamberInterior.h"
 
 class ChamberInterior;
 class Entity;
 class PC;
 
 class Floor {
+  // Number of different entities on the floor
   int num_stairway;
   int num_potions;
   int num_gold;
   int num_enemy;
+
+  // Unique ID of the floor equal to the index in Game's vector
   int floor_level;
+
+  // Dimensions of the floor
   int width;
   int height;
-  //std::vector<PC*> pc_on_floor;
-  PC* pc_on_floor;
-  //std::vector<std::unique_ptr<Entity>> entities_on_floor;
-  //std::vector<std::unique_ptr<Cell>> map;
-  //std::vector<std::unique_ptr<ChamberInterior>> chambers_on_floor;
 
+  // The single player on the floor
+  PC* pc_on_floor;
+  // Many objects on the floor
   std::vector<Entity*> entities_on_floor;
   std::vector<Cell*> map;
   std::vector<ChamberInterior*> chambers_on_floor;
 
-  //std::vector<playerWalkableCell*> player_cells;
-
-  //ChamberInterior* choose_random_chamber();
-
-  //void readFromFile(std::string file_name);
- protected:
-  bool enemy_movable;
  public:
-  //void spawn_all_player(PC* pc);
-  //void spawn_all_stairway();
-  //void spawn_all_potion();
-  //void spawn_all_gold();
-  //void spawn_all_enemy();
-  //void render_map();
-  //void move_all_entities();
 
+  // Constructor: Defaultly constructs all the vectors to empty vectors
+  //              Constructs a basic floor objects with no objects attached,
+  //              the client needs to attach objects
   Floor(PC* pc, int height, int width, int floor_level, int num_stairway = 0, int num_potions = 0, int num_gold = 0, int num_enemy = 0);
+
+  // Destructor: frees all memory of the floor's Entity, Cell, ChamberInterior and PC 
   ~Floor();
 
-  //void emplace_cell(std::unique_ptr<Cell> cell);
-  //void emplace_entity(std::unique_ptr<Entity> entity);
-  //void emplace_chamber(std::unique_ptr<ChamberInterior> ci);
-
+  // Pushes the parameters to the back of the corresponding vectors of floor
   void emplace_cell(Cell* cell);
   void emplace_entity(Entity* entity);
   void emplace_chamber(ChamberInterior* ci);
 
+  // Returns number of cells in the floor equal to size of entities_on_floor
   int get_num_cells();
+  // Returns number of chambers in the floor equal to size of chambers_on_floor
+  int get_num_chambers();
 
   // getters
   int get_num_stairway();
@@ -69,8 +69,7 @@ class Floor {
   int get_height();
   PC* get_pc_on_floor();
 
-  int get_num_chambers();
-
+  // Returns the object at given index in the corresponding vector
   Entity* get_entity_at_index(int index);
   Cell* get_cell_at_index(int index);
   ChamberInterior* get_chamber_at_index(int index);
