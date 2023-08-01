@@ -46,6 +46,7 @@
         "xtr1common": "cpp",
         "xutility": "cpp",
         "sstream": "cpp",
-        "*.jtxt": "cpp"
+        "*.jtxt": "cpp",
+        "main-422-moving with randomgen": "cpp"
     }
 }
