@@ -1153,7 +1153,7 @@ int main(int argc, char *argv[]) {
     }
 
     for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 10; ++j) {
+        for (int j = 0; j < flr->get_num_enemy() + flr->get_num_gold() + flr->get_num_potions() + flr->get_num_stairway(); ++j) {
             //std::cerr << (flr->get_entity_at_index(j) == nullptr) << std::endl;
 
             Entity* ent_on_tile = flr->get_entity_at_index(j);
