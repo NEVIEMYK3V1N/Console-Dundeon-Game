@@ -317,6 +317,7 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 else if (c == DH) {
                     treDragon * td = new treDragon(DH_VAL, index);
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
+                    td->set_guard(nullptr);
                     floor->emplace_cell(ft);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_entity_on_cell(td);
                     dynamic_cast<FloorTile*>(floor->get_cell_at_index(index))->set_open_to_entity(false);
@@ -495,18 +496,22 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
 
             // the top of map
             if (index < floor->get_width()) {
+                std::cerr << "A" << std::endl;
                 top = false;
             }
             // the left of map
             if (index % floor->get_width() == 0) {
+                std::cerr << "B" << std::endl;
                 left = false;
             }
             // the right of map
             if (index & (floor->get_width() == floor->get_width() - 1)) {
+                std::cerr << "C" << std::endl;
                 right = false;
             }
             // the bottom of map
             if (index + floor->get_width() >= floor->get_num_cells()) {
+                std::cerr << "D" << std::endl;
                 bottom = false;
             }
 
@@ -525,9 +530,28 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                         continue;
                     }
 
-                    int target_index = index + h * floor->get_height() + w;
-                    treDragon* target_dh = dynamic_cast<treDragon*>(floor->get_cell_at_index(target_index));
-                    if (target_dh && !(target_dh->get_guard())) {
+                    int target_index = index + h * floor->get_width() + w;
+                    //treDragon* target_dh = dynamic_cast<treDragon*>(floor->get_cell_at_index(target_index));
+                    treDragon* target_dh = nullptr;
+
+                    //std::cerr << "checkin tre: " << target_index << std::endl; 
+                    Cell* target_cell = floor->get_cell_at_index(target_index);
+                    EntitySpawnable* target_es = dynamic_cast<EntitySpawnable*>(target_cell);
+
+                    //std::cerr << "1" << i << std::endl; 
+                    if (target_es) {
+                        //std::cerr << "if is entityspawnable: " << i << std::endl; 
+                        Entity* target_entity_on_cell = target_es->get_entity_on_cell();
+                        target_dh = dynamic_cast<treDragon*>(target_entity_on_cell);
+                    }
+
+                    //std::cerr << "is dh nullptr: " << (target_dh == nullptr) << std::endl;
+                    //if ((target_dh != nullptr)) {
+                    //    std::cerr << "is guard nummptr: " << (target_dh->get_guard() == nullptr) << std:: endl;
+                    //}
+
+                    if (target_dh && (target_dh->get_guard() == nullptr)) {
+                        //std::cerr << "bounding drag: " << i << std::endl; 
                         target_dh->set_guard(unbounded_drags[i]);
                         unbounded_drags[i]->set_treasure_tild_ID(target_index);
                         break;
