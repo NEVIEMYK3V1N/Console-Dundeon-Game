@@ -121,14 +121,13 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
     int index = 0;
     bool contain_entity = false;
     bool contain_player = false;
-    PC* pc = game->get_pc();
 
     for (int numf = 0; numf < num_floors; numf++) {
         std::vector<dragon*> unbounded_drags;
         index = 0;
         //std::cout << "first loop reach" << std::endl;
 
-        Floor* floor = new Floor(pc, map_height, map_width, numf);
+        Floor* floor = new Floor(nullptr, map_height, map_width, numf);
         for (int h = 0; h < map_height; h++) {
             std::getline(f, s);
             //int len = s.length();
@@ -348,11 +347,8 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                     }
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
                     ft->set_player_on_cell(pc);
-                    //floor->emplace_cell(make_unique<FloorTile> (*ft));
                     floor->emplace_cell(ft);
-
                     floor->set_pc_on_floor(pc);
-                    game->set_pc(pc);
                     contain_player = true;
                     index++;
 
@@ -848,7 +844,7 @@ void process_NPC_action(NPC* npc, Floor* floor, bool move_enable, ostringstream&
                 srand(time(0));
                 int hit = rand() % 2;
                 if (hit == 0) {
-                    action << npc->get_sym() << " attacks the player but missed!\n";
+                    action << npc->get_faction() << " attacks the player but missed!\n";
                 } else {
                     // orcs ability
                     if (npc->get_sym() == 'O' && player->get_faction() == "goblin") {
@@ -863,7 +859,7 @@ void process_NPC_action(NPC* npc, Floor* floor, bool move_enable, ostringstream&
                         }
                     }
                     player->mod_hp(-dmg);
-                    action << npc->get_sym() << " attacks the player and deals " << dmg << " damage!\n";
+                    action << npc->get_faction() << " attacks the player and deals " << dmg << " damage!\n";
                 }
                 --atk_left;
             }
@@ -1175,7 +1171,7 @@ int main(int argc, char *argv[]) {
     int map_width = DEFAULT_WIDTH;
     int num_chambers = DEFAULT_CHAMBER_ON_FLOOR;
 
-    Game * game = new Game(num_floors, num_players);
+    Game* game = new Game(num_floors, num_players);
     bool need_random_gen = read_entity_map_file(game, filename, map_width, map_height, num_floors, faction_select);
     /*
     if (need_random_gen) {

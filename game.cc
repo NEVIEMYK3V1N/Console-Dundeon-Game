@@ -22,10 +22,6 @@ bool Game::get_game_on() {
     //return (this->pc[index]).get();
 //}
 
-PC* Game::get_pc() {
-    return this->pc;
-    //return (this->pc).get();
-}
 
 Floor* Game::get_floor_at(int index) {
     // NEED - error check range
@@ -54,14 +50,7 @@ void Game::set_game_on(bool game_on) {
 Game::Game(int num_floors, int num_players) : num_players{num_players}, num_floors{num_floors} {
     this->curr_floor = 0;
     this->game_on = true;
-    this->pc = nullptr;
-    //PC* new_pc = nullptr;
-    //this->pc = std::make_unique<PC> (new_pc);
-    //for (int i = 0; i < num_players; i++) {
-    //    PC* pc = new PC();
-    //    (this->pc).emplace_back(std::make_unique<PC> (pc));
-    //}
-    this->all_floors = {};
+    this->all_floors;
 }
 
 //void Game::generate_floor(std::string file_name, int num_stairway, int num_potions, int num_gold, int num_enemy) {
@@ -81,12 +70,6 @@ Game::Game(int num_floors, int num_players) : num_players{num_players}, num_floo
 //}
 void Game::emplace_floor(Floor* floor) {
     this->all_floors.emplace_back(floor);
-}
-
-void Game::set_pc(PC* new_pc) {
-    //(this->pc).reset();
-    //this->pc = std::make_unique<PC>(new_pc);
-    this->pc = new_pc;
 }
 
 Game::~Game() {

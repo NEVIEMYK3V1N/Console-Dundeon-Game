@@ -14,11 +14,7 @@ class Game {
     int num_floors;
     int curr_floor;
     bool game_on;
-    //CmdInterpreter* cmdInt;
-    //std::vector<std::unique_ptr<PC>> pc;
-    //std::unique_ptr<PC> pc;
-    PC* pc;
-    //std::vector<std::unique_ptr<Floor>> all_floors;
+    //PC* pc;
     std::vector<Floor*> all_floors;
  public:
     //void generate_floor(std::string file_name, int num_stairway, int num_potions,
@@ -41,7 +37,7 @@ class Game {
     //CmdInterpreter* get_cmdInt();
 
     //PC* get_pc_at(int index = 0);
-    PC* get_pc();
+    //PC* get_pc();
     Floor* get_floor_at(int index = 0);
 
     // setters
@@ -54,7 +50,7 @@ class Game {
     //void emplace_floor(std::unique_ptr<Floor> floor);
     void emplace_floor(Floor* floor);
 
-    void set_pc(PC* new_pc);
+    //void set_pc(PC* new_pc);
 };
 
 #endif
