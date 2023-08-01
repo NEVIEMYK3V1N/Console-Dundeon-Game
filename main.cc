@@ -115,16 +115,16 @@ void read_in_entity(Floor* floor, Entity* entity, char &c, int &index, bool &con
     index++;
 }
 
-bool read_entity_map_file(Game* game, std::string file_name, int map_width, int map_height, int num_floors) {
+bool read_entity_map_file(Game* game, std::string file_name, int map_width, int map_height, int num_floors, std::string race) {
     std::ifstream f(file_name);
     std::string s;
     int index = 0;
     bool contain_entity = false;
     bool contain_player = false;
-    std::vector<dragon*> unbounded_drags;
     PC* pc = game->get_pc();
 
     for (int numf = 0; numf < num_floors; numf++) {
+        std::vector<dragon*> unbounded_drags;
         index = 0;
         //std::cout << "first loop reach" << std::endl;
 
@@ -333,7 +333,19 @@ bool read_entity_map_file(Game* game, std::string file_name, int map_width, int 
                 }
 
                 else if (c == PLAYER) {
-                    PC* pc = new shade(index);
+                    // determine faction/race of the player
+                    PC* pc;
+                    if (race == "s") {
+                        pc = new shade(index);
+                    } else if (race == "d") {
+                        pc = new drow(index);
+                    } else if (race == "v") {
+                        pc = new vampire(index);
+                    } else if (race == "g") {
+                        pc = new goblin(index);
+                    } else if (race == "t") {
+                        pc = new troll(index);
+                    }
                     FloorTile *ft = new FloorTile(FLOOR_TILE, index);
                     ft->set_player_on_cell(pc);
                     //floor->emplace_cell(make_unique<FloorTile> (*ft));
@@ -635,7 +647,6 @@ bool is_top_left_unchecked_wall(Floor* floor, Cell* cell) {
 void find_all_cell_in_chamber(Floor* floor, Cell* top_left, ChamberInterior* chamber) {
     int ori_index = top_left->get_index();
     int f_height = floor->get_height();
-    //int f_width = floor->get_width();
 
     bool top = true;
     bool left = true;
@@ -1141,6 +1152,21 @@ int main(int argc, char *argv[]) {
         filename = "empty.txt";
     }
 
+    std::string faction_select;
+    cout << "Welcome to CC3K! Please enter the faction that you'd like to play." << endl;
+    // select a race to play
+    while (true) {
+        cin >> faction_select;
+        if (faction_select == "s" || faction_select == "d" || faction_select == "v" 
+            || faction_select == "g" || faction_select == "t") { break; }
+        if (faction_select == "q") {
+            std::cout << "Goodbye and play again!" << endl;
+            return 0;
+        }
+        cout << "your command is not valid, please enter a valid faction" << endl;
+    }
+    cin.ignore();
+
     int current_floor_playing_index = 0;
     
     int num_floors = NUM_FLOORS;
@@ -1150,7 +1176,7 @@ int main(int argc, char *argv[]) {
     int num_chambers = DEFAULT_CHAMBER_ON_FLOOR;
 
     Game * game = new Game(num_floors, num_players);
-    bool need_random_gen = read_entity_map_file(game, filename, map_width, map_height, num_floors);
+    bool need_random_gen = read_entity_map_file(game, filename, map_width, map_height, num_floors, faction_select);
     /*
     if (need_random_gen) {
         if (num_chambers == DEFAULT_CHAMBER_ON_FLOOR) {
@@ -1258,6 +1284,7 @@ int main(int argc, char *argv[]) {
                             }
                             // set to higher floor
                             int curr_hp = curr_player->get_hp();
+                            int curr_gold = curr_player->get_gold();
                             bool curr_merch_status = curr_player->get_merch_stat();
                             floor_id++;
                             flr = game->get_floor_at(floor_id);
@@ -1266,6 +1293,8 @@ int main(int argc, char *argv[]) {
                             curr_player->mod_hp(-(curr_player->get_hp() - curr_hp));
                             // set merchant status
                             curr_player->set_merch_stat(curr_merch_status);
+                            // set gold
+                            curr_player->mod_gold(curr_gold);
                             round_action << "Player advances to another floor!\n"; 
                             break;
                         }
@@ -1337,7 +1366,7 @@ int main(int argc, char *argv[]) {
                     if (enemy->get_faction() == "dwarf") {
                         curr_player->mod_hp(-5);
                     } else {
-                        curr_player->mod_gold(5);
+                        curr_player->mod_hp(5);
                     }
                 }
 
@@ -1349,6 +1378,9 @@ int main(int argc, char *argv[]) {
                     // make dragon hoard available
                     if (enemy->get_faction() == "dragon") {
                         dragon* enemy_casted = dynamic_cast<dragon*>(enemy);
+
+                        std::cout << enemy_casted->get_tile_ID() << enemy_casted->get_treasure_tild_ID() << endl; // TESTER DELET!!!
+
                         Cell* hoard_tile = flr->get_cell_at_index(enemy_casted->get_treasure_tild_ID());
                         EntitySpawnable* hoard_tile_casted = dynamic_cast<EntitySpawnable*>(hoard_tile);
                         treDragon* dragon_hoard = dynamic_cast<treDragon*>(hoard_tile_casted->get_entity_on_cell());
@@ -1445,32 +1477,3 @@ int main(int argc, char *argv[]) {
         }
     }
 }
-
-
-    /*
-    string cmd;
-    cout << "Welcome to CC3K! Please enter the faction that you'd like to play." << endl;
-    while (true) {
-        cin >> cmd;
-        if (cmd == "s") {
-            // call shade ctor and attach to game
-            break;
-        } else if (cmd == "d") {
-
-            break;
-        } else if (cmd == "v") {
-
-            break;
-        } else if (cmd == "g") {
-        
-            break;
-        } else if (cmd == "t") {
-
-            break;
-        } else {
-            cout << "your command is not valid, please enter a valid faction" << endl;
-        }
-        game->set_pc(pc);
-    }
-    */
-    
