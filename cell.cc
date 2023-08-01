@@ -9,9 +9,9 @@ int Cell::get_index() {
   return this->index;
 }
 
-char Cell::get_notation() {
-  return this->notation;
-}
+//char Cell::get_notation() {
+//  return this->notation;
+//}
 
 bool Cell::get_player_walkable() {
   return this->player_walkable;

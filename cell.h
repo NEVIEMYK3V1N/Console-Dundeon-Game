@@ -21,7 +21,7 @@ class Cell {
   // getters
   Floor* get_root_floor();
   int get_index();
-  char get_notation();
+  //virtual char get_notation() = 0;
   bool get_player_walkable();
   bool get_entity_spawnable();
 

@@ -61,7 +61,7 @@ Game::Game(int num_floors, int num_players) : num_players{num_players}, num_floo
     //    PC* pc = new PC();
     //    (this->pc).emplace_back(std::make_unique<PC> (pc));
     //}
-    // this->all_floors = {};
+    this->all_floors = {};
 }
 
 //void Game::generate_floor(std::string file_name, int num_stairway, int num_potions, int num_gold, int num_enemy) {
@@ -90,9 +90,9 @@ void Game::set_pc(PC* new_pc) {
 }
 
 Game::~Game() {
-    free(this->pc);
+    //delete this->pc;
     //std::vector<std::unique_ptr<Floor>> all_floors;
     for(int i = 0; i < (this->all_floors).size(); i++) {
-        free(this->all_floors[i]);
+        delete this->all_floors[i];
     }
 }

@@ -46,6 +46,7 @@ void EntitySpawnable::set_root_chamber(ChamberInterior* root_chamber) {
 //    this->entity_on_cell[index] = entity;
 //}
 void EntitySpawnable::set_entity_on_cell(Entity* entity) {
+    this->entity_on_cell = nullptr;
     this->entity_on_cell = entity;
 }
     // void set_entity_on_cell_at(Entity* entity, int index = 0);
