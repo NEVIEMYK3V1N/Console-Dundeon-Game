@@ -1026,6 +1026,11 @@ void generate_objects(Floor* floor, PC* pc, int num_stairway = DEFAULT_NUM_STAIR
             floor->emplace_entity(drag);
             floor->set_num_gold(floor->get_num_gold() + 1);
             floor->get_chamber_at_index(chamber_index)->set_num_entities(floor->get_chamber_at_index(chamber_index)->get_num_entities() + 2);
+
+            // added
+            drag_gold->set_guard(drag);
+            drag->set_treasure_tild_ID(cell_index);
+
         } else {
             treGround* gold = nullptr;
             if (gold_type > DH_RATE && gold_type <= SH_RATE) {
