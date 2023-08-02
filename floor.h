@@ -13,8 +13,8 @@
 #include <vector>
 #include <string>
 #include "cell.h"
+#include "chamberInterior.h"
 
-class ChamberInterior;
 class Entity;
 class PC;
 

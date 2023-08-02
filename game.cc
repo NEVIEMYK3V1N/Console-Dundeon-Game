@@ -1,12 +1,11 @@
 #include "game.h"
 
 Game::Game(int num_floors) : num_floors{num_floors} {
-    this->all_floors;
 }
 
 // deletes subsequent floors
 Game::~Game() {
-    for(int i = 0; i < (this->all_floors).size(); i++) {
+    for(int i = 0; i < (int)(this->all_floors).size(); i++) {
         delete this->all_floors[i];
     }
 }
@@ -22,7 +21,7 @@ int Game::get_num_floors() {
 
 Floor* Game::get_floor_at(int index) {
     // error checking - out of bound index
-    if (index >= this->all_floors.size()) {
+    if (index >= (int)this->all_floors.size()) {
         return nullptr;
     }
     return (this->all_floors[index]);

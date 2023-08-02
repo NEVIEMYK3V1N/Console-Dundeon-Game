@@ -3,20 +3,17 @@
 Floor::Floor(PC* pc, int height, int width, int floor_level, int num_stairway, int num_potions, int num_gold, int num_enemy)
     : num_stairway{num_stairway}, num_potions{num_potions}, num_gold{num_gold}, num_enemy{num_enemy}, floor_level{floor_level},
       width{width}, height{height}, pc_on_floor{pc} {
-    this->entities_on_floor;
-    this->map;
-    this->chambers_on_floor;
 }
 
 // Frees all memory of its ownership objects
 Floor::~Floor() {
-    for (int i = 0; i < this->entities_on_floor.size(); i++) {
+    for (int i = 0; i < (int)this->entities_on_floor.size(); i++) {
         delete this->entities_on_floor[i];
     }
-    for (int i = 0; i < this->map.size(); i++) {
+    for (int i = 0; i < (int)this->map.size(); i++) {
         delete this->map[i];
     }
-    for (int i = 0; i < this->chambers_on_floor.size(); i++) {
+    for (int i = 0; i < (int)this->chambers_on_floor.size(); i++) {
         delete this->chambers_on_floor[i];
     }
     delete this->pc_on_floor;
@@ -27,7 +24,7 @@ void Floor::emplace_cell(Cell* cell) {
 }
 
 void Floor::emplace_entity(Entity* entity) {
-   (this->entities_on_floor).emplace_back(entity);
+    (this->entities_on_floor).emplace_back(entity);
 }
 
 void Floor::emplace_chamber(ChamberInterior* ci) {
