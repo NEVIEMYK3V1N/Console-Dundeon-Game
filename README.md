@@ -1,6 +1,6 @@
 # Console Dungeon Game / Dungeon Plus Plus
 
-``` made in collaboration with Wliiam Wang (https://github.com/iBlazerMan/). Updated version can be found at https://github.com/iBlazerMan/dungeon-plus-plus/) ```
+``` Made in collaboration with Wliiam Wang (https://github.com/iBlazerMan/). Updated version can be found at https://github.com/iBlazerMan/dungeon-plus-plus/) ```
 
 Dungeon++ is a rogue-like game implemented in C++ using many C++ and OOP design principles such as derived classes, class hierarchy, the "Big Five", and design patterns such as the decorator pattern. It has the ability to randomly generate levels or to read in a valid map file that has every entity placed already. 
 
