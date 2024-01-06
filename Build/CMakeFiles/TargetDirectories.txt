@@ -1,3 +1,0 @@
-C:/Users/wangt/Desktop/Software Projects/In Progress/CC3K/Build/CMakeFiles/cc3k.dir
-C:/Users/wangt/Desktop/Software Projects/In Progress/CC3K/Build/CMakeFiles/edit_cache.dir
-C:/Users/wangt/Desktop/Software Projects/In Progress/CC3K/Build/CMakeFiles/rebuild_cache.dir
